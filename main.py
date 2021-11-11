@@ -1,5 +1,5 @@
 import pygame
-from objects import Character
+from characters import Character
 import os
 
 

@@ -2,6 +2,7 @@ import time
 import pygame
 
 
+
 WHITE = (255, 255, 255)
 
 
@@ -12,6 +13,7 @@ class Character(pygame.sprite.Sprite):
 
         # Load the image
         self.image = pygame.image.load("player.png")
+        self.image = pygame.transform.scale(self.image, (20, 20))
     
         # Set our transparent color
         self.image.set_colorkey(WHITE)
@@ -21,7 +23,7 @@ class Character(pygame.sprite.Sprite):
         self.recharge = 3
         self.xLoc = xLoc
         self.yLoc = yLoc
-        self.movementSpeed = 5
+        self.movementSpeed = 2
         self.stamina = 20
         self.usingBMR = True
 
@@ -35,6 +37,11 @@ class Character(pygame.sprite.Sprite):
             self.xLoc += self.movementSpeed 
         elif key[pygame.K_LEFT]: 
             self.xLoc -= self.movementSpeed 
+        if key[pygame.K_e]:
+            self.interact()
+
+    def interact(self):
+        print("Interacting")
         
     
     def draw(self, surface):
