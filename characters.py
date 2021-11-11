@@ -1,9 +1,29 @@
-import time
 import pygame
 
-
+MOVEMENT_SPEED = 3
+SPRINT_SPEED = 6
+MAX_STAMINA = 30
 
 WHITE = (255, 255, 255)
+
+def draw_speech_bubble(screen, text, text_colour, bg_colour, pos, size):
+
+    font = pg.font.SysFont(None, size)
+    text_surface = font.render(text, True, text_colour)
+    text_rect = text_surface.get_rect(midbottom=pos)
+
+    # background
+    bg_rect = text_rect.copy()
+    bg_rect.inflate_ip(10, 10)
+
+    # Frame
+    frame_rect = bg_rect.copy()
+    frame_rect.inflate_ip(4, 4)
+
+    pg.draw.rect(screen, text_colour, frame_rect)
+    pg.draw.rect(screen, bg_colour, bg_rect)
+    screen.blit(text_surface, text_rect)
+
 
 
 class Character(pygame.sprite.Sprite):
@@ -23,9 +43,9 @@ class Character(pygame.sprite.Sprite):
         self.__recharge = 3
         self.__xLoc = xLoc
         self.__yLoc = yLoc
-        self.__movementSpeed = 2
-        self.__stamina = 20
-        self.__usingBMR = True
+        self.__movementSpeed = MOVEMENT_SPEED
+        self.__stamina = MAX_STAMINA
+        self.__bmrTime = 0
 
     def handle_keys(self):
         key = pygame.key.get_pressed()
@@ -39,26 +59,34 @@ class Character(pygame.sprite.Sprite):
             self.__xLoc -= self.__movementSpeed 
         if key[pygame.K_e]:
             self.interact()
+        if key[pygame.K_LSHIFT]:
+            if(self.__stamina >= 3):
+                self.__movementSpeed = SPRINT_SPEED
+                self.__stamina -= 3
+            else: 
+                self.__movementSpeed = MOVEMENT_SPEED
+        else:
+            self.restore_stamina()    
 
     def interact(self):
         print("Interacting")
-        
-    
+
+    def restore_stamina(self):
+        if(self.__stamina < MAX_STAMINA):
+            self.__stamina += 1
+
     def draw(self, surface):
         # blit yourself at your current position
         surface.blit(self.image, (self.__xLoc, self.__yLoc))
 
-    def sprint(self):
-        self.__movementSpeed = 7
-        while(self.__stamina > 0):
-            self.__stamina -= 1
-            time.sleep(0.1)
-
-    def wounded(self):
-        self.__health -= 10
+    def wounded(self, damage):
+        self.__health -= damage
+        if(self.__health == 0):
+            pygame.quit() 
 
     # def throw_boomerang(self, boomerang):
         # Boomerang = instance of boomerang
         # Boomerang.spawn_boomerang()
+        
 
 
