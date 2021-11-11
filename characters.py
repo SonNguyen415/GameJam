@@ -19,24 +19,24 @@ class Character(pygame.sprite.Sprite):
         self.image.set_colorkey(WHITE)
 
         # Some character data
-        self.health = 100
-        self.recharge = 3
-        self.xLoc = xLoc
-        self.yLoc = yLoc
-        self.movementSpeed = 2
-        self.stamina = 20
-        self.usingBMR = True
+        self.__health = 100
+        self.__recharge = 3
+        self.__xLoc = xLoc
+        self.__yLoc = yLoc
+        self.__movementSpeed = 2
+        self.__stamina = 20
+        self.__usingBMR = True
 
     def handle_keys(self):
         key = pygame.key.get_pressed()
         if key[pygame.K_DOWN]: 
-            self.yLoc += self.movementSpeed 
+            self.__yLoc += self.__movementSpeed 
         elif key[pygame.K_UP]:
-            self.yLoc -= self.movementSpeed
+            self.__yLoc -= self.__movementSpeed
         if key[pygame.K_RIGHT]: 
-            self.xLoc += self.movementSpeed 
+            self.__xLoc += self.__movementSpeed 
         elif key[pygame.K_LEFT]: 
-            self.xLoc -= self.movementSpeed 
+            self.__xLoc -= self.__movementSpeed 
         if key[pygame.K_e]:
             self.interact()
 
@@ -46,16 +46,16 @@ class Character(pygame.sprite.Sprite):
     
     def draw(self, surface):
         # blit yourself at your current position
-        surface.blit(self.image, (self.xLoc, self.yLoc))
+        surface.blit(self.image, (self.__xLoc, self.__yLoc))
 
     def sprint(self):
-        self.movementSpeed = 7
-        while(self.stamina > 0):
-            self.stamina -= 1
+        self.__movementSpeed = 7
+        while(self.__stamina > 0):
+            self.__stamina -= 1
             time.sleep(0.1)
 
     def wounded(self):
-        self.health -= 10
+        self.__health -= 10
 
     # def throw_boomerang(self, boomerang):
         # Boomerang = instance of boomerang

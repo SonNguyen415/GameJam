@@ -5,9 +5,9 @@ import os
 
 pygame.init()
 screen = pygame.display.set_mode((640, 400))
+clock = pygame.time.Clock()
 
 player = Character(100, 100) 
-clock = pygame.time.Clock()
 
 running = True
 while running:
