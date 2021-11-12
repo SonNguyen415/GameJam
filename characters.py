@@ -1,11 +1,31 @@
 import pygame
-from constants import *
+from settings import *
 from boomerang import Boomerang
 
-MOVEMENT_SPEED = 3
-SPRINT_SPEED = 6
-MAX_STAMINA = 30
+MOVEMENT_SPEED = 4
+SPRINT_SPEED = 8
+MAX_STAMINA = 50
 STAMINA_RECHARGE_TIME = 3
+
+
+
+def draw_speech_bubble(screen, text, textColor, bgColor, pos, size):
+    font = pygame.font.SysFont(None, 12)
+    textSurface = font.render(text, True, textColor)
+    textRect = textSurface.get_rect(midbottom=pos)
+
+    # background
+    bgRect = textRect.copy()
+    bgRect.inflate_ip(10, 10)
+
+    # Frame
+    frameRect = bgRect.copy()
+    frameRect.inflate_ip(4, 4)
+
+    pygame.draw.rect(screen, textColor, frameRect)
+    pygame.draw.rect(screen, bgColor, bgRect)
+    screen.blit(textSurface, textRect)
+
 
 
 class Character(pygame.sprite.Sprite):
@@ -15,6 +35,7 @@ class Character(pygame.sprite.Sprite):
 
         # Load the image
         self.image = pygame.image.load("player.png")
+        self.rect = self.image.get_rect(topleft=(xLoc, yLoc))
 
         # Resizing image
         self.image = pygame.transform.scale(self.image, (CHARACTER_SIZE, CHARACTER_SIZE))
@@ -24,25 +45,26 @@ class Character(pygame.sprite.Sprite):
 
         # Some character data
         self.__health = 10
-        self.__xLoc = xLoc
-        self.__yLoc = yLoc
+        self.xLoc = xLoc
+        self.yLoc = yLoc
         self.__staminaRecharge = 0
         self.__movementSpeed = MOVEMENT_SPEED
         self.__stamina = MAX_STAMINA
         self.__bmrTime = 0
         self.__bmrRecharge = 3
+        self.speaking = False
 
 
     def handle_keys(self):
         key = pygame.key.get_pressed()
-        if key[pygame.K_DOWN] and self.__yLoc+CHARACTER_SIZE <= 600: 
-            self.__yLoc += self.__movementSpeed 
-        elif key[pygame.K_UP] and 0 <= self.__yLoc:
-            self.__yLoc -= self.__movementSpeed
-        if key[pygame.K_RIGHT] and self.__xLoc+CHARACTER_SIZE <= 1000: 
-            self.__xLoc += self.__movementSpeed 
-        elif key[pygame.K_LEFT] and 0 <= self.__xLoc: 
-            self.__xLoc -= self.__movementSpeed 
+        if key[pygame.K_DOWN] and self.yLoc+CHARACTER_SIZE <= 600: 
+            self.yLoc += self.__movementSpeed 
+        elif key[pygame.K_UP] and 0 <= self.yLoc:
+            self.yLoc -= self.__movementSpeed
+        if key[pygame.K_RIGHT] and self.xLoc+CHARACTER_SIZE <= 1000: 
+            self.xLoc += self.__movementSpeed 
+        elif key[pygame.K_LEFT] and 0 <= self.xLoc: 
+            self.xLoc -= self.__movementSpeed 
         if key[pygame.K_e]:
             self.interact()
         if key[pygame.K_LSHIFT]:
@@ -57,16 +79,13 @@ class Character(pygame.sprite.Sprite):
             self.__staminaRecharge = 0
             self.restore_stamina()    
 
-    def interact(self):
-        print("Interacting")
-
     def restore_stamina(self):
         if(self.__stamina < MAX_STAMINA):
             self.__stamina += 1
 
     def draw(self, surface):
         # blit yourself at your current position
-        surface.blit(self.image, (self.__xLoc, self.__yLoc))
+        surface.blit(self.image, (self.xLoc, self.yLoc))
 
     def wounded(self):
         self.__health -= 1
@@ -74,9 +93,17 @@ class Character(pygame.sprite.Sprite):
             pygame.quit()
 
     def spawn_boomerang(self, surface):
-        bmrX = self.__xLoc + CHARACTER_SIZE/2
-        bmrY = self.__yLoc + CHARACTER_SIZE/2
+        bmrX = self.xLoc + CHARACTER_SIZE/2
+        bmrY = self.yLoc + CHARACTER_SIZE/2
         bmr = Boomerang(bmrX, bmrY)
         bmr.draw(surface)
         return bmr
+
+    def check_collision(self, object):
+        return self.rect.colliderect(object.rect)
+            
+    def interact(self, object, isArtifact):
+        if(self.check_collision(object)):
+            self.speaking = True
+       
 

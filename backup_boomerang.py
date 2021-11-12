@@ -1,7 +1,7 @@
 
 import pygame
 import math
-from constants import *
+from settings import *
 
 
 BOOMERANG_SIZE = 20
