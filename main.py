@@ -19,23 +19,21 @@ while running:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
-           current_screen = change_menu(mouse, screen)
+           currentScreen = change_menu(mouse, screen)
 
     screen.fill((100,60,25))
     
     mouse = pygame.mouse.get_pos()
 
-    if current_screen == "Main Menu":
+    if currentScreen == "Main Menu":
         # Credit button
         make_menu(mouse, screen)
-    elif current_screen == "Credits":
+    elif currentScreen == "Credits":
         screen.blit(credits , (width/2,height/2))
-
-       
-
-     # screen.fill((255,255,255)) 
-    # player.handle_keys()
-    # player.draw(screen) 
+    elif currentScreen == "Play":
+        screen.fill((255,255,255)) 
+        player.handle_keys()
+        player.draw(screen) 
     
     pygame.display.update() 
 

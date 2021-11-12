@@ -14,13 +14,12 @@ pygame.display.set_icon(icon)
 
 
 
-
 # white color
-color = (255,255,255)
+COLOR_WHITE = (255,255,255)
 # light shade of the button
-color_light = (255,170,0)
+COLOR_WHITE = (255,170,0)
 # dark shade of the button
-color_dark = (180,130,0)
+COLOR_DARK = (180,130,0)
 
 # get width and height for later reference
 width = screen.get_width()
@@ -32,43 +31,43 @@ button_height = 40
 # set font
 smallfont = pygame.font.SysFont('Corbel', 40)
 
-credit_names = ("Oliver"
+creditNames = ("Oliver"
                 "Fred"
                 "Son"
                 "Warren")
 
 # renders text
-quit_text = smallfont.render('Quit' , True , color)
-credit_text = smallfont.render('Credits', True, color)
-credits = smallfont.render(credit_names, True, color)
-play_text = smallfont.render('Play', True, color)
+quitText = smallfont.render('Quit' , True , COLOR_WHITE)
+creditText = smallfont.render('Credits', True, COLOR_WHITE)
+credits = smallfont.render(creditNames, True, COLOR_WHITE)
+playText = smallfont.render('Play', True, COLOR_WHITE)
 
-current_screen = "Main Menu"
+currentScreen = "Main Menu"
 
 
 def make_menu(mouse, myScreen):
     if width/2-70 <= mouse[0] <= width/2+70 and height/2-20 <= mouse[1] <= height/2+20:
-        pygame.draw.rect(myScreen,color_light,[(width/2-70),(height/2-20),140,40])
-        myScreen.blit(credit_text , (width/2-50,height/2-10))
+        pygame.draw.rect(myScreen,COLOR_WHITE,[(width/2-70),(height/2-20),140,40])
+        myScreen.blit(creditText , (width/2-50,height/2-10))
     else:
-        pygame.draw.rect(myScreen,color_dark,[(width/2-70),(height/2-20),140,40])
-        myScreen.blit(credit_text , (width/2-50,height/2-10))
+        pygame.draw.rect(myScreen,COLOR_DARK,[(width/2-70),(height/2-20),140,40])
+        myScreen.blit(creditText , (width/2-50,height/2-10))
 
         # Quit button
     if width/2-70 <= mouse[0] <= width/2+70 and height/2+40 <= mouse[1] <= height/2+80:
-        pygame.draw.rect(myScreen,color_light,[(width/2-70),(height/2+40),140,40])
-        myScreen.blit(quit_text , (width/2-32.5,height/2+50))
+        pygame.draw.rect(myScreen,COLOR_WHITE,[(width/2-70),(height/2+40),140,40])
+        myScreen.blit(quitText , (width/2-32.5,height/2+50))
     else:
-        pygame.draw.rect(myScreen,color_dark,[(width/2-70),(height/2+40),140,40])
-        myScreen.blit(quit_text , (width/2-32.5,height/2+50))
+        pygame.draw.rect(myScreen,COLOR_DARK,[(width/2-70),(height/2+40),140,40])
+        myScreen.blit(quitText , (width/2-32.5,height/2+50))
 
         # Play Button
     if width/2-70 <= mouse[0] <= width/2+70 and height/2-80 <= mouse[1] <= height/2-40:
-        pygame.draw.rect(myScreen,color_light,[(width/2-70),(height/2-80),140,40])
-        myScreen.blit(play_text , (width/2-32.5,height/2-70))
+        pygame.draw.rect(myScreen,COLOR_WHITE,[(width/2-70),(height/2-80),140,40])
+        myScreen.blit(playText , (width/2-32.5,height/2-70))
     else:
-        pygame.draw.rect(myScreen,color_dark,[(width/2-70),(height/2-80),140,40])
-        myScreen.blit(play_text , (width/2-32.5,height/2-70))
+        pygame.draw.rect(myScreen,COLOR_DARK,[(width/2-70),(height/2-80),140,40])
+        myScreen.blit(playText , (width/2-32.5,height/2-70))
 
 
 def change_menu(mouse, myScreen):
@@ -79,7 +78,6 @@ def change_menu(mouse, myScreen):
         pygame.quit()
         return "Quit"
     elif width/2-70 <= mouse[0] <= width/2+70 and height/2-80 <= mouse[1] <= height/2+80:
-        myScreen.fill((100,60,25))
-        return "Yes"
+        return "Play"
 
 
