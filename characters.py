@@ -13,8 +13,8 @@ class Character(pygame.sprite.Sprite):
 
         # Load the image
         self.image = pygame.image.load("player.png")
-        self.image = pygame.transform.scale(self.image, (20, 20))
-    
+        self.image = pygame.transform.scale(self.image, (50, 50))
+
         # Set our transparent color
         self.image.set_colorkey(WHITE)
 
@@ -29,21 +29,21 @@ class Character(pygame.sprite.Sprite):
 
     def handle_keys(self):
         key = pygame.key.get_pressed()
-        if key[pygame.K_DOWN]: 
-            self.__yLoc += self.__movementSpeed 
+        if key[pygame.K_DOWN]:
+            self.__yLoc += self.__movementSpeed
         elif key[pygame.K_UP]:
             self.__yLoc -= self.__movementSpeed
-        if key[pygame.K_RIGHT]: 
-            self.__xLoc += self.__movementSpeed 
-        elif key[pygame.K_LEFT]: 
-            self.__xLoc -= self.__movementSpeed 
+        if key[pygame.K_RIGHT]:
+            self.__xLoc += self.__movementSpeed
+        elif key[pygame.K_LEFT]:
+            self.__xLoc -= self.__movementSpeed
         if key[pygame.K_e]:
             self.interact()
 
     def interact(self):
         print("Interacting")
-        
-    
+
+
     def draw(self, surface):
         # blit yourself at your current position
         surface.blit(self.image, (self.__xLoc, self.__yLoc))
@@ -60,5 +60,3 @@ class Character(pygame.sprite.Sprite):
     # def throw_boomerang(self, boomerang):
         # Boomerang = instance of boomerang
         # Boomerang.spawn_boomerang()
-
-
