@@ -1,7 +1,6 @@
 import pygame
 import sys
 import button
-from characters import draw_speech_bubble
 
 
 #initialize pygame
@@ -46,16 +45,7 @@ sound = pygame.mixer.Sound('sound.mp3')
 
 #----------------------------------------------#
 
-def main_menu():
-    changeScreen = "Main"
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                pygame.quit()
-
+def main_menu(currScreen):
     screen.blit(BACKGROUND, (0,0))
 
     if startButton.draw(screen):
@@ -64,28 +54,23 @@ def main_menu():
     if exitButton.draw(screen):
         pygame.quit()
     if creditButton.draw(screen):
-        changeScreen = "Credits"
+        currScreen = "Credits"
 
     pygame.display.update()
 
-    return changeScreen
+    return currScreen
 
 #----------------------------------------------#
 
-def credit_menu():
+def credit_menu(currScreen):
     changeScreen = "Credits"
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-
 
     screen.blit(BG_CREDITS, (0,0))
 
     if backButton.draw(screen):
-        changeScreen = "Main"
+        currScreen = "Main"
 
     pygame.display.update()
 
-    return changeScreen
+    return currScreen
 

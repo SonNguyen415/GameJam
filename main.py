@@ -1,6 +1,5 @@
-import pygame
-from boomerang import *
-from characters import Character
+import pygame, sys
+from classes import *
 from menu import *
 import os
 
@@ -11,11 +10,19 @@ clock = pygame.time.Clock()
 
 ctr = 0
 bmrTime = 0
-player = Character(PLAYER_START_X, PLAYER_START_Y)
+player = Player(PLAYER_START_X, PLAYER_START_Y, 'player.png')
+npc = Character(PLAYER_START_X+200, PLAYER_START_Y, 'player.png')
+
 bmrExist = False
 currentScreen = "Main"
 
+
+spriteList = [npc]
+
+
+
 running = True
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -27,21 +34,19 @@ while running:
 
 
 
-    screen.fill((100,60,25))
-
-
     mouse = pygame.mouse.get_pos()
 
     # Game states
     if currentScreen == "Main":
-        currentScreen = main_menu()
+        currentScreen = main_menu(currentScreen)
     elif currentScreen == "Credits":
-        currentScreen = credit_menu()
+        currentScreen = credit_menu(currentScreen)
     elif currentScreen == "Play":
         if(ctr <= WAIT_TIME):
             ctr += 1
         screen.fill((255,255,255))
         player.handle_keys()
+        player.check_collision(spriteList)
 
         if(bmrExist == False and pygame.mouse.get_pressed()[0] and ctr > WAIT_TIME):
             bmr = player.spawn_boomerang(screen)
@@ -53,8 +58,10 @@ while running:
             bmrTime += 1
             bmr.move_boomerang(screen, mouse[0], mouse[1])
             bmrExist = bmr.check_finish(bmrTime, screen, player)
+        npc.draw(screen)
         player.draw(screen)
+
 
     pygame.display.update()
 
-    clock.tick(50)
+    clock.tick(25)
