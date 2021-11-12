@@ -37,7 +37,7 @@ sound = pygame.mixer.Sound('sound.mp3')
 #----------------------------------------------#
 
 def main_menu():
-    change_screen = "Main"
+    changeScreen = "Main"
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -53,16 +53,16 @@ def main_menu():
     if exitButton.draw(screen):
         pygame.quit()
     if creditButton.draw(screen):
-        change_screen = "Credit"
+        changeScreen = "Credit"
 
     pygame.display.update()
 
-    return change_screen
+    return changeScreen
 
 #----------------------------------------------#
 
 def credit_menu():
-    change_screen = "Credit"
+    changeScreen = "Credit"
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -71,18 +71,18 @@ def credit_menu():
     screen.blit(bg_credits, (0,0))
 
     if backButton.draw(screen):
-        change_screen = "Main"
+        changeScreen = "Main"
 
     pygame.display.update()
 
-    return change_screen
+    return changeScreen
 
 #----------------------------------------------#
-current_screen = "Main"
+currentScreen = "Main"
 
 running = True
 while running:
-    if current_screen == "Main":
-        current_screen = main_menu()
-    elif current_screen == "Credit":
-        current_screen = credit_menu()
+    if currentScreen == "Main":
+        currentScreen = main_menu()
+    elif currentScreen == "Credit":
+        currentScreen = credit_menu()
