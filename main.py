@@ -11,7 +11,7 @@ clock = pygame.time.Clock()
 
 ctr = 0
 bmrTime = 0
-player = Character(PLAYER_START_X, PLAYER_START_Y) 
+player = Character(PLAYER_START_X, PLAYER_START_Y)
 bmrExist = False
 currentScreen = "Main"
 
@@ -24,12 +24,12 @@ while running:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
-       
+
 
 
     screen.fill((100,60,25))
-    
-    
+
+
     mouse = pygame.mouse.get_pos()
 
     # Game states
@@ -40,7 +40,7 @@ while running:
     elif currentScreen == "Play":
         if(ctr <= WAIT_TIME):
             ctr += 1
-        screen.fill((255,255,255)) 
+        screen.fill((255,255,255))
         player.handle_keys()
 
         if(bmrExist == False and pygame.mouse.get_pressed()[0] and ctr > WAIT_TIME):
@@ -53,8 +53,8 @@ while running:
             bmrTime += 1
             bmr.move_boomerang(screen, mouse[0], mouse[1])
             bmrExist = bmr.check_finish(bmrTime, screen, player)
-        player.draw(screen) 
-    
-    pygame.display.update() 
+        player.draw(screen)
+
+    pygame.display.update()
 
     clock.tick(50)
