@@ -3,7 +3,7 @@ import pygame
 BOOMERANG_DISTANCE = 100
 BOOMERANG_SIZE = 20
 
-class Character(pygame.sprite.Sprite):
+class Boomerang(pygame.sprite.Sprite):
     def __init__(self, xLoc, yLoc):
          # Call the parent class (Sprite) constructor
         super().__init__()

@@ -1,4 +1,5 @@
 import pygame
+from boomerang import Boomerang
 
 MOVEMENT_SPEED = 3
 SPRINT_SPEED = 6
@@ -18,6 +19,8 @@ class Character(pygame.sprite.Sprite):
 
         # Load the image
         self.image = pygame.image.load("player.png")
+
+        # Resizing image
         self.image = pygame.transform.scale(self.image, (CHARACTER_SIZE, CHARACTER_SIZE))
     
         # Set our transparent color
@@ -74,6 +77,6 @@ class Character(pygame.sprite.Sprite):
         if(self.__health == 0):
             pygame.quit()
 
-    # def throw_boomerang(self, boomerang):
-        # Boomerang = instance of boomerang
-        # Boomerang.spawn_boomerang()
+    def throw_boomerang(self):
+        bmr = Boomerang(self.__xLoc, self.x__yLoc)
+        bmr.spawn_boomerang()
