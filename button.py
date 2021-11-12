@@ -15,15 +15,14 @@ pygame.display.set_icon(icon)
 
 start_img = pygame.image.load("Button Icons/Play Button.png").convert_alpha()
 exit_img = pygame.image.load("Button Icons/Quit Button.png").convert_alpha()
-start_img = pygame.transform.scale(start_img, (310, 110))
-exit_img = pygame.transform.scale(exit_img, (310, 110))
 
 class Button():
-    def __init__(self, x, y , image):
+    def __init__(self, x, y , image, scale):
         # Call the parent class (Sprite) constructor
        super().__init__()
-
-       self.image = image
+       width = image.get_width()
+       height = image.get_height()
+       self.image = pygame.transform.scale(image, (int(width*scale),int(height*scale)))
        self.rect = self.image.get_rect()
        self.rect.topleft = (x,y)
 
@@ -31,8 +30,8 @@ class Button():
         # Draw button on the screen
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
-startButton = Button(100, 200, start_img)
-exitButton = Button(500, 200, exit_img)
+startButton = Button(100, 200, start_img, 10)
+exitButton = Button(500, 200, exit_img, 10)
 
 
 
