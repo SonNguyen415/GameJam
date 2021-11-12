@@ -6,7 +6,8 @@ pygame.init()
 
 screen = pygame.display.set_mode((1000,600))
 
-screen.fill((200,200,200))
+screen.fill((0,0,0))
+
 
 class Tile():
     def __init__(self, x, y , image, scale):
@@ -46,8 +47,6 @@ grid3 = [['B','B','B','B','B',],
 grid4 = [['B','B','B','B'],
          ['B','NSWE','B','B'],
          ['B','B','B','B']]
-
-grid = grid4
 
 
 ROOMS = {
@@ -174,8 +173,8 @@ def generate_room(directions,directionsWalls):
         return 'B'
 
 
-def refresh():
-    screen.fill((200,200,200))
+def reset():
+    screen.fill((0,0,0))
     pygame.display.flip()
     grid = [['B','B','B','B','B','B','B'],
             ['B','B','B','B','B','B','B'],
@@ -186,12 +185,12 @@ def refresh():
             ['B','B','B','B','B','B','B']]
     return grid
 
-def display(screen):
+def display(screen, xShift, yShift):
     for i in range(len(grid)):
         for j in range(len(grid[i])):
             image = pygame.image.load(IMAGES[grid[i][j]][0])
             image = pygame.transform.scale(image, (50,50))
-            screen.blit(image, (j+(j*48),i+(i*48)))
+            screen.blit(image, ( (xShift*48) + (j+(j*48)) , (yShift*48) + (i+(i*48))  ))
 
 def checkForDoors(i,j):
     directions = []
@@ -245,19 +244,7 @@ def generate():
                 if grid[i][j] == 'B':
                     doors = checkForDoors(i,j)
                     walls = checkForWalls(i,j)
-
-
-                    print('Doors: {}'.format(doors))
-                    print('Walls: {}'.format(walls))
-
-                    print([(i+1,j+1),doors])
-                    for l in range(len(grid)):
-                        print(grid[l])
-                    print('')
-
-
                     grid[i][j] = generate_room(doors,walls)
-
 
 def fix():
     for i in range(len(grid)):
@@ -265,10 +252,18 @@ def fix():
             if not bool(grid[i][j]):
                 grid[i][j] = 'B'
 
+def refresh(screen):
+    screen.fill((0,0,0))
+    pygame.display.update()
+
 #-----------------------------#
 
 running = True
 count = 0
+xShift = 0
+yShift = 0
+pos = [3,3]
+
 generate()
 while running:
     for event in pygame.event.get():
@@ -278,12 +273,11 @@ while running:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
             if event.key == pygame.K_r:
-                grid = refresh()
+                grid = reset()
                 generate()
 
-
-
     fix()
-    display(screen)
+    display(screen, xShift, yShift)
+    pygame.draw.circle(screen, (255,0,0), (171,172), 10)
 
     pygame.display.update()
