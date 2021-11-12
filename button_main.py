@@ -17,6 +17,7 @@ pygame.display.set_icon(icon)
 # Set image path as variables for later use
 start_img = pygame.image.load("Button Icons/Play Button.png").convert_alpha()
 exit_img = pygame.image.load("Button Icons/Quit Button.png").convert_alpha()
+bg = pygame.image.load("Background.png")
 
 startButton = button.Button(100, 200, start_img, 10)
 exitButton = button.Button(500, 200, exit_img, 10)
@@ -32,7 +33,8 @@ while running:
             if event.key == pygame.K_ESCAPE:
                 running = False
 
-    screen.fill((202, 228, 241))
+    screen.blit(bg, (0,0))
+    #screen.fill((202, 228, 241))
 
     if startButton.draw(screen):
         print("Start Button Pressed")
