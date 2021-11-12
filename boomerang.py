@@ -7,13 +7,12 @@ class Boomerang(pygame.sprite.Sprite):
     def __init__(self, xLoc, yLoc):
          # Call the parent class (Sprite) constructor
         super().__init__()
-        self.xLoc = xLoc
-        self.yLoc = yLoc
-
+     
         self.image = pygame.image.load("icon.png")
+        self.image = pygame.transform.scale(self.image, (BOOMERANG_SIZE, BOOMERANG_SIZE))
+
         self.rect = self.image.get_rect(topleft=(xLoc, yLoc))
 
-        self.image = pygame.transform.scale(self.image, (BOOMERANG_SIZE, BOOMERANG_SIZE))
 
         self.returnBoomerang = False
         self.currSpeed = []
@@ -34,8 +33,8 @@ class Boomerang(pygame.sprite.Sprite):
     def check_finish(self, bmrTime, surface, myPlayer):
         if(bmrTime >= BOOMERANG_TIME):
             self.returnBoomerang = False
-            self.xLoc = myPlayer.xLoc + CHARACTER_SIZE/2
-            self.yLoc = myPlayer.xLoc + CHARACTER_SIZE/2
+            self.xLoc = myPlayer.xLoc 
+            self.yLoc = myPlayer.yLoc 
             self.draw(surface)
             time.sleep(1)
             return False
@@ -43,8 +42,8 @@ class Boomerang(pygame.sprite.Sprite):
 
 
     def find_a(self, xSetPoint, ySetPoint, myPlayer):
-        x = xSetPoint - (CHARACTER_SIZE/2 + myPlayer.xLoc)
-        y = ySetPoint - (CHARACTER_SIZE/2 + myPlayer.yLoc)
+        x = xSetPoint - myPlayer.xLoc
+        y = ySetPoint - myPlayer.yLoc
         aX = -x/(BOOMERANG_TIME/2)**2
         aY = -y/(BOOMERANG_TIME/2)**2
         return [aX, aY]

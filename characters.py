@@ -33,20 +33,24 @@ class Character(pygame.sprite.Sprite):
          # Call the parent class (Sprite) constructor
         super().__init__()
 
+        self.xLoc = xLoc
+        self.yLoc = yLoc
+
         # Load the image
         self.image = pygame.image.load("player.png")
-        self.rect = self.image.get_rect(topleft=(xLoc, yLoc))
-
-        # Resizing image
+        
         self.image = pygame.transform.scale(self.image, (CHARACTER_SIZE, CHARACTER_SIZE))
+
+        self.rect = self.image.get_rect(center=(xLoc, yLoc))
+
     
         # Set our transparent color
         self.image.set_colorkey(COLOR_WHITE)
 
         # Some character data
         self.__health = 10
-        self.xLoc = xLoc
-        self.yLoc = yLoc
+        # self.xLoc = xLoc
+        # self.yLoc = yLoc
         self.__staminaRecharge = 0
         self.__movementSpeed = MOVEMENT_SPEED
         self.__stamina = MAX_STAMINA
@@ -59,6 +63,7 @@ class Character(pygame.sprite.Sprite):
         key = pygame.key.get_pressed()
         if key[pygame.K_DOWN] and self.yLoc+CHARACTER_SIZE <= 600: 
             self.yLoc += self.__movementSpeed 
+          
         elif key[pygame.K_UP] and 0 <= self.yLoc:
             self.yLoc -= self.__movementSpeed
         if key[pygame.K_RIGHT] and self.xLoc+CHARACTER_SIZE <= 1000: 
