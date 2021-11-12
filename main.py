@@ -5,9 +5,10 @@ import os
 
 
 pygame.init()
+screen = pygame.display.set_mode((1000, 600))
 clock = pygame.time.Clock()
 
-player = Character(100, 100) 
+player = Character(100, 100)
 
 
 running = True
@@ -15,6 +16,7 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
+            running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
@@ -22,7 +24,7 @@ while running:
            currentScreen = change_menu(mouse, screen)
 
     screen.fill((100,60,25))
-    
+
     mouse = pygame.mouse.get_pos()
 
     if currentScreen == "Main Menu":
@@ -37,4 +39,4 @@ while running:
     
     pygame.display.update() 
 
-    clock.tick(50)
+    clock.tick(100)

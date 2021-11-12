@@ -50,7 +50,7 @@ class Character(pygame.sprite.Sprite):
             if(self.__stamina >= 3):
                 self.__movementSpeed = SPRINT_SPEED
                 self.__stamina -= 3
-            else: 
+            else:
                 self.__movementSpeed = MOVEMENT_SPEED
         elif (self.__staminaRecharge < STAMINA_RECHARGE_TIME):
             self.__staminaRecharge += 1
@@ -72,11 +72,8 @@ class Character(pygame.sprite.Sprite):
     def wounded(self, damage):
         self.__health -= damage
         if(self.__health == 0):
-            pygame.quit() 
+            pygame.quit()
 
     # def throw_boomerang(self, boomerang):
         # Boomerang = instance of boomerang
         # Boomerang.spawn_boomerang()
-        
-
-
