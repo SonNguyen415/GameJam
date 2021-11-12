@@ -1,4 +1,5 @@
 import pygame
+from boomerang import *
 from characters import Character
 from menu import *
 import os
@@ -44,9 +45,11 @@ while running:
             bmr = player.spawn_boomerang(screen)
             xMouse = mouse[0]
             yMouse = mouse[1]
+            currSpeed = BOOMERANG_SPEED
             bmrExist = True
         elif(bmrExist):
-            bmrExist = bmr.move_boomerang(screen, xMouse, yMouse)
+            currSpeed = bmr.move_boomerang(screen, xMouse, yMouse, currSpeed)
+            bmrExist = bmr.check_location(xMouse, yMouse, currSpeed)
         player.draw(screen) 
     
     pygame.display.update() 
