@@ -23,7 +23,7 @@ class Character(pygame.sprite.Sprite):
         self.image.set_colorkey(COLOR_WHITE)
 
         # Some character data
-        self.__health = 100
+        self.__health = 10
         self.__xLoc = xLoc
         self.__yLoc = yLoc
         self.__staminaRecharge = 0
@@ -68,8 +68,8 @@ class Character(pygame.sprite.Sprite):
         # blit yourself at your current position
         surface.blit(self.image, (self.__xLoc, self.__yLoc))
 
-    def wounded(self, damage):
-        self.__health -= damage
+    def wounded(self):
+        self.__health -= 1
         if(self.__health == 0):
             pygame.quit()
 

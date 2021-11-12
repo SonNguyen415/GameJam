@@ -10,6 +10,7 @@ PLAYER_START_Y = 100
 clock = pygame.time.Clock()
 
 ctr = 0
+bmrTime = 0
 player = Character(PLAYER_START_X, PLAYER_START_Y) 
 bmrExist = False
 
@@ -45,11 +46,18 @@ while running:
             bmr = player.spawn_boomerang(screen)
             xMouse = mouse[0]
             yMouse = mouse[1]
-            currSpeed = BOOMERANG_SPEED
+            a = bmr.find_a(xMouse, yMouse)
+            accel = [2*a[0], 2*a[1]]
+            print(accel)
+            currSpeed = [-accel[0]*BOOMERANG_TIME/2, -accel[1]*BOOMERANG_TIME/2]
             bmrExist = True
+            bmrTime = 0
         elif(bmrExist):
-            currSpeed = bmr.move_boomerang(screen, xMouse, yMouse, currSpeed)
+            bmrTime += 1
+            currSpeed = bmr.move_boomerang(screen, currSpeed, accel)
             bmrExist = bmr.check_location(xMouse, yMouse, currSpeed)
+            if(bmrTime >= BOOMERANG_TIME):
+                bmrExist = False
         player.draw(screen) 
     
     pygame.display.update() 

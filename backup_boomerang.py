@@ -1,3 +1,4 @@
+
 import pygame
 import math
 from constants import *
@@ -5,10 +6,10 @@ from constants import *
 
 BOOMERANG_SIZE = 20
 BOOMERANG_SPEED = [30, 30]
-BOOMERANG_TIME = 100
 LOCATION_TOLERANCE = 3
 SPEED_TOLERANCE = 2
-DECCELERATION = 100
+DECCELERATION = 3
+kP = 200
 
 
 
@@ -28,7 +29,6 @@ class Boomerang(pygame.sprite.Sprite):
         surface.blit(self.image, (self.__xLoc, self.__yLoc))
 
 
-
     def check_location(self, xSetPoint, ySetPoint, currSpeed):
         if ((xSetPoint - LOCATION_TOLERANCE <= self.__xLoc  <= xSetPoint + LOCATION_TOLERANCE and 
         ySetPoint - LOCATION_TOLERANCE <= self.__yLoc  <= ySetPoint + LOCATION_TOLERANCE) or 
@@ -38,17 +38,17 @@ class Boomerang(pygame.sprite.Sprite):
         return True
 
 
-    def find_a(self, xSetPoint, ySetPoint):
-        aX = -xSetPoint/(BOOMERANG_TIME/2)**2
-        aY = -ySetPoint/(BOOMERANG_TIME/2)**2
-        return [aX, aY]
 
-
-
-    def move_boomerang(self, surface, prevSpeed, accel):
-        vx = prevSpeed[0] + accel[0]
-        vy = prevSpeed[1] + accel[1]
+    def move_boomerang(self, surface, xSetPoint, ySetPoint, currSpeed):
+        dx = xSetPoint - self.__xLoc
+        dy = ySetPoint - self.__yLoc
+        distance = math.sqrt(dx**2 + dy**2)
+        x_deccel = DECCELERATION * dx/abs(dx)
+        y_deccel = DECCELERATION * dy/abs(dy)
+        vx = (currSpeed[0] - x_deccel) * kP/distance 
+        vy = (currSpeed[1] - y_deccel) * kP/distance 
         currSpeed = [vx, vy] 
+        print(vx)
         self.__xLoc += vx
         self.__yLoc += vy
         self.draw(surface)
