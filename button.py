@@ -1,23 +1,6 @@
+# Button class
 import pygame
-import sys
 
-#initialize pygame
-pygame.init()
-
-# Generate Window
-screen = pygame.display.set_mode((1000, 600))
-
-# Title and Icon
-pygame.display.set_caption("Jelly Jammers")
-icon = pygame.image.load('icon.png')
-pygame.display.set_icon(icon)
-
-
-# Set image path as variables for later use
-start_img = pygame.image.load("Button Icons/Play Button.png").convert_alpha()
-exit_img = pygame.image.load("Button Icons/Quit Button.png").convert_alpha()
-
-# Create a button class to apply to multiple buttons
 class Button():
     def __init__(self, x, y , image, scale):
         # Call the parent class (Sprite) constructor
@@ -29,7 +12,7 @@ class Button():
        self.rect.topleft = (x,y)
        self.clicked = False
 
-    def draw(self):
+    def draw(self, surface):
 
         action = False
         pos = pygame.mouse.get_pos()
@@ -44,34 +27,7 @@ class Button():
             self.clicked = False
 
         # Draw button on the screen
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+        surface.blit(self.image, (self.rect.x, self.rect.y))
 
         # Returns if the button is pressed
         return action
-
-
-
-startButton = Button(100, 200, start_img, 10)
-exitButton = Button(500, 200, exit_img, 10)
-
-
-
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                running = False
-
-    screen.fill((202, 228, 241))
-
-    if startButton.draw():
-        print("Start Button Pressed")
-    if exitButton.draw():
-        running = False
-
-    pygame.display.update()
-
-pygame.quit()
