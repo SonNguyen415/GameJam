@@ -5,10 +5,9 @@ import os
 
 
 pygame.init()
-screen = pygame.display.set_mode((1000, 600))
 clock = pygame.time.Clock()
 
-player = Character(100, 100)
+player = Character(100, 100) 
 
 
 running = True
@@ -17,6 +16,7 @@ while running:
         if event.type == pygame.QUIT:
             pygame.quit()
             running = False
+
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
@@ -24,11 +24,11 @@ while running:
            currentScreen = change_menu(mouse, screen)
 
     screen.fill((100,60,25))
-
+    
     mouse = pygame.mouse.get_pos()
 
+    # Game states
     if currentScreen == "Main Menu":
-        # Credit button
         make_menu(mouse, screen)
     elif currentScreen == "Credits":
         screen.blit(credits , (width/2,height/2))
@@ -39,4 +39,4 @@ while running:
     
     pygame.display.update() 
 
-    clock.tick(100)
+    clock.tick(50)
