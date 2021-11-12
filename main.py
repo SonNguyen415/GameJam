@@ -8,9 +8,8 @@ PLAYER_START_Y = 100
 
 clock = pygame.time.Clock()
 
-
+ctr = 0
 player = Character(PLAYER_START_X, PLAYER_START_Y) 
-
 bmrExist = False
 
 running = True
@@ -37,9 +36,11 @@ while running:
     elif currentScreen == "Credits":
         screen.blit(credits , (WIDTH/2,HEIGHT/2))
     elif currentScreen == "Play":
+        if(ctr <= WAIT_TIME):
+            ctr += 1
         screen.fill((255,255,255)) 
         player.handle_keys()
-        if(bmrExist == False and pygame.mouse.get_pressed()[0]):
+        if(bmrExist == False and pygame.mouse.get_pressed()[0] and ctr > WAIT_TIME):
             bmr = player.spawn_boomerang(screen)
             xMouse = mouse[0]
             yMouse = mouse[1]

@@ -24,7 +24,6 @@ class Boomerang(pygame.sprite.Sprite):
         if(self.__xLoc == xDestination and self.__yLoc == yDestination):
             return False
         else:
-            print("Hi")
             if(xDestination > self.__xLoc):
                 self.__xLoc += 1
             elif(xDestination < self.__xLoc):
