@@ -1,15 +1,11 @@
 import pygame
+from constants import *
 from boomerang import Boomerang
 
 MOVEMENT_SPEED = 3
 SPRINT_SPEED = 6
 MAX_STAMINA = 30
 STAMINA_RECHARGE_TIME = 3
-
-CHARACTER_SIZE = 50
-
-WHITE = (255, 255, 255)
-
 
 
 class Character(pygame.sprite.Sprite):
@@ -24,7 +20,7 @@ class Character(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (CHARACTER_SIZE, CHARACTER_SIZE))
     
         # Set our transparent color
-        self.image.set_colorkey(WHITE)
+        self.image.set_colorkey(COLOR_WHITE)
 
         # Some character data
         self.__health = 100
@@ -77,6 +73,10 @@ class Character(pygame.sprite.Sprite):
         if(self.__health == 0):
             pygame.quit()
 
-    def throw_boomerang(self):
-        bmr = Boomerang(self.__xLoc, self.x__yLoc)
-        bmr.spawn_boomerang()
+    def spawn_boomerang(self, surface):
+        bmrX = self.__xLoc + CHARACTER_SIZE/2
+        bmrY = self.__yLoc + CHARACTER_SIZE/2
+        bmr = Boomerang(bmrX, bmrY)
+        bmr.draw(surface)
+        return bmr
+

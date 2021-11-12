@@ -1,25 +1,18 @@
 import pygame
 import sys
+from constants import *
 
 #initialize pygame
 pygame.init()
 
 # Generate Window
-screen = pygame.display.set_mode((1000, 600))
+screen = pygame.display.set_mode((WINDOW_LENGTH, WINDOW_HEIGHT))
 
 # Title and Icon
 pygame.display.set_caption("Jelly Jammers")
 icon = pygame.image.load('icon.png')
 pygame.display.set_icon(icon)
 
-
-
-# white color
-COLOR_WHITE = (255,255,255)
-# light shade of the button
-COLOR_LIGHT = (255,170,0)
-# dark shade of the button
-COLOR_DARK = (180,130,0)
 
 # get width and height for later reference
 WIDTH = screen.get_width()
