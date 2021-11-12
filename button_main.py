@@ -26,11 +26,13 @@ height = screen.get_height()
 startButtonWidth = start_img.get_width()
 exitButtonWidth = exit_img.get_width()
 creditButtonWidth = credit_img.get_width()
+backButtonWidth = back_img.get_width()
+backButtonHeight = back_img.get_height()
 
 startButton = button.Button(((width/2) - (startButtonWidth*4/2)), 100, start_img, 4)
 exitButton = button.Button(((width/2) - (exitButtonWidth*4/2)), 400, exit_img, 4)
 creditButton = button.Button(((width/2) - (creditButtonWidth*4/2)), 250, credit_img, 4)
-backButton = button.Button(50, 300, back_img, 5)
+backButton = button.Button(50, ((height/2) - (backButtonHeight*3/2)), back_img, 3)
 
 sound = pygame.mixer.Sound('sound.mp3')
 
