@@ -17,5 +17,4 @@ class Artifact(pygame.sprite.Sprite):
         # Load the image
         self.image = pygame.image.load(img)
         self.rect = self.image.get_rect()
-        self.xLoc = xLoc
-        self.yLoc = yLoc
+    
