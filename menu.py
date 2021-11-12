@@ -1,74 +1,91 @@
 import pygame
 import sys
-from constants import *
+import button
+from characters import draw_speech_bubble
+
 
 #initialize pygame
 pygame.init()
 
 # Generate Window
-screen = pygame.display.set_mode((WINDOW_LENGTH, WINDOW_HEIGHT))
+screen = pygame.display.set_mode((1000, 600))
 
 # Title and Icon
 pygame.display.set_caption("Jelly Jammers")
 icon = pygame.image.load('icon.png')
 pygame.display.set_icon(icon)
 
+# Title and Icon
+pygame.display.set_caption("Jelly Jammers")
+icon = pygame.image.load('icon.png')
+pygame.display.set_icon(icon)
 
-# get width and height for later reference
+# Set image path as variables for later use
+START_IMG = pygame.image.load("Button Icons/Play Button.png").convert_alpha()
+EXIT_IMG = pygame.image.load("Button Icons/Quit Button.png").convert_alpha()
+CREDIT_IMG = pygame.image.load("Button Icons/Credit Button.png").convert_alpha()
+BACK_IMG = pygame.image.load("Button Icons/Back Button.png").convert_alpha()
+BACKGROUND = pygame.image.load("Backgrounds/Background.png")
+BG_CREDITS = pygame.image.load("Backgrounds/Background Credits.png")
+
 WIDTH = screen.get_width()
 HEIGHT = screen.get_height()
-button_width = 140
-button_height = 40
+startButtonWidth = START_IMG.get_width()
+exitButtonWidth = EXIT_IMG.get_width()
+creditButtonWidth = CREDIT_IMG.get_width()
+backButtonWidth = BACK_IMG.get_width()
+backButtonHeight = BACK_IMG.get_height()
 
 
-# set font
-smallfont = pygame.font.SysFont('Corbel', 40)
+startButton = button.Button(((WIDTH/2) - (startButtonWidth*4/2)), 100, START_IMG, 4)
+exitButton = button.Button(((WIDTH/2) - (exitButtonWidth*4/2)), 400, EXIT_IMG, 4)
+creditButton = button.Button(((WIDTH/2) - (creditButtonWidth*4/2)), 250, CREDIT_IMG, 4)
+backButton = button.Button(50, ((HEIGHT/2) - (backButtonHeight*3/2)), BACK_IMG, 3)
 
-creditNames = ("Oliver"
-                "Fred"
-                "Son"
-                "Warren")
+sound = pygame.mixer.Sound('sound.mp3')
 
-# renders text
-quitText = smallfont.render('Quit' , True , COLOR_WHITE)
-creditText = smallfont.render('Credits', True, COLOR_WHITE)
-credits = smallfont.render(creditNames, True, COLOR_WHITE)
-playText = smallfont.render('Play', True, COLOR_WHITE)
+#----------------------------------------------#
 
-currentScreen = "Main Menu"
+def main_menu():
+    changeScreen = "Main"
 
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
 
-def make_menu(mouse, myScreen):
-    if WIDTH/2-70 <= mouse[0] <= WIDTH/2+70 and HEIGHT/2-20 <= mouse[1] <= HEIGHT/2+20:
-        pygame.draw.rect(myScreen,COLOR_LIGHT,[(WIDTH/2-70),(HEIGHT/2-20),140,40])
-        myScreen.blit(creditText , (WIDTH/2-50,HEIGHT/2-10))
-    else:
-        pygame.draw.rect(myScreen,COLOR_DARK,[(WIDTH/2-70),(HEIGHT/2-20),140,40])
-        myScreen.blit(creditText , (WIDTH/2-50,HEIGHT/2-10))
+    screen.blit(BACKGROUND, (0,0))
 
-        # Quit button
-    if WIDTH/2-70 <= mouse[0] <= WIDTH/2+70 and HEIGHT/2+40 <= mouse[1] <= HEIGHT/2+80:
-        pygame.draw.rect(myScreen,COLOR_LIGHT,[(WIDTH/2-70),(HEIGHT/2+40),140,40])
-        myScreen.blit(quitText , (WIDTH/2-32.5,HEIGHT/2+50))
-    else:
-        pygame.draw.rect(myScreen,COLOR_DARK,[(WIDTH/2-70),(HEIGHT/2+40),140,40])
-        myScreen.blit(quitText , (WIDTH/2-32.5,HEIGHT/2+50))
-
-        # Play Button
-    if WIDTH/2-70 <= mouse[0] <= WIDTH/2+70 and HEIGHT/2-80 <= mouse[1] <= HEIGHT/2-40:
-        pygame.draw.rect(myScreen,COLOR_LIGHT,[(WIDTH/2-70),(HEIGHT/2-80),140,40])
-        myScreen.blit(playText , (WIDTH/2-32.5,HEIGHT/2-70))
-    else:
-        pygame.draw.rect(myScreen,COLOR_DARK,[(WIDTH/2-70),(HEIGHT/2-80),140,40])
-        myScreen.blit(playText , (WIDTH/2-32.5,HEIGHT/2-70))
-
-
-def change_menu(mouse, myScreen):
-    if WIDTH/2-70 <= mouse[0] <= WIDTH/2+70 and HEIGHT/2-20 <= mouse[1] <= HEIGHT/2+20:
-        myScreen.fill((100,60,25))
-        return "Credits"
-    elif WIDTH/2-70 <= mouse[0] <= WIDTH/2+70 and HEIGHT/2+40 <= mouse[1] <= HEIGHT/2+80:
-        pygame.quit()
-        return "Quit"
-    elif WIDTH/2-70 <= mouse[0] <= WIDTH/2+70 and HEIGHT/2-80 <= mouse[1] <= HEIGHT/2+80:
+    if startButton.draw(screen):
+        sound.play()
         return "Play"
+    if exitButton.draw(screen):
+        pygame.quit()
+    if creditButton.draw(screen):
+        changeScreen = "Credits"
+
+    pygame.display.update()
+
+    return changeScreen
+
+#----------------------------------------------#
+
+def credit_menu():
+    changeScreen = "Credits"
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+
+
+    screen.blit(BG_CREDITS, (0,0))
+
+    if backButton.draw(screen):
+        changeScreen = "Main"
+
+    pygame.display.update()
+
+    return changeScreen
+
