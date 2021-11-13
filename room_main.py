@@ -8,21 +8,6 @@ screen = pygame.display.set_mode((1000,600))
 
 screen.fill((0,0,0))
 
-
-class Tile():
-    def __init__(self, x, y , image, scale):
-        # Call the parent class (Sprite) constructor
-       super().__init__()
-       width = image.get_width()
-       height = image.get_height()
-       self.image = pygame.transform.scale(image, (int(width*scale),int(height*scale)))
-       self.rect = self.image.get_rect()
-       self.rect.topleft = (x,y)
-
-    def draw(self, surface):
-        surface.blit(self.image, (self.rect.x, self.rect.y))
-
-
 #-----------------------------#
 
 grid = [['B','B','B','B','B','B','B'],
