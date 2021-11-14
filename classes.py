@@ -9,23 +9,6 @@ STAMINA_RECHARGE_TIME = 3
 POS_TOLERANCE = 1
 
 
-def draw_speech_bubble(screen, text, textColor, bgColor, pos, size):
-    font = pygame.font.SysFont(None, 12)
-    textSurface = font.render(text, True, textColor)
-    textRect = textSurface.get_rect(midbottom=pos)
-
-    # background
-    bgRect = textRect.copy()
-    bgRect.inflate_ip(10, 10)
-
-    # Frame
-    frameRect = bgRect.copy()
-    frameRect.inflate_ip(4, 4)
-
-    pygame.draw.rect(screen, textColor, frameRect)
-    pygame.draw.rect(screen, bgColor, bgRect)
-    screen.blit(textSurface, textRect)
-
 
 
 class Character(pygame.sprite.Sprite):
@@ -50,8 +33,9 @@ class Character(pygame.sprite.Sprite):
         # Some character data
         self.__health = 10
         self.alive = True
+        self.__movementSpeed = MOVEMENT_SPEED
 
-        self.canMoveUp = True
+    self.canMoveUp = True
         self.canMoveDown = True
         self.canMoveLeft = True
         self.canMoveRight = True
@@ -92,7 +76,6 @@ class Player(Character):
         Character.__init__(self, xLoc, yLoc, charImg)
     
         self.__staminaRecharge = 0
-        self.__movementSpeed = MOVEMENT_SPEED
         self.__stamina = MAX_STAMINA
         self.__bmrTime = 0
         self.__bmrRecharge = 3
