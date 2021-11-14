@@ -175,7 +175,7 @@ class Boomerang(pygame.sprite.Sprite):
             self.xLoc = myPlayer.xLoc 
             self.yLoc = myPlayer.yLoc 
             self.draw(surface)
-            time.sleep(1)
+            time.sleep(0.01)
             return False
         return True
 
