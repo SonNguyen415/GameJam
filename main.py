@@ -10,17 +10,13 @@ clock = pygame.time.Clock()
 
 ctr = 0
 bmrTime = 0
-player = Player(PLAYER_START_X, PLAYER_START_Y, 'Character Sprites\RightMiddle.png')
-npc = Character(PLAYER_START_X+200, PLAYER_START_Y, 'troll.png')
+player = Player(PLAYER_START_X, PLAYER_START_Y, 'icon.png')
+npc = Character(PLAYER_START_X + 200, PLAYER_START_Y, 'troll.png')
 
 bmrExist = False
 currentScreen = "Main"
 
-
 spriteList = [npc]
-
-
-
 
 running = True
 
@@ -33,8 +29,6 @@ while running:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
 
-
-
     mouse = pygame.mouse.get_pos()
 
     # Game states
@@ -43,29 +37,27 @@ while running:
     elif currentScreen == "Credits":
         currentScreen = credit_menu(currentScreen)
     elif currentScreen == "Play":
-        if(ctr <= WAIT_TIME):
+        if (ctr <= WAIT_TIME):
             ctr += 1
 
         PLAY_AREA = pygame.image.load("Base Room.png").convert_alpha()
-        PLAY_AREA = pygame.transform.scale(PLAY_AREA, (1000,600))
-        screen.blit(PLAY_AREA, (0,0))
+        PLAY_AREA = pygame.transform.scale(PLAY_AREA, (1000, 600))
+        screen.blit(PLAY_AREA, (0, 0))
         player.handle_keys()
-        print(pygame.sprite.collide_rect(player, npc))
         player.check_collision(spriteList)
 
-        if(bmrExist == False and pygame.mouse.get_pressed()[0] and ctr > WAIT_TIME):
+        if (bmrExist == False and pygame.mouse.get_pressed()[0] and ctr > WAIT_TIME):
             bmr = player.spawn_boomerang(screen)
             bmr.spawn_boomerang(mouse, player)
             bmrExist = True
             bmr.returnBoomerang = False
             bmrTime = 0
-        elif(bmrExist):
+        elif (bmrExist):
             bmrTime += 1
             bmr.move_boomerang(screen, mouse[0], mouse[1])
             bmrExist = bmr.check_finish(bmrTime, screen, player)
         npc.draw(screen)
         player.draw(screen)
-
 
     pygame.display.update()
 
