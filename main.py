@@ -10,14 +10,15 @@ clock = pygame.time.Clock()
 
 ctr = 0
 bmrTime = 0
-player = Player(PLAYER_START_X, PLAYER_START_Y, 'player.png')
-npc = Character(PLAYER_START_X+200, PLAYER_START_Y, 'player.png')
+player = Player(PLAYER_START_X, PLAYER_START_Y, 'Character Sprites\RightMiddle.png')
+npc = Character(PLAYER_START_X+200, PLAYER_START_Y, 'troll.png')
 
 bmrExist = False
 currentScreen = "Main"
 
 
 spriteList = [npc]
+
 
 
 
@@ -46,6 +47,7 @@ while running:
             ctr += 1
         screen.fill((255,255,255))
         player.handle_keys()
+        print(pygame.sprite.collide_rect(player, npc))
         player.check_collision(spriteList)
 
         if(bmrExist == False and pygame.mouse.get_pressed()[0] and ctr > WAIT_TIME):
