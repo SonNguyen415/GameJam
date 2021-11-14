@@ -45,7 +45,10 @@ while running:
     elif currentScreen == "Play":
         if(ctr <= WAIT_TIME):
             ctr += 1
-        screen.fill((255,255,255))
+
+        PLAY_AREA = pygame.image.load("Base Room.png").convert_alpha()
+        PLAY_AREA = pygame.transform.scale(PLAY_AREA, (1000,600))
+        screen.blit(PLAY_AREA, (0,0))
         player.handle_keys()
         print(pygame.sprite.collide_rect(player, npc))
         player.check_collision(spriteList)

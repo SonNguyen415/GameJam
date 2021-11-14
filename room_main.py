@@ -8,21 +8,6 @@ screen = pygame.display.set_mode((1000,600))
 
 screen.fill((0,0,0))
 
-
-class Tile():
-    def __init__(self, x, y , image, scale):
-        # Call the parent class (Sprite) constructor
-       super().__init__()
-       width = image.get_width()
-       height = image.get_height()
-       self.image = pygame.transform.scale(image, (int(width*scale),int(height*scale)))
-       self.rect = self.image.get_rect()
-       self.rect.topleft = (x,y)
-
-    def draw(self, surface):
-        surface.blit(self.image, (self.rect.x, self.rect.y))
-
-
 #-----------------------------#
 
 grid = [['B','B','B','B','B','B','B'],
@@ -33,6 +18,39 @@ grid = [['B','B','B','B','B','B','B'],
         ['B','B','B','B','B','B','B'],
         ['B','B','B','B','B','B','B']]
 
+gridStats = [[[],[],[],[],[]],
+            [[],[],[],[],[]],
+            [[],[],[],[],[]],
+            [[],[],[],[],[]],
+            [[],[],[],[],[]]]
+
+gridStats ={
+            '(0, 0)':[],
+            '(0, 1)':[],
+            '(0, 2)':[],
+            '(0, 3)':[],
+            '(0, 4)':[],
+            '(1, 0)':[],
+            '(1, 1)':[],
+            '(1, 2)':[],
+            '(1, 3)':[],
+            '(1, 4)':[],
+            '(2, 0)':[],
+            '(2, 1)':[],
+            '(2, 2)':[],
+            '(2, 3)':[],
+            '(2, 4)':[],
+            '(3, 0)':[],
+            '(3, 1)':[],
+            '(3, 2)':[],
+            '(3, 3)':[],
+            '(3, 4)':[],
+            '(4, 0)':[],
+            '(4, 1)':[],
+            '(4, 2)':[],
+            '(4, 3)':[],
+            '(4, 4)':[]
+            }
 
 grid2 = [['B','B','B'],
          ['B','NSWE','B'],
@@ -44,10 +62,11 @@ grid3 = [['B','B','B','B','B',],
          ['B','B','B','B','B',],
          ['B','B','B','B','B',]]
 
+grid = grid3
+
 grid4 = [['B','B','B','B'],
          ['B','NSWE','B','B'],
          ['B','B','B','B']]
-
 
 ROOMS = {
         'N': ['NS', 'NS', 'NS', 'NS', 'S', 'S', 'S', 'SW', 'SE', 'SWE', 'NSW', 'NSE'],
@@ -74,6 +93,24 @@ IMAGES = {'B': ['Map Tiles/B.png'],
           'WE':['Map Tiles/WE.png']
           }
 
+ENEMIES = [[0,0,0],
+           [1,0,0],
+           [2,0,0],
+           [3,0,0],
+           [2,1,0],
+           [0,3,0],
+           [0,0,1],
+           [2,0,1],
+           [1,3,0],
+           [3,1,0],
+           [0,0,2],
+           [0,2,1],
+           [3,2,0],
+           [0,2,0],
+           [5,0,0],
+           [3,2,1],
+           [3,2,2]]
+
 #-----------------------------#
 
 def check_left(y,x):
@@ -81,7 +118,6 @@ def check_left(y,x):
         if 'B' not in str(grid[y][x-1]):
             if 'E' in str(grid[y][x-1]):
                 return True
-
 
 def check_right(y,x):
     length = len(grid[y])-1
@@ -111,8 +147,6 @@ def check_walls_left(y,x):
             if 'E' not in str(grid[y][x-1]):
                 return True
 
-
-
 def check_walls_right(y,x):
     length = len(grid[y])
     if x != length-1:
@@ -120,14 +154,11 @@ def check_walls_right(y,x):
             if 'W' not in str(grid[y][x+1]):
                 return True
 
-
-
 def check_walls_up(y,x):
     if y != 0:
         if 'B' not in str(grid[y-1][x]):
             if 'S' not in str(grid[y-1][x]):
                 return True
-
 
 def check_walls_down(y,x):
     length = len(grid)
@@ -172,25 +203,22 @@ def generate_room(directions,directionsWalls):
     else:
         return 'B'
 
-
 def reset():
     screen.fill((0,0,0))
     pygame.display.flip()
-    grid = [['B','B','B','B','B','B','B'],
-            ['B','B','B','B','B','B','B'],
-            ['B','B','B','B','B','B','B'],
-            ['B','B','B','NSWE','B','B','B'],
-            ['B','B','B','B','B','B','B'],
-            ['B','B','B','B','B','B','B'],
-            ['B','B','B','B','B','B','B']]
+    grid =  [['B','B','B','B','B',],
+             ['B','B','B','B','B',],
+             ['B','B','NSWE','B','B',],
+             ['B','B','B','B','B',],
+             ['B','B','B','B','B',]]
     return grid
 
-def display(screen, xShift, yShift):
+def display(screen):
     for i in range(len(grid)):
         for j in range(len(grid[i])):
             image = pygame.image.load(IMAGES[grid[i][j]][0])
             image = pygame.transform.scale(image, (50,50))
-            screen.blit(image, ( (xShift*48) + (j+(j*48)) , (yShift*48) + (i+(i*48))  ))
+            screen.blit(image, ((j+(j*48)) , (i+(i*48))))
 
 def checkForDoors(i,j):
     directions = []
@@ -206,7 +234,6 @@ def checkForDoors(i,j):
 
 def checkForWalls(i,j):
     directions = []
-
     if i == 0:
         directions.append('N')
     if i == len(grid)-1:
@@ -235,7 +262,6 @@ def checkIteration():
                     return True
     return False
 
-
 def generate():
     error = 0
     while checkIteration() == True:
@@ -245,6 +271,13 @@ def generate():
                     doors = checkForDoors(i,j)
                     walls = checkForWalls(i,j)
                     grid[i][j] = generate_room(doors,walls)
+
+def generateStats():
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            if grid[i][j] != 'B' and 'NSWE':
+                tile = '({}, {})'.format(i,j)
+                gridStats[tile].append(ENEMIES[rnd.randint(0,len(ENEMIES)-1)])
 
 def fix():
     for i in range(len(grid)):
@@ -256,15 +289,13 @@ def refresh(screen):
     screen.fill((0,0,0))
     pygame.display.update()
 
+
 #-----------------------------#
 
-running = True
-count = 0
-xShift = 0
-yShift = 0
-pos = [3,3]
-
 generate()
+generateStats()
+
+running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -275,9 +306,18 @@ while running:
             if event.key == pygame.K_r:
                 grid = reset()
                 generate()
+                generateStats()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                if len(gridStats[str(pos)]) == 2:
+                    print(gridStats[str(pos)])
+
 
     fix()
-    display(screen, xShift, yShift)
-    pygame.draw.circle(screen, (255,0,0), (171,172), 10)
+    display(screen)
+    pygame.draw.circle(screen, (255,0,0), (122,123), 10)
+
+    pos = pygame.mouse.get_pos()
+    pos = (pos[0]//49,pos[1]//49)
 
     pygame.display.update()
