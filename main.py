@@ -3,14 +3,14 @@ from classes import *
 from menu import *
 import os
 
-PLAYER_START_X = 100
-PLAYER_START_Y = 100
+PLAYER_START_X = 500
+PLAYER_START_Y = 300
 
 clock = pygame.time.Clock()
 
 ctr = 0
 bmrTime = 0
-player = Player(PLAYER_START_X, PLAYER_START_Y, 'icon.png')
+player = Player(PLAYER_START_X, PLAYER_START_Y, 'Character Sprites/RightMiddle.png')
 npc = Character(PLAYER_START_X + 200, PLAYER_START_Y, 'troll.png')
 
 bmrExist = False
@@ -40,7 +40,7 @@ while running:
         if (ctr <= WAIT_TIME):
             ctr += 1
 
-        PLAY_AREA = pygame.image.load("Base Room.png").convert_alpha()
+        PLAY_AREA = pygame.image.load("Map Play Area/NSWE.png").convert_alpha()
         PLAY_AREA = pygame.transform.scale(PLAY_AREA, (1000, 600))
         screen.blit(PLAY_AREA, (0, 0))
         player.handle_keys()

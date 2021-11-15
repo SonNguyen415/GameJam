@@ -81,6 +81,8 @@ class Player(Character):
         self.__bmrRecharge = 3
         self.speaking = False
 
+        self.__movementSpeed = MOVEMENT_SPEED
+
     def handle_keys(self):
         key = pygame.key.get_pressed()
         if key[pygame.K_DOWN] and self.yLoc+CHARACTER_SIZE <= 600 and self.canMoveDown:
@@ -119,6 +121,7 @@ class Player(Character):
     def interact(self, object, isArtifact):
         if(self.check_collision(object)):
             self.speaking = True
+
 
 
 
