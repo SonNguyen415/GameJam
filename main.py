@@ -10,7 +10,7 @@ clock = pygame.time.Clock()
 
 ctr = 0
 bmrTime = 0
-player = Player(PLAYER_START_X, PLAYER_START_Y, 'icon.png')
+player = Player(PLAYER_START_X, PLAYER_START_Y, 'Character Sprites/RightMiddle.png')
 npc = Character(PLAYER_START_X + 200, PLAYER_START_Y, 'troll.png')
 
 bmrExist = False

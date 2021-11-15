@@ -35,7 +35,7 @@ class Character(pygame.sprite.Sprite):
         self.alive = True
         self.__movementSpeed = MOVEMENT_SPEED
 
-    self.canMoveUp = True
+        self.canMoveUp = True
         self.canMoveDown = True
         self.canMoveLeft = True
         self.canMoveRight = True
