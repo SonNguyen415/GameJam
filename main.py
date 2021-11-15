@@ -3,8 +3,8 @@ from classes import *
 from menu import *
 import os
 
-PLAYER_START_X = 100
-PLAYER_START_Y = 100
+PLAYER_START_X = 500
+PLAYER_START_Y = 300
 
 clock = pygame.time.Clock()
 
@@ -40,7 +40,7 @@ while running:
         if (ctr <= WAIT_TIME):
             ctr += 1
 
-        PLAY_AREA = pygame.image.load("Base Room.png").convert_alpha()
+        PLAY_AREA = pygame.image.load("Map Play Area/NSWE.png").convert_alpha()
         PLAY_AREA = pygame.transform.scale(PLAY_AREA, (1000, 600))
         screen.blit(PLAY_AREA, (0, 0))
         player.handle_keys()
