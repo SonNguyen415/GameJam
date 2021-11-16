@@ -48,15 +48,26 @@ class Character(pygame.sprite.Sprite):
         # blit yourself at your current position
         if(self.orientation == UP):
             self.image = self.sprites[UP][self.currSprite]
-            surface.blit(self.image, (self.xLoc, self.yLoc))
+        if(self.orientation == DOWN):
+            self.image = self.sprites[DOWN][self.currSprite]
+        if(self.orientation == LEFT):
+            self.image = self.sprites[LEFT][self.currSprite]
+        if(self.orientation == RIGHT):
+            self.image = self.sprites[RIGHT][self.currSprite]
+
+        surface.blit(self.image, (self.xLoc, self.yLoc))
 
     def wounded(self):
         self.__health -= 1
         if(self.__health == 0):
             self.alive = False
 
-    def 
-    
+    def increment_sprite(self):
+        if(self.currSprite < 2):
+            self.currSprite += 1
+        else:
+            self.currSprite = 0
+
     def update_rect(self):
         self.rect.update(self.xLoc, self.yLoc, CHAR_WIDTH, CHAR_HEIGHT)
 
@@ -93,15 +104,20 @@ class Player(Character, object):
         if key[pygame.K_DOWN] and self.yLoc+CHAR_HEIGHT <= PLAYGROUND_HEIGHT+128 and self.canMoveDown:
             self.yLoc += self.movementSpeed
             self.orientation = DOWN
+            self.increment_sprite()
         elif key[pygame.K_UP] and 128-CHAR_HEIGHT <= self.yLoc and self.canMoveUp:
             self.yLoc -= self.movementSpeed
             self.orientation = UP
+            self.increment_sprite()
         if key[pygame.K_RIGHT] and self.xLoc+CHAR_WIDTH <= PLAYGROUND_LENGTH+148 and self.canMoveRight:
             self.xLoc += self.movementSpeed
             self.orientation = RIGHT
+            self.increment_sprite()
         elif key[pygame.K_LEFT] and 148 <= self.xLoc and self.canMoveLeft:
             self.xLoc -= self.movementSpeed
             self.orientation = LEFT
+            self.increment_sprite()
+
         # if key[pygame.K_e] and collidedObject.type == "Artifacts":
         #     self.interact()
         if key[pygame.K_LSHIFT]:
