@@ -1,10 +1,14 @@
 import pygame
 from settings import *
 import time
+<<<<<<< Updated upstream
 from classes import Character, Boomerang, WALK_SPEED
 import math
 from settings import UP, DOWN, LEFT, RIGHT
 
+=======
+from classes import Character
+>>>>>>> Stashed changes
 
 class Enemy (Character):
     def __init__(self, xLoc, yLoc, charImg):
