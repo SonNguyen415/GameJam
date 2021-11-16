@@ -192,6 +192,7 @@ def generate_room(directions,directionsWalls):
         if length != 0:
             answer = newList[rnd.randint(0,length-1)]
 
+
         return answer
 
     else:
@@ -305,8 +306,8 @@ def generateStats():
             if grid[i][j] != 'B' and grid[i][j] != 'NSWE':
                 gridStats[tile].append(ENEMIES[rnd.randint(0,len(ENEMIES)-1)])
             else:
-
-
+                gridStats[tile].append([])
+            
 def fix():
     for i in range(len(grid)):
         for j in range(len(grid[i])):
