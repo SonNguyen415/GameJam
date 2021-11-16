@@ -6,7 +6,7 @@ import numpy as np
 
 MOVEMENT_SPEED = 6
 
-class Enemy (Character)
+class Enemy(Character):
     def __init__(self, xLoc, yLoc, charImg):
         Character.__init__(self, xLoc, yLoc, charImg)
         self.sight_length = 100
@@ -38,7 +38,7 @@ class Enemy (Character)
         dirvect.scale_to_length(__movementSpeed)
         self.rect.move_ip(dirvect)
 
-    def smacked (self)
+    def smacked(self):
         if self.rect.colliderect(Boomerang):
             self.wounded()
 
