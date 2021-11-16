@@ -27,3 +27,34 @@ SPEED_TOLERANCE = 1
 DECCELERATION = 100
 TIME_TOLERANCE = 5
 
+
+
+DOWN_IMG = []
+UP_IMG = []
+LEFT_IMG = []
+RIGHT_IMG = []
+
+UP_IMG.append(pygame.image.load('Character Sprites/Up/1.png'))
+UP_IMG.append(pygame.image.load('Character Sprites/Up/2.png'))
+UP_IMG.append(pygame.image.load('Character Sprites/Up/3.png'))
+
+RIGHT_IMG.append(pygame.image.load('Character Sprites/Right/1.png'))
+RIGHT_IMG.append(pygame.image.load('Character Sprites/Right/2.png'))
+RIGHT_IMG.append(pygame.image.load('Character Sprites/Right/3.png'))
+
+DOWN_IMG.append(pygame.image.load('Character Sprites/Down/1.png'))
+DOWN_IMG.append(pygame.image.load('Character Sprites/Down/2.png'))
+DOWN_IMG.append(pygame.image.load('Character Sprites/Down/3.png'))
+
+LEFT_IMG.append(pygame.image.load('Character Sprites/Left/1.png'))
+LEFT_IMG.append(pygame.image.load('Character Sprites/Left/2.png'))
+LEFT_IMG.append(pygame.image.load('Character Sprites/Left/3.png'))
+
+PLAYER_IMG = [UP_IMG, RIGHT_IMG, DOWN_IMG, RIGHT_IMG]
+
+
+
+UP = 0
+RIGHT = 1
+DOWN = 2
+LEFT = 3

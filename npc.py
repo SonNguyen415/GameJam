@@ -1,31 +1,32 @@
 import pygame
 from settings import *
 import time
-from classes import Character
-import numpy as np
+from classes import Character, Boomerang, WALK_SPEED
+import math
 
-MOVEMENT_SPEED = 6
 
-class Enemy(Character):
+
+class Enemy (Character):
     def __init__(self, xLoc, yLoc, charImg):
         Character.__init__(self, xLoc, yLoc, charImg)
-        self.sight_length = 100
+        self.sightLength = 100
         self.sight_width
         self.orientation
+        self.__movementSpeed = WALK_SPEED + 1
 
     def draw(self, surface):
         surface.blit(self.image, (self.xLoc, self.yLoc))
 
     def sense(self, pxLoc, pyLoc, orientation):
         #find distance of npc to player
-        distance = sqrt(((self.xLoc-pxLoc)**2)+((self.yLoc-pyLoc)**2))
+        distance = math.sqrt(((self.xLoc-pxLoc)**2)+((self.yLoc-pyLoc)**2))
         #find the range of sight
         leftRange = (orientation*45)-45
         rightRange = (orientation*45)+45
         #find the angle from npc to character
         angle = math.degrees(math.atan2(pyLoc - self.yLoc, pxLoc - self.xLoc))
         #if distance is less than sight length
-        if (distance<sight.length):
+        if (distance<self.sightLength):
             #if angle is between
             if (angle>leftRange and angle<rightRange):
                 self.move_towards_player(pxLoc,pyLoc)
@@ -35,7 +36,7 @@ class Enemy(Character):
         dirvect = pygame.math.Vector2(xLoc - self.xLoc, yLoc - self.yLoc)
         dirvect.normalize()
         # Move along this normalized vector towards the player at current speed.
-        dirvect.scale_to_length(__movementSpeed)
+        dirvect.scale_to_length(self.__movementSpeed)
         self.rect.move_ip(dirvect)
 
     def smacked(self):
@@ -43,7 +44,7 @@ class Enemy(Character):
             self.wounded()
 
     def random_movement(self):
-        k = randint(0, 8)
+        k = math.randint(0, 8)
         if k == 1 and self.yLoc + CHARACTER_SIZE <= 600 and self.canMoveUp:
             #Move up
             self.orientation = 0

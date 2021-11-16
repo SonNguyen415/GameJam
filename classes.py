@@ -21,7 +21,9 @@ class Character(pygame.sprite.Sprite):
         self.yLoc = yLoc
 
         # Load the image
-        self.image = pygame.image.load(charImg)
+        self.sprites = charImg
+        self.currSprite = 0
+        self.image = self.sprites[DOWN][self.currSprite]
 
         self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
 
@@ -30,6 +32,8 @@ class Character(pygame.sprite.Sprite):
 
         # Set our transparent color
         self.image.set_colorkey(COLOR_WHITE)
+
+        self.orientation = 0
 
         # Some character data
         self.__health = 10
@@ -42,14 +46,17 @@ class Character(pygame.sprite.Sprite):
 
     def draw(self, surface):
         # blit yourself at your current position
-        surface.blit(self.image, (self.xLoc, self.yLoc))
+        if(self.orientation == UP):
+            self.image = self.sprites[UP][self.currSprite]
+            surface.blit(self.image, (self.xLoc, self.yLoc))
 
     def wounded(self):
         self.__health -= 1
         if(self.__health == 0):
             self.alive = False
 
-
+    def 
+    
     def update_rect(self):
         self.rect.update(self.xLoc, self.yLoc, CHAR_WIDTH, CHAR_HEIGHT)
 
@@ -85,12 +92,16 @@ class Player(Character, object):
         key = pygame.key.get_pressed()
         if key[pygame.K_DOWN] and self.yLoc+CHAR_HEIGHT <= PLAYGROUND_HEIGHT+128 and self.canMoveDown:
             self.yLoc += self.movementSpeed
+            self.orientation = DOWN
         elif key[pygame.K_UP] and 128-CHAR_HEIGHT <= self.yLoc and self.canMoveUp:
             self.yLoc -= self.movementSpeed
+            self.orientation = UP
         if key[pygame.K_RIGHT] and self.xLoc+CHAR_WIDTH <= PLAYGROUND_LENGTH+148 and self.canMoveRight:
             self.xLoc += self.movementSpeed
+            self.orientation = RIGHT
         elif key[pygame.K_LEFT] and 148 <= self.xLoc and self.canMoveLeft:
             self.xLoc -= self.movementSpeed
+            self.orientation = LEFT
         # if key[pygame.K_e] and collidedObject.type == "Artifacts":
         #     self.interact()
         if key[pygame.K_LSHIFT]:
