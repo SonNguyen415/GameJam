@@ -2,11 +2,6 @@ import pygame
 import random as rnd
 import time
 
-pygame.init()
-
-screen = pygame.display.set_mode((1000,600))
-
-screen.fill((0,0,0))
 
 #-----------------------------#
 
@@ -197,19 +192,6 @@ def generate_room(directions,directionsWalls):
         if length != 0:
             answer = newList[rnd.randint(0,length-1)]
 
-            """
-            repeat = True
-            while repeat:
-                answer = newList[rnd.randint(0,length-1)]
-                if branchCount > 0:
-                    branchCount -= 1
-                    repeat = False
-                elif branchCount == 0:
-                    if len(directions):
-                        if len(answer) == 1:
-                            repeat == False
-            """
-
         return answer
 
     else:
@@ -320,14 +302,10 @@ def generateStats():
     for i in range(len(grid)):
         for j in range(len(grid[i])):
             tile = '({}, {})'.format(i,j)
-            print(tile)
-            print(grid[i][j])
             if grid[i][j] != 'B' and grid[i][j] != 'NSWE':
                 gridStats[tile].append(ENEMIES[rnd.randint(0,len(ENEMIES)-1)])
             else:
-                gridStats[tile].append([])
-            print(gridStats[tile])
-            print("")
+
 
 def fix():
     for i in range(len(grid)):
@@ -337,43 +315,4 @@ def fix():
 
 def refresh(screen):
     screen.fill((0,0,0))
-    pygame.display.update()
-
-
-#-----------------------------#
-
-generate()
-generateStats()
-
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                pygame.quit()
-            if event.key == pygame.K_r:
-                grid = reset('grid')
-                gridStats = reset('stats')
-                generate()
-                generateStats()
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                if gridStats[pos] == [0,0,0]:
-                    print("The Room is Empty")
-                elif gridStats[pos] == []:
-                    print("There is no Room Here")
-                else:
-                    print("The Room Contains Grunts:{}, Ranged:{}, Tanks{}"
-                    .format(gridStats[pos][0][0],gridStats[pos][0][1],gridStats[pos][0][2]))
-
-    fix()
-    display(screen)
-    pygame.draw.circle(screen, (255,0,0), (122,123), 10)
-
-    pos = pygame.mouse.get_pos()
-    pos = str((pos[0]//49, pos[1]//49))
-
-
     pygame.display.update()
