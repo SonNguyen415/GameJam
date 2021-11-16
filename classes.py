@@ -2,11 +2,6 @@ import pygame
 from settings import *
 import time
 
-WALK_SPEED = 6
-SPRINT_SPEED = 12
-MAX_STAMINA = 50
-STAMINA_RECHARGE_TIME = 3
-POS_TOLERANCE = -10
 
 
 
@@ -54,7 +49,7 @@ class Character(pygame.sprite.Sprite):
             self.image = self.sprites[LEFT][self.currSprite]
         if(self.orientation == RIGHT):
             self.image = self.sprites[RIGHT][self.currSprite]
-
+        self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
         surface.blit(self.image, (self.xLoc, self.yLoc))
 
     def wounded(self):
@@ -74,14 +69,26 @@ class Character(pygame.sprite.Sprite):
     def check_collision(self, spriteList):
         for eachSprite in spriteList:
             if(self.rect.colliderect(eachSprite.rect)):
-                if(POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom <= 0):
-                    self.canMoveUp = False
-                if(POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom  <= 0):
+                if(-POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom  <= 0):
                     self.canMoveDown = False
-                if(POS_TOLERANCE < self.rect.left - eachSprite.rect.right <= 0):
-                    self.canMoveLeft = False
-                if(POS_TOLERANCE < eachSprite.rect.left - self.rect.right <= 0):
-                    self.canMoveRight = False
+                if(eachSprite.type == "Character"):
+                    if(-POS_TOLERANCE < self.rect.bottom - eachSprite.rect.bottom < POS_TOLERANCE):
+                        self.canMoveUp = False
+                    if(eachSprite.rect.top - 1 < self.rect.bottom < eachSprite.rect.bottom + 1):
+                        if(-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE):
+                            self.canMoveLeft = False
+                        if(-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE):
+                            self.canMoveRight = False
+                    else: 
+                        self.canMoveLeft = True
+                        self.canMoveRight = True
+                else:
+                    if(-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom <= 0):
+                        self.canMoveUp = False
+                    if(-POS_TOLERANCE < self.rect.left - eachSprite.rect.right <= 0):
+                        self.canMoveLeft = False
+                    if(-POS_TOLERANCE < eachSprite.rect.left - self.rect.right <= 0):
+                        self.canMoveRight = False
                 return eachSprite
             else:
                 self.canMoveRight = True
@@ -105,15 +112,15 @@ class Player(Character, object):
             self.yLoc += self.movementSpeed
             self.orientation = DOWN
             self.increment_sprite()
-        elif key[pygame.K_UP] and 128-CHAR_HEIGHT <= self.yLoc and self.canMoveUp:
+        elif key[pygame.K_UP] and 140-CHAR_HEIGHT <= self.yLoc and self.canMoveUp:
             self.yLoc -= self.movementSpeed
             self.orientation = UP
             self.increment_sprite()
-        if key[pygame.K_RIGHT] and self.xLoc+CHAR_WIDTH <= PLAYGROUND_LENGTH+148 and self.canMoveRight:
+        if key[pygame.K_RIGHT] and self.xLoc+CHAR_WIDTH <= PLAYGROUND_LENGTH+PLAYGROUND_X_OFFSET and self.canMoveRight:
             self.xLoc += self.movementSpeed
             self.orientation = RIGHT
             self.increment_sprite()
-        elif key[pygame.K_LEFT] and 148 <= self.xLoc and self.canMoveLeft:
+        elif key[pygame.K_LEFT] and PLAYGROUND_X_OFFSET <= self.xLoc and self.canMoveLeft:
             self.xLoc -= self.movementSpeed
             self.orientation = LEFT
             self.increment_sprite()
@@ -165,7 +172,6 @@ class Boomerang(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=(xLoc, yLoc))
 
 
-        self.returnBoomerang = False
         self.currSpeed = []
         self.accel = []
 
@@ -173,28 +179,34 @@ class Boomerang(pygame.sprite.Sprite):
         surface.blit(self.image, (self.xLoc, self.yLoc))
 
 
+    def check_collision(self):
+        if(self.xLoc > PLAYGROUND_LENGTH+WALL_HEIGHT/2 or self.xLoc < PLAYGROUND_HEIGHT+WALL_HEIGHT/2 or
+            self.yLoc > PLAYGROUND_HEIGHT+WALL_HEIGHT/2 or self.yLoc < PLAYGROUND_HEIGHT+WALL_HEIGHT/2):
+            return True
+        return False
+
     def check_at_set_point(self, xSetPoint, ySetPoint):
         if ((xSetPoint - LOC_TOLERANCE <= self.xLoc <= xSetPoint + LOC_TOLERANCE and
         ySetPoint - LOC_TOLERANCE <= self.yLoc  <= ySetPoint + LOC_TOLERANCE) or
         (-SPEED_TOLERANCE <= self.currSpeed[0] <= SPEED_TOLERANCE and
         -SPEED_TOLERANCE <= self.currSpeed[1] <= SPEED_TOLERANCE)):
-            self.returnBoomerang = True
+            return True
+        return False
 
 
     def check_finish(self, bmrTime, surface, myPlayer):
         if(bmrTime >= BOOMERANG_TIME):
-            self.returnBoomerang = False
             self.xLoc = myPlayer.xLoc
             self.yLoc = myPlayer.yLoc
             self.draw(surface)
             time.sleep(0.01)
-            return False
-        return True
+            return True
+        return False
 
 
     def find_a(self, xSetPoint, ySetPoint, myPlayer):
-        x = xSetPoint - myPlayer.xLoc
-        y = ySetPoint - myPlayer.yLoc
+        x = xSetPoint - (myPlayer.xLoc + CHAR_WIDTH/2) + 3
+        y = ySetPoint - (myPlayer.yLoc + CHAR_HEIGHT/2) + 3
         aX = -x/(BOOMERANG_TIME/2)**2
         aY = -y/(BOOMERANG_TIME/2)**2
         return [aX, aY]
