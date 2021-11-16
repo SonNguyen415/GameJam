@@ -1,8 +1,10 @@
-import pygame
+    import pygame
 from settings import *
 import time
 from classes import Character, Boomerang, WALK_SPEED
-import math 
+import math
+from settings import UP, DOWN, LEFT, RIGHT
+from classes import Character
 
 
 class Enemy (Character):
@@ -10,7 +12,7 @@ class Enemy (Character):
         Character.__init__(self, xLoc, yLoc, charImg)
         self.sightLength = 100
         self.sight_width
-        self.orientation
+        self.orientation = LEFT
         self.__movementSpeed = WALK_SPEED + 1
 
     def draw(self, surface):
@@ -38,71 +40,39 @@ class Enemy (Character):
         dirvect.scale_to_length(self.__movementSpeed)
         self.rect.move_ip(dirvect)
 
-    def smacked (self):
+    def smacked(self):
         if self.rect.colliderect(Boomerang):
             self.wounded()
 
     def random_movement(self):
         k = math.randint(0, 8)
-        if k == 1 and self.yLoc + CHARACTER_SIZE <= 600 and self.canMoveUp:
-            #Move up
-            self.orientation = 0
+        if k == 1 and self.yLoc + CHARACTER_SIZE <= 600 and self.canMoveDown:
+            #Move down
+            self.orientation = DOWN
             i = 5
-            while i < 5 and self.yLoc + CHARACTER_SIZE <= 600 and self.canMoveUp:
+            while i < 5 and self.yLoc + CHARACTER_SIZE <= 600 and self.canMoveDown:
                 self.yLoc += self.__movementSpeed
                 i+=1
-        elif k == 2 and 0 <= self.yLoc and self.canMoveDown:
-            #Move down
-            self.orientation = 4
+        elif k == 2 and 0 <= self.yLoc and self.canMoveUp:
+            #Move up
+            self.orientation = UP
             i = 5
-            while i < 5 and 0 <= self.yLoc and self.canMoveDown:
+            while i < 5 and 0 <= self.yLoc and self.canMoveUp:
                 self.yLoc -= self.__movementSpeed
                 i+=1
         elif k == 3 and self.xLoc + CHARACTER_SIZE <= 1000 and self.canMoveRight:
             #Move right
-            self.orientation = 2
+            self.orientation = RIGHT
             i = 5
             while i < 5 and self.xLoc + CHARACTER_SIZE <= 1000 and self.canMoveRight:
                 self.xLoc += self.__movementSpeed
                 i+=1
         elif k == 4 and 0 <= self.xLoc and self.canMoveLeft:
             #Move left
-            self.orientation = 6
+            self.orientation = LEFT
             i = 5
             while i < 5 and 0 <= self.xLoc and self.canMoveLeft:
                 self.xLoc -= self.__movementSpeed
                 i+=1
-        elif k == 5 and self.yLoc + CHARACTER_SIZE <= 600 and self.canMoveUp and 0 <= self.xLoc and self.canMoveLeft:
-            #Move top-left
-            self.orientation = 7
-            i = 5
-            while i < 5 and self.yLoc + CHARACTER_SIZE <= 600 and self.canMoveUp and 0 <= self.xLoc and self.canMoveLeft:
-                self.yLoc += (self.__movementSpeed*(math.sqrt(2)/2))
-                self.xLoc -= (self.__movementSpeed*(math.sqrt(2)/2))
-                i += 1
-        elif k == 6 and self.yLoc + CHARACTER_SIZE <= 600 and self.canMoveUp and self.xLoc + CHARACTER_SIZE <= 1000 and self.canMoveRight:
-            #Move top-right
-            self. orientation = 1
-            i = 5
-            while i < 5 and self.yLoc + CHARACTER_SIZE <= 600 and self.canMoveUp and self.xLoc + CHARACTER_SIZE <= 1000 and self.canMoveRight:
-                self.yLoc += (self.__movementSpeed*(math.sqrt(2)/2))
-                self.xLoc += (self.__movementSpeed*(math.sqrt(2)/2))
-                i += 1
-        elif k == 7 and 0 <= self.yLoc and self.canMoveDown and 0 <= self.xLoc and self.canMoveLeft:
-            #Move bottom-left
-            self.orientation = 5
-            i = 5
-            while i < 5 and 0 <= self.yLoc and self.canMoveDown and 0 <= self.xLoc and self.canMoveLeft:
-                self.yLoc -= (self.__movementSpeed*(math.sqrt(2)/2))
-                self.xLoc -= (self.__movementSpeed*(math.sqrt(2)/2))
-                i += 1
-        elif k == 8 and 0 <= self.yLoc and self.canMoveDown and self.xLoc + CHARACTER_SIZE <= 1000 and self.canMoveRight:
-            #Move bottom-right
-            self.orientation = 3
-            i = 5
-            while i < 5 and 0 <= self.yLoc and self.canMoveDown and self.xLoc + CHARACTER_SIZE <= 1000 and self.canMoveRight:
-                self.yLoc -= (self.__movementSpeed*(math.sqrt(2)/2))
-                self.xLoc += (self.__movementSpeed*(math.sqrt(2)/2))
-                i += 1
         elif k == 0:
-            sleep(5)
+            time.sleep(3)
