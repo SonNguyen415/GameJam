@@ -50,7 +50,7 @@ LEFT_IMG.append(pygame.image.load('Character Sprites/Left/1.png'))
 LEFT_IMG.append(pygame.image.load('Character Sprites/Left/2.png'))
 LEFT_IMG.append(pygame.image.load('Character Sprites/Left/3.png'))
 
-PLAYER_IMG = [UP_IMG, RIGHT_IMG, DOWN_IMG, RIGHT_IMG]
+PLAYER_IMG = [UP_IMG, RIGHT_IMG, DOWN_IMG, LEFT_IMG]
 
 
 
