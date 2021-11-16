@@ -19,6 +19,14 @@ currentScreen = "Main"
 
 spriteList = [npc]
 
+#-----------#
+
+generate()
+generateStats()
+
+#-----------#
+
+
 running = True
 
 while running:
