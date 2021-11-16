@@ -8,7 +8,7 @@ PLAYER_START_Y = 300
 
 clock = pygame.time.Clock()
 
-ctr = 0
+ctr = 0 
 bmrTime = 0
 player = Player(PLAYER_START_X, PLAYER_START_Y, 'Character Sprites/RightMiddle.png')
 npc = Character(PLAYER_START_X + 200, PLAYER_START_Y, 'troll.png')
@@ -39,12 +39,12 @@ while running:
     elif currentScreen == "Play":
         if (ctr <= WAIT_TIME):
             ctr += 1
-
-        PLAY_AREA = pygame.image.load("Map Play Area/NSWE.png").convert_alpha()
-        PLAY_AREA = pygame.transform.scale(PLAY_AREA, (1000, 600))
+        PLAY_AREA = pygame.image.load("Map Play Area/W.png").convert_alpha()
+        PLAY_AREA = pygame.transform.scale(PLAY_AREA, (WINDOW_LENGTH, WINDOW_HEIGHT))
         screen.blit(PLAY_AREA, (0, 0))
+        collidedObject = player.check_collision(spriteList)
         player.handle_keys()
-        player.check_collision(spriteList)
+        player.update_rect()
 
         if (bmrExist == False and pygame.mouse.get_pressed()[0] and ctr > WAIT_TIME):
             bmr = player.spawn_boomerang(screen)
