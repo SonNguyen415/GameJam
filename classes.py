@@ -2,12 +2,11 @@ import pygame
 from settings import *
 import time
 
-MOVEMENT_SPEED = 6
+WALK_SPEED = 6
 SPRINT_SPEED = 12
 MAX_STAMINA = 50
 STAMINA_RECHARGE_TIME = 3
-POS_TOLERANCE = 1
-
+POS_TOLERANCE = -10
 
 
 
@@ -16,13 +15,15 @@ class Character(pygame.sprite.Sprite):
          # Call the parent class (Sprite) constructor
         super().__init__()
 
+        self.type = "Character"
+
         self.xLoc = xLoc
         self.yLoc = yLoc
 
         # Load the image
         self.image = pygame.image.load(charImg)
 
-        self.image = pygame.transform.scale(self.image, (CHARACTER_SIZE, CHARACTER_SIZE))
+        self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
 
         self.rect = self.image.get_rect(topleft=(xLoc, yLoc))
 
@@ -33,12 +34,11 @@ class Character(pygame.sprite.Sprite):
         # Some character data
         self.__health = 10
         self.alive = True
-        self.__movementSpeed = MOVEMENT_SPEED
-
         self.canMoveUp = True
         self.canMoveDown = True
         self.canMoveLeft = True
         self.canMoveRight = True
+        self.movementSpeed = WALK_SPEED
 
     def draw(self, surface):
         # blit yourself at your current position
@@ -49,71 +49,70 @@ class Character(pygame.sprite.Sprite):
         if(self.__health == 0):
             self.alive = False
 
+
+    def update_rect(self):
+        self.rect.update(self.xLoc, self.yLoc, CHAR_WIDTH, CHAR_HEIGHT)
+
     def check_collision(self, spriteList):
         for eachSprite in spriteList:
             if(self.rect.colliderect(eachSprite.rect)):
-                if(0 < self.rect.top - eachSprite.rect.bottom < POS_TOLERANCE):
+                if(POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom <= 0):
                     self.canMoveUp = False
-                else:
-                    self.canMoveUp = True
-                if(0 < eachSprite.rect.top - self.rect.bottom  < POS_TOLERANCE):
+                if(POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom  <= 0):
                     self.canMoveDown = False
-                else:
-                    self.canMoveDown = True
-                if(0 < self.rect.left - eachSprite.rect.right < POS_TOLERANCE):
+                if(POS_TOLERANCE < self.rect.left - eachSprite.rect.right <= 0):
                     self.canMoveLeft = False
-                else:
-                    self.canMoveLeft = False
-                if(0 < eachSprite.rect.left - self.rect.right < POS_TOLERANCE):
-                    self.canMoveLeft = False
-                else:
-                    self.canMoveLeft = False
+                if(POS_TOLERANCE < eachSprite.rect.left - self.rect.right <= 0):
+                    self.canMoveRight = False
+                return eachSprite
+            else:
+                self.canMoveRight = True
+                self.canMoveLeft = True
+                self.canMoveUp = True
+                self.canMoveDown = True
+        return self
 
 
-
-class Player(Character):
+class Player(Character, object):
     def __init__(self, xLoc, yLoc, charImg):
         Character.__init__(self, xLoc, yLoc, charImg)
 
         self.__staminaRecharge = 0
         self.__stamina = MAX_STAMINA
-        self.__bmrTime = 0
-        self.__bmrRecharge = 3
         self.speaking = False
-
-        self.__movementSpeed = MOVEMENT_SPEED
 
     def handle_keys(self):
         key = pygame.key.get_pressed()
-        if key[pygame.K_DOWN] and self.yLoc+CHARACTER_SIZE <= 600 and self.canMoveDown:
-            self.yLoc += self.__movementSpeed
-        elif key[pygame.K_UP] and 0 <= self.yLoc and self.canMoveUp:
-            self.yLoc -= self.__movementSpeed
-        if key[pygame.K_RIGHT] and self.xLoc+CHARACTER_SIZE <= 1000 and self.canMoveRight:
-            self.xLoc += self.__movementSpeed
-        elif key[pygame.K_LEFT] and 0 <= self.xLoc and self.canMoveLeft:
-            self.xLoc -= self.__movementSpeed
-        if key[pygame.K_e]:
-            self.interact()
+        if key[pygame.K_DOWN] and self.yLoc+CHAR_HEIGHT <= PLAYGROUND_HEIGHT+128 and self.canMoveDown:
+            self.yLoc += self.movementSpeed
+        elif key[pygame.K_UP] and 128-CHAR_HEIGHT <= self.yLoc and self.canMoveUp:
+            self.yLoc -= self.movementSpeed
+        if key[pygame.K_RIGHT] and self.xLoc+CHAR_WIDTH <= PLAYGROUND_LENGTH+148 and self.canMoveRight:
+            self.xLoc += self.movementSpeed
+        elif key[pygame.K_LEFT] and 148 <= self.xLoc and self.canMoveLeft:
+            self.xLoc -= self.movementSpeed
+        # if key[pygame.K_e] and collidedObject.type == "Artifacts":
+        #     self.interact()
         if key[pygame.K_LSHIFT]:
             if(self.__stamina >= 3):
-                self.__movementSpeed = SPRINT_SPEED
+                self.movementSpeed = SPRINT_SPEED
                 self.__stamina -= 3
             else:
-                self.__movementSpeed = MOVEMENT_SPEED
+                self.movementSpeed = WALK_SPEED
         elif (self.__staminaRecharge < STAMINA_RECHARGE_TIME):
             self.__staminaRecharge += 1
         else:
             self.__staminaRecharge = 0
             self.restore_stamina()
+       
 
     def restore_stamina(self):
         if(self.__stamina < MAX_STAMINA):
             self.__stamina += 1
 
     def spawn_boomerang(self, surface):
-        bmrX = self.xLoc + CHARACTER_SIZE/2
-        bmrY = self.yLoc + CHARACTER_SIZE/2
+        bmrX = self.xLoc + CHAR_WIDTH/2
+        bmrY = self.yLoc + CHAR_HEIGHT/2
         bmr = Boomerang(bmrX, bmrY)
         bmr.draw(surface)
         return bmr
