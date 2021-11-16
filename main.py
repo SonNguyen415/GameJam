@@ -2,13 +2,14 @@ import pygame, sys
 from classes import *
 from menu import *
 import os
+from dungeon_generation import *
 
 PLAYER_START_X = 500
 PLAYER_START_Y = 300
 
 clock = pygame.time.Clock()
 
-ctr = 0 
+ctr = 0
 bmrTime = 0
 player = Player(PLAYER_START_X, PLAYER_START_Y, 'Character Sprites/RightMiddle.png')
 npc = Character(PLAYER_START_X + 200, PLAYER_START_Y, 'troll.png')
