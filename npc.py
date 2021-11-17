@@ -1,36 +1,31 @@
-    import pygame
+import pygame
 from settings import *
-import time
 from classes import Character, Boomerang, WALK_SPEED
 import math
-from settings import UP, DOWN, LEFT, RIGHT
-from classes import Character
 
 
-class Enemy (Character):
-    def __init__(self, xLoc, yLoc, charImg):
-        Character.__init__(self, xLoc, yLoc, charImg)
+class Enemy (Character, object):
+    def __init__(self, xLoc, yLoc, charImg, objID):
+        Character.__init__(self, xLoc, yLoc, charImg, objID)
         self.sightLength = 100
-        self.sight_width
-        self.orientation = LEFT
         self.__movementSpeed = WALK_SPEED + 1
+        self.agro = False
+        self.fiveSec = True
 
-    def draw(self, surface):
-        surface.blit(self.image, (self.xLoc, self.yLoc))
-
-    def sense(self, pxLoc, pyLoc, orientation):
+    def sense(self, pxLoc, pyLoc):
         #find distance of npc to player
         distance = math.sqrt(((self.xLoc-pxLoc)**2)+((self.yLoc-pyLoc)**2))
         #find the range of sight
-        leftRange = (orientation*45)-45
-        rightRange = (orientation*45)+45
+        leftRange = (self.orientation*45)-45
+        rightRange = (self.orientation*45)+45
         #find the angle from npc to character
         angle = math.degrees(math.atan2(pyLoc - self.yLoc, pxLoc - self.xLoc))
         #if distance is less than sight length
         if (distance<self.sightLength):
             #if angle is between
             if (angle>leftRange and angle<rightRange):
-                self.move_towards_player(pxLoc,pyLoc)
+                self.agro = True
+
 
     def move_towards_player(self, xLoc, yLoc):
         # Find direction vector (dx, dy) between enemy and player.
@@ -40,39 +35,33 @@ class Enemy (Character):
         dirvect.scale_to_length(self.__movementSpeed)
         self.rect.move_ip(dirvect)
 
-    def smacked(self):
-        if self.rect.colliderect(Boomerang):
+    def whacked(self):
+        if self.rect.colliderect(Boomerang.rect):
             self.wounded()
 
-    def random_movement(self):
-        k = math.randint(0, 8)
-        if k == 1 and self.yLoc + CHARACTER_SIZE <= 600 and self.canMoveDown:
+    def random_movement(self, k):
+        if k == 1 and self.yLoc + CHAR_HEIGHT <= PLAYGROUND_HEIGHT-PLAYGROUND_Y_OFFSET and self.canMoveDown:
             #Move down
             self.orientation = DOWN
-            i = 5
-            while i < 5 and self.yLoc + CHARACTER_SIZE <= 600 and self.canMoveDown:
-                self.yLoc += self.__movementSpeed
-                i+=1
-        elif k == 2 and 0 <= self.yLoc and self.canMoveUp:
+            self.yLoc += self.__movementSpeed
+            self.increment_sprite()
+
+        elif k == 2 and PLAYGROUND_Y_OFFSET <= self.yLoc+CHAR_HEIGHT-10 and self.canMoveUp:
             #Move up
             self.orientation = UP
-            i = 5
-            while i < 5 and 0 <= self.yLoc and self.canMoveUp:
-                self.yLoc -= self.__movementSpeed
-                i+=1
-        elif k == 3 and self.xLoc + CHARACTER_SIZE <= 1000 and self.canMoveRight:
+            self.yLoc -= self.__movementSpeed
+            self.increment_sprite()
+
+        elif k == 3 and self.xLoc + CHAR_WIDTH <= PLAYGROUND_LENGTH+PLAYGROUND_X_OFFSET and self.canMoveRight:
             #Move right
             self.orientation = RIGHT
-            i = 5
-            while i < 5 and self.xLoc + CHARACTER_SIZE <= 1000 and self.canMoveRight:
-                self.xLoc += self.__movementSpeed
-                i+=1
-        elif k == 4 and 0 <= self.xLoc and self.canMoveLeft:
+            self.xLoc += self.__movementSpeed
+            self.increment_sprite()
+
+        elif k == 4 and PLAYGROUND_X_OFFSET <= self.xLoc and self.canMoveLeft:
             #Move left
             self.orientation = LEFT
-            i = 5
-            while i < 5 and 0 <= self.xLoc and self.canMoveLeft:
-                self.xLoc -= self.__movementSpeed
-                i+=1
-        elif k == 0:
-            time.sleep(3)
+            self.xLoc -= self.__movementSpeed
+            self.increment_sprite()
+
+
