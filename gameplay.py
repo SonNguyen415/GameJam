@@ -50,7 +50,7 @@ def run_gameplay(surface, mouse, player, npc, heartIcons, spriteList):
     # npc.random_movement()
     if (npcTimer==10):
         npcTimer = 0
-        k = random.randint(0, 10)
+        k = random.randint(0, 5)
     npcTimer+=1
     npc.random_movement(k)
     player.update_rect()

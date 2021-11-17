@@ -51,10 +51,10 @@ class Enemy (Character, object):
             self.orientation = UP
             if PLAYGROUND_Y_OFFSET-20 <= self.yLoc and self.canMoveUp:
                 self.yLoc -= self.__movementSpeed
-        elif k == 3 and self.xLoc + CHAR_WIDTH <= PLAYGROUND_WIDTH-PLAYGROUND_X_OFFSET and self.canMoveRight:
+        elif k == 3 and self.xLoc + CHAR_WIDTH <= PLAYGROUND_LENGTH-PLAYGROUND_X_OFFSET and self.canMoveRight:
             #Move right
             self.orientation = RIGHT
-            if self.xLoc + CHAR_WIDTH <= PLAYGROUND_WIDTH-PLAYGROUND_X_OFFSET and self.canMoveRight:
+            if self.xLoc + CHAR_WIDTH <= PLAYGROUND_LENGTH-PLAYGROUND_X_OFFSET and self.canMoveRight:
                 self.xLoc += self.__movementSpeed
         elif k == 4 and PLAYGROUND_X_OFFSET <= self.xLoc and self.canMoveLeft:
             #Move left
