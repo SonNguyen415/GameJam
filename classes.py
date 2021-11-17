@@ -78,7 +78,7 @@ class Character(pygame.sprite.Sprite):
                             self.canMoveLeft = False
                         if(-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE):
                             self.canMoveRight = False
-                    else: 
+                    else:
                         self.canMoveLeft = True
                         self.canMoveRight = True
                 else:
@@ -137,7 +137,7 @@ class Player(Character, object):
         else:
             self.__staminaRecharge = 0
             self.restore_stamina()
-       
+
 
     def restore_stamina(self):
         if(self.__stamina < MAX_STAMINA):
@@ -170,14 +170,10 @@ class Boomerang(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect(topleft=(xLoc, yLoc))
 
-        self.time = MAX_BMR_TIME
-
-        self.deltaX = 0
-        self.deltaY = 0
-        self.existTime = 0
-
-        self.currSpeed = []
-        self.accel = []
+        self.returning = False
+        self.direction = []
+        self.currSpeed = 0
+        self.accel = 0
 
     def draw(self, surface):
         surface.blit(self.image, (self.xLoc, self.yLoc))
@@ -189,9 +185,17 @@ class Boomerang(pygame.sprite.Sprite):
             return True
         return False
 
+    def check_at_set_point(self, xSetPoint, ySetPoint):
+        if ((xSetPoint - LOC_TOLERANCE <= self.xLoc <= xSetPoint + LOC_TOLERANCE and
+        ySetPoint - LOC_TOLERANCE <= self.yLoc  <= ySetPoint + LOC_TOLERANCE) or
+        (-SPEED_TOLERANCE <= self.currSpeed/2 <= SPEED_TOLERANCE)):
+            return True
+        return False
 
-    def check_finish(self, surface, myPlayer):
-        if (self.existTime >= self.time):
+
+    def check_finish(self, bmrTime, surface, myPlayer):
+        if (bmrTime >= BOOMERANG_TIME or
+        (self.returning == True and self.get_distance(myPlayer.xLoc, myPlayer.yLoc) < 40)):
             self.xLoc = myPlayer.xLoc
             self.yLoc = myPlayer.yLoc
             self.draw(surface)
@@ -200,46 +204,45 @@ class Boomerang(pygame.sprite.Sprite):
         return False
 
 
-    def find_a(self):
-        aX = -self.deltaX/(self.time/2)**2
-        aY = -self.deltaY/(self.time/2)**2
-        return [aX, aY]
+    def find_a(self, xSetPoint, ySetPoint, myPlayer):
+        x = xSetPoint - (myPlayer.xLoc + CHAR_WIDTH/2) + 3
+        y = ySetPoint - (myPlayer.yLoc + CHAR_HEIGHT/2) + 3
+        aX = -x/(BOOMERANG_TIME/2)**2
+        aY = -y/(BOOMERANG_TIME/2)**2
+        return (aX**2 + aY**2)**0.5
+
+    def find_normalized_dir(self, xLoc, yLoc):
+        x = self.xLoc - xLoc
+        y = self.yLoc - yLoc
+        length = (x**2 + y**2)**0.5
+        if length != 0:
+            return [x/length, y/length]
+        return [0,0]
+
+    def find_normalized_dir_player(self, xLoc, yLoc):
+        return self.find_normalized_dir(xLoc + CHAR_WIDTH/2 - 3, yLoc + CHAR_HEIGHT/2 - 3)
+
+    def get_distance(self, xLoc, yLoc):
+        x = self.xLoc - xLoc
+        y = self.yLoc - yLoc
+        return (x**2 + y**2)**0.5
 
 
-    def move_boomerang(self, surface):
-        vx = self.currSpeed[0] + self.accel[0]
-        vy = self.currSpeed[1] + self.accel[1]
-        self.currSpeed = [vx, vy]
-        self.xLoc += vx
-        self.yLoc += vy
+    def move_boomerang(self, surface, xSetPoint, ySetPoint, player):
+        self.currSpeed += self.accel
+        if not self.returning:
+            if(self.check_at_set_point(xSetPoint, ySetPoint)):
+                self.returning = True
+            self.xLoc += self.direction[0] * self.currSpeed
+            self.yLoc += self.direction[1] * self.currSpeed
+        else:
+            direction = self.find_normalized_dir_player(player.xLoc, player.yLoc)
+            self.xLoc -= direction[0] * self.currSpeed
+            self.yLoc -= direction[1] * self.currSpeed
         self.draw(surface)
 
-
-    def adjust_distance(self):
-        distance = math.sqrt(self.deltaX**2 + self.deltaY**2)
-        if(distance > MAX_BMR_DISTANCE):
-            distance = MAX_BMR_DISTANCE
-            if(self.deltaY != 0):
-                xyRatio = self.deltaX/self.deltaY
-                self.ySetPoint = math.sqrt(distance**2 - (xyRatio**2 + 1))
-                self.deltaX = xyRatio*self.deltaY
-            elif (self.deltaX != 0):
-                xyRatio = self.deltaX/self.deltaY
-                self.xSetPoint = math.sqrt(distance**2 - (xyRatio**2 + 1))
-                self.deltaY = xyRatio*self.deltaX
-        return distance
-        
-
-    def spawn_boomerang(self, myPlayer, xSetPoint, ySetPoint):
-        self.deltaX = xSetPoint - (myPlayer.xLoc + CHAR_WIDTH/2) 
-        self.deltaY = ySetPoint - (myPlayer.yLoc + CHAR_HEIGHT/2) 
-        distance = self.adjust_distance()
-        if(distance >= MAX_BMR_DISTANCE):
-            self.time = MAX_BMR_TIME
-        else: 
-            timeRatio = MAX_BMR_DISTANCE / distance
-            self.time = MAX_BMR_TIME / timeRatio**(1/4)
-        a = self.find_a()
-        self.accel = [2*a[0], 2*a[1]]
-        print(self.accel[0])
-        self.currSpeed = [-self.accel[0]*self.time/2, -self.accel[1]*self.time/2]
+    def spawn_boomerang(self, x, y, myPlayer):
+        self.returning = False
+        self.accel = 2*self.find_a(x, y, myPlayer)
+        self.currSpeed = -self.accel*BOOMERANG_TIME/2
+        self.direction = self.find_normalized_dir(x, y)

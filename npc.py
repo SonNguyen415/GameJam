@@ -1,4 +1,4 @@
-    import pygame
+import pygame
 from settings import *
 import time
 from classes import Character, Boomerang, WALK_SPEED
