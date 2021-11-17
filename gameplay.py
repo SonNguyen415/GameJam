@@ -1,6 +1,7 @@
 import pygame
 from classes import *
 from settings import *
+import random
 
 bmr = object
 bmrExist = False
