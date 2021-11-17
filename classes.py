@@ -11,10 +11,15 @@ class Graphics(pygame.sprite.Sprite):
         self.xLoc = xLoc
         self.yLoc = yLoc
 
-        self.image = self.sprites[DOWN][self.currSprite]
+        self.image = pygame.image.load(iconImg)
 
-        self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
+        self.image = pygame.transform.scale(self.image, (ICON_SCALE, ICON_SCALE))
+
     
+    def draw(self, surface):
+        surface.blit(self.image, (self.xLoc, self.yLoc))
+        
+
 
 
 
@@ -23,6 +28,7 @@ class Character(pygame.sprite.Sprite):
          # Call the parent class (Sprite) constructor
         super().__init__()
 
+        self.id = objID
         self.type = "Character"
 
         self.xLoc = xLoc

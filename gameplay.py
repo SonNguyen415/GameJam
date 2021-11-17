@@ -9,6 +9,7 @@ ctr = 0
 npcTimer = 0
 k = 1
 
+
 def get_playground():
     playground = pygame.image.load("Map Play Area/W.png").convert_alpha()
     playground = pygame.transform.scale(playground, (WINDOW_LENGTH, WINDOW_HEIGHT))
@@ -36,7 +37,7 @@ def bmr_gameplay(surface, mouse, player):
 
 
 
-def run_gameplay(surface, mouse, player, npc, spriteList):
+def run_gameplay(surface, mouse, player, npc, heartIcons, spriteList):
     global npcTimer
     global k
 
@@ -45,6 +46,7 @@ def run_gameplay(surface, mouse, player, npc, spriteList):
     surface.blit(PLAY_AREA, (0, 0))
     collidedObject = player.check_collision(spriteList)
     player.handle_keys()
+    # npc.random_movement()
     if (npcTimer==5):
         npcTimer = 0
         k = random.randint(0, 4)
@@ -57,4 +59,6 @@ def run_gameplay(surface, mouse, player, npc, spriteList):
 
     npc.draw(surface)
     player.draw(surface)
+    for i in range(0, 10): 
+        heartIcons[i].draw(surface)
     return "Play"

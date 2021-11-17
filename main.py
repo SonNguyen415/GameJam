@@ -16,6 +16,11 @@ bmrExistTime = 0 # time boomerang has existed
 player = Player(PLAYER_START_X, PLAYER_START_Y, PLAYER_IMG, 0)
 npc = Enemy(PLAYER_START_X + 200, PLAYER_START_Y, PLAYER_IMG, 1)
 
+heartIcons = []
+
+for i in range(0, 10):
+    heartIcons.append(Graphics(20*i+2, 10, 'heart.png'))
+
 bmrExist = False
 currentScreen = "Main"
 
@@ -48,7 +53,7 @@ while running:
     elif currentScreen == "Credits":
         currentScreen = credit_menu(currentScreen)
     elif currentScreen == "Play":
-        currentScreen = run_gameplay(screen, mouse, player, npc, spriteList)
+        currentScreen = run_gameplay(screen, mouse, player, npc, heartIcons, spriteList)
 
     pygame.display.update()
 
