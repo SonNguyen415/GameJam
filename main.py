@@ -4,6 +4,7 @@ from menu import *
 import os
 from dungeon_generation import *
 from gameplay import *
+from npc import Enemy
 
 PLAYER_START_X = 500
 PLAYER_START_Y = 300
@@ -13,7 +14,7 @@ clock = pygame.time.Clock()
 
 bmrExistTime = 0 # time boomerang has existed
 player = Player(PLAYER_START_X, PLAYER_START_Y, PLAYER_IMG)
-npc = Character(PLAYER_START_X + 200, PLAYER_START_Y, PLAYER_IMG)
+npc = Enemy(PLAYER_START_X + 200, PLAYER_START_Y, PLAYER_IMG)
 
 bmrExist = False
 currentScreen = "Main"

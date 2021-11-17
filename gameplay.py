@@ -43,7 +43,9 @@ def run_gameplay(surface, mouse, player, npc, spriteList):
     surface.blit(PLAY_AREA, (0, 0))
     collidedObject = player.check_collision(spriteList)
     player.handle_keys()
+    npc.random_movement()
     player.update_rect()
+
 
     bmr_gameplay(surface, mouse, player)
 

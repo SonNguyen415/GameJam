@@ -27,6 +27,7 @@ class Character(pygame.sprite.Sprite):
 
         self.xLoc = xLoc
         self.yLoc = yLoc
+        self.orientation = DOWN
 
         # Load the image
         self.sprites = charImg
@@ -41,7 +42,6 @@ class Character(pygame.sprite.Sprite):
         # Set our transparent color
         self.image.set_colorkey(COLOR_WHITE)
 
-        self.orientation = DOWN
 
         # Some character data
         self.__health = 10
