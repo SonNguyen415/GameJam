@@ -127,15 +127,15 @@ class Player(Character, object):
 
     def handle_keys(self):
         key = pygame.key.get_pressed()
-        if key[pygame.K_DOWN] and self.yLoc+CHAR_HEIGHT <= PLAYGROUND_HEIGHT-PLAYGROUND_Y_OFFSET and self.canMoveDown:
+        if key[pygame.K_DOWN] and self.yLoc+CHAR_HEIGHT <= PLAYGROUND_HEIGHT+PLAYGROUND_Y_OFFSET and self.canMoveDown:
             self.yLoc += self.movementSpeed
             self.orientation = DOWN
             self.increment_sprite()
-        elif key[pygame.K_UP] and PLAYGROUND_Y_OFFSET <= self.yLoc and self.canMoveUp:
+        elif key[pygame.K_UP] and PLAYGROUND_Y_OFFSET <= self.yLoc+CHAR_HEIGHT-10 and self.canMoveUp:
             self.yLoc -= self.movementSpeed
             self.orientation = UP
             self.increment_sprite()
-        if key[pygame.K_RIGHT] and self.xLoc+CHAR_WIDTH <= PLAYGROUND_LENGTH-PLAYGROUND_X_OFFSET and self.canMoveRight:
+        if key[pygame.K_RIGHT] and self.xLoc+CHAR_WIDTH <= PLAYGROUND_LENGTH+PLAYGROUND_X_OFFSET and self.canMoveRight:
             self.xLoc += self.movementSpeed
             self.orientation = RIGHT
             self.increment_sprite()

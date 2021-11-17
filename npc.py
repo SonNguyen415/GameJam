@@ -1,6 +1,5 @@
 import pygame
 from settings import *
-import time
 from classes import Character, Boomerang, WALK_SPEED
 import math
 
@@ -44,22 +43,25 @@ class Enemy (Character, object):
         if k == 1 and self.yLoc + CHAR_HEIGHT <= PLAYGROUND_HEIGHT-PLAYGROUND_Y_OFFSET and self.canMoveDown:
             #Move down
             self.orientation = DOWN
-            if self.yLoc + CHAR_HEIGHT <= PLAYGROUND_HEIGHT-PLAYGROUND_Y_OFFSET and self.canMoveDown:
-                self.yLoc += self.__movementSpeed
-        elif k == 2 and PLAYGROUND_Y_OFFSET-20 <= self.yLoc and self.canMoveUp:
+            self.yLoc += self.__movementSpeed
+            self.increment_sprite()
+
+        elif k == 2 and PLAYGROUND_Y_OFFSET <= self.yLoc+CHAR_HEIGHT-10 and self.canMoveUp:
             #Move up
             self.orientation = UP
-            if PLAYGROUND_Y_OFFSET-20 <= self.yLoc and self.canMoveUp:
-                self.yLoc -= self.__movementSpeed
-        elif k == 3 and self.xLoc + CHAR_WIDTH <= PLAYGROUND_LENGTH-PLAYGROUND_X_OFFSET and self.canMoveRight:
+            self.yLoc -= self.__movementSpeed
+            self.increment_sprite()
+
+        elif k == 3 and self.xLoc + CHAR_WIDTH <= PLAYGROUND_LENGTH+PLAYGROUND_X_OFFSET and self.canMoveRight:
             #Move right
             self.orientation = RIGHT
-            if self.xLoc + CHAR_WIDTH <= PLAYGROUND_LENGTH-PLAYGROUND_X_OFFSET and self.canMoveRight:
-                self.xLoc += self.__movementSpeed
+            self.xLoc += self.__movementSpeed
+            self.increment_sprite()
+
         elif k == 4 and PLAYGROUND_X_OFFSET <= self.xLoc and self.canMoveLeft:
             #Move left
             self.orientation = LEFT
-            if PLAYGROUND_X_OFFSET <= self.xLoc and self.canMoveLeft:
-                self.xLoc -= self.__movementSpeed
+            self.xLoc -= self.__movementSpeed
+            self.increment_sprite()
 
 
