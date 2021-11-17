@@ -38,6 +38,9 @@ class Enemy (Character):
         dirvect.scale_to_length(self.__movementSpeed)
         self.rect.move_ip(dirvect)
 
+    def whacked(self):
+        if self.rect.colliderect(Boomerang.rect):
+            self.wounded()
 
     def random_movement(self, k):
         if k == 1 and self.yLoc + CHAR_HEIGHT <= 600 and self.canMoveDown:
@@ -55,7 +58,6 @@ class Enemy (Character):
             self.orientation = RIGHT
             if self.xLoc + CHAR_WIDTH <= 1000 and self.canMoveRight:
                 self.xLoc += self.__movementSpeed
-            else
         elif k == 4 and 0 <= self.xLoc and self.canMoveLeft:
             #Move left
             self.orientation = LEFT
