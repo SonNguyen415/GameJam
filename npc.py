@@ -10,7 +10,7 @@ class Enemy (Character):
         self.sightLength = 100
         self.orientation = Character.orientation
         self.__movementSpeed = WALK_SPEED + 1
-        self.agro = false
+        self.agro = False
 
     def draw(self, surface):
         surface.blit(self.image, (self.xLoc, self.yLoc))
@@ -27,7 +27,7 @@ class Enemy (Character):
         if (distance<self.sightLength):
             #if angle is between
             if (angle>leftRange and angle<rightRange):
-                self.agro = true
+                self.agro = True
 
 
     def move_towards_player(self, xLoc, yLoc):
