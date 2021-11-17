@@ -40,7 +40,7 @@ class Enemy (Character, object):
         if self.rect.colliderect(Boomerang.rect):
             self.wounded()
 
-    def random_movement(self):
+    def random_movement(self, k):
         if k == 1 and self.yLoc + CHAR_HEIGHT <= 600 and self.canMoveDown:
             #Move down
             self.orientation = DOWN
