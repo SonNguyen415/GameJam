@@ -131,7 +131,7 @@ class Player(Character, object):
         else:
             self.__staminaRecharge = 0
             self.restore_stamina()
-       
+
 
     def restore_stamina(self):
         if(self.__stamina < MAX_STAMINA):
