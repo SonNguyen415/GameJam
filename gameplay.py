@@ -4,7 +4,6 @@ from settings import *
 
 bmr = object
 bmrExist = False
-bmrExistTime = 0
 ctr = 0
 
 
@@ -18,21 +17,18 @@ def get_playground():
 
 def bmr_gameplay(surface, mouse, player):
     global bmrExist
-    global bmrExistTime
     global ctr
     global bmr
     if(ctr <  WAIT_TIME):
         ctr += 1
     if (bmrExist == False and pygame.mouse.get_pressed()[0] and ctr >= WAIT_TIME):
-        print("yes")
         bmr = player.spawn_boomerang(surface)
-        bmr.spawn_boomerang(mouse, player, mouse[0], mouse[1])
+        bmr.spawn_boomerang(player, mouse[0], mouse[1])
         bmrExist = True
-        bmrExistTime = 0
     elif (bmrExist):
-        bmrExistTime += 1
-        bmr.move_boomerang(surface, mouse[0], mouse[1])
-        bmrExist = not bmr.check_finish(bmrExistTime, surface, player)
+        bmr.existTime += 1
+        bmr.move_boomerang(surface)
+        bmrExist = not bmr.check_finish(surface, player)
         
 
 
