@@ -6,8 +6,8 @@ bmr = object
 bmrExist = False
 bmrTime = 0
 ctr = 0
-
-
+npcTimer = 0
+k = 1
 
 
 def get_playground():
@@ -38,6 +38,8 @@ def bmr_gameplay(surface, mouse, player):
 
 
 def run_gameplay(surface, mouse, player, npc, heartIcons, spriteList):
+    global npcTimer
+    global k
 
     PLAY_AREA = get_playground()
 
@@ -45,6 +47,13 @@ def run_gameplay(surface, mouse, player, npc, heartIcons, spriteList):
     collidedObject = player.check_collision(spriteList)
     player.handle_keys()
     # npc.random_movement()
+    if (npcTimer==5):
+        npcTimer = 0
+        k = random.randint(0, 4)
+    npcTimer+=1
+    npc.random_movement(k)
+
+
     player.update_rect()
 
 

@@ -57,4 +57,4 @@ while running:
 
     pygame.display.update()
 
-    clock.tick(20)
+    clock.tick(FPS)
