@@ -50,7 +50,6 @@ def run_gameplay(surface, mouse, player, npc, spriteList):
         k = random.randint(0, 4)
     npcTimer+=1
     npc.random_movement(k)
-
     player.update_rect()
 
 
