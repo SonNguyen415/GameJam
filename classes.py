@@ -19,7 +19,7 @@ class Graphics(pygame.sprite.Sprite):
 
 
 class Character(pygame.sprite.Sprite):
-    def __init__(self, xLoc, yLoc, charImg):
+    def __init__(self, xLoc, yLoc, charImg, objID):
          # Call the parent class (Sprite) constructor
         super().__init__()
 
@@ -112,8 +112,8 @@ class Character(pygame.sprite.Sprite):
 
 
 class Player(Character, object):
-    def __init__(self, xLoc, yLoc, charImg):
-        Character.__init__(self, xLoc, yLoc, charImg)
+    def __init__(self, xLoc, yLoc, charImg, objID):
+        Character.__init__(self, xLoc, yLoc, charImg, objID)
 
         self.__staminaRecharge = 0
         self.__stamina = MAX_STAMINA

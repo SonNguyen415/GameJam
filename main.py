@@ -13,8 +13,8 @@ clock = pygame.time.Clock()
 
 
 bmrExistTime = 0 # time boomerang has existed
-player = Player(PLAYER_START_X, PLAYER_START_Y, PLAYER_IMG)
-npc = Enemy(PLAYER_START_X + 200, PLAYER_START_Y, PLAYER_IMG)
+player = Player(PLAYER_START_X, PLAYER_START_Y, PLAYER_IMG, 0)
+npc = Enemy(PLAYER_START_X + 200, PLAYER_START_Y, PLAYER_IMG, 1)
 
 bmrExist = False
 currentScreen = "Main"
@@ -52,4 +52,4 @@ while running:
 
     pygame.display.update()
 
-    clock.tick(20)
+    clock.tick(FPS)
