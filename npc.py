@@ -36,9 +36,6 @@ class Enemy (Character):
         dirvect.scale_to_length(self.__movementSpeed)
         self.rect.move_ip(dirvect)
 
-    def smacked (self):
-        if self.rect.colliderect(Boomerang):
-            self.wounded()
 
     def random_movement(self):
         k = math.randint(0, 8)
@@ -71,4 +68,4 @@ class Enemy (Character):
                 self.xLoc -= self.__movementSpeed
                 i+=1
         elif k == 0:
-            time.sleep(3)
+
