@@ -4,6 +4,7 @@ from settings import *
 
 bmr = object
 bmrExist = False
+bmrTime = 0
 ctr = 0
 
 

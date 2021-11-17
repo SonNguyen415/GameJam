@@ -1,7 +1,21 @@
 import pygame
 from settings import *
 import time
-import math
+
+class Graphics(pygame.sprite.Sprite):
+    def __init__(self, xLoc, yLoc, iconImg):
+         # Call the parent class (Sprite) constructor
+        super().__init__()
+        self.type = "Graphics"
+
+        self.xLoc = xLoc
+        self.yLoc = yLoc
+
+        self.image = self.sprites[DOWN][self.currSprite]
+
+        self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
+    
+
 
 
 class Character(pygame.sprite.Sprite):
@@ -27,7 +41,7 @@ class Character(pygame.sprite.Sprite):
         # Set our transparent color
         self.image.set_colorkey(COLOR_WHITE)
 
-        self.orientation = 0
+        self.orientation = DOWN
 
         # Some character data
         self.__health = 10
