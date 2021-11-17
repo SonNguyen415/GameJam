@@ -41,25 +41,25 @@ class Enemy (Character, object):
             self.wounded()
 
     def random_movement(self, k):
-        if k == 1 and self.yLoc + CHAR_HEIGHT <= 600 and self.canMoveDown:
+        if k == 1 and self.yLoc + CHAR_HEIGHT <= PLAYGROUND_HEIGHT-PLAYGROUND_Y_OFFSET and self.canMoveDown:
             #Move down
             self.orientation = DOWN
-            if self.yLoc + CHAR_HEIGHT <= 600 and self.canMoveDown:
+            if self.yLoc + CHAR_HEIGHT <= PLAYGROUND_HEIGHT-PLAYGROUND_Y_OFFSET and self.canMoveDown:
                 self.yLoc += self.__movementSpeed
-        elif k == 2 and 0 <= self.yLoc and self.canMoveUp:
+        elif k == 2 and PLAYGROUND_Y_OFFSET-20 <= self.yLoc and self.canMoveUp:
             #Move up
             self.orientation = UP
-            if 0 <= self.yLoc and self.canMoveUp:
+            if PLAYGROUND_Y_OFFSET-20 <= self.yLoc and self.canMoveUp:
                 self.yLoc -= self.__movementSpeed
-        elif k == 3 and self.xLoc + CHAR_WIDTH <= 1000 and self.canMoveRight:
+        elif k == 3 and self.xLoc + CHAR_WIDTH <= PLAYGROUND_WIDTH-PLAYGROUND_X_OFFSET and self.canMoveRight:
             #Move right
             self.orientation = RIGHT
-            if self.xLoc + CHAR_WIDTH <= 1000 and self.canMoveRight:
+            if self.xLoc + CHAR_WIDTH <= PLAYGROUND_WIDTH-PLAYGROUND_X_OFFSET and self.canMoveRight:
                 self.xLoc += self.__movementSpeed
-        elif k == 4 and 0 <= self.xLoc and self.canMoveLeft:
+        elif k == 4 and PLAYGROUND_X_OFFSET <= self.xLoc and self.canMoveLeft:
             #Move left
             self.orientation = LEFT
-            if 0 <= self.xLoc and self.canMoveLeft:
+            if PLAYGROUND_X_OFFSET <= self.xLoc and self.canMoveLeft:
                 self.xLoc -= self.__movementSpeed
 
 
