@@ -11,7 +11,7 @@ PLAYER_START_Y = 300
 clock = pygame.time.Clock()
 
 
-bmrTime = 0 # time boomerang has existed
+bmrExistTime = 0 # time boomerang has existed
 player = Player(PLAYER_START_X, PLAYER_START_Y, PLAYER_IMG)
 npc = Character(PLAYER_START_X + 200, PLAYER_START_Y, PLAYER_IMG)
 

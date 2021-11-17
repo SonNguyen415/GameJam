@@ -1,8 +1,7 @@
 import pygame
 from settings import *
 import time
-
-
+import math
 
 
 class Character(pygame.sprite.Sprite):
@@ -171,6 +170,7 @@ class Boomerang(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect(topleft=(xLoc, yLoc))
 
+        self.time = MAX_BMR_TIME
 
         self.currSpeed = []
         self.accel = []
@@ -224,7 +224,11 @@ class Boomerang(pygame.sprite.Sprite):
             self.yLoc += vy
         self.draw(surface)
 
-    def spawn_boomerang(self, mouse, myPlayer):
+    def spawn_boomerang(self, mouse, myPlayer, xSetPoint, ySetPoint):
+        distance = math.sqrt(xSetPoint**2 + ySetPoint**2)
+        ratio = MAX_BMR_DISTANCE / distance
+        if(MAX_BMR_DISTANCE >= 1):
+            self.time = MAX_BMR_TIME/ratio**2
         a = self.find_a(mouse[0], mouse[1], myPlayer)
         self.accel = [2*a[0], 2*a[1]]
-        self.currSpeed = [-self.accel[0]*BOOMERANG_TIME/2, -self.accel[1]*BOOMERANG_TIME/2]
+        self.currSpeed = [-self.accel[0]*self.time/2, -self.accel[1]*self.time/2]
