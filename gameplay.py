@@ -9,6 +9,7 @@ ctr = 0
 
 
 
+
 def get_playground():
     playground = pygame.image.load("Map Play Area/W.png").convert_alpha()
     playground = pygame.transform.scale(playground, (WINDOW_LENGTH, WINDOW_HEIGHT))
@@ -36,14 +37,14 @@ def bmr_gameplay(surface, mouse, player):
 
 
 
-def run_gameplay(surface, mouse, player, npc, spriteList):
+def run_gameplay(surface, mouse, player, npc, heartIcons, spriteList):
 
     PLAY_AREA = get_playground()
 
     surface.blit(PLAY_AREA, (0, 0))
     collidedObject = player.check_collision(spriteList)
     player.handle_keys()
-    npc.random_movement()
+    # npc.random_movement()
     player.update_rect()
 
 
@@ -51,4 +52,6 @@ def run_gameplay(surface, mouse, player, npc, spriteList):
 
     npc.draw(surface)
     player.draw(surface)
+    for i in range(0, 10): 
+        heartIcons[i].draw(surface)
     return "Play"

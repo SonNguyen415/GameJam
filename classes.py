@@ -11,18 +11,24 @@ class Graphics(pygame.sprite.Sprite):
         self.xLoc = xLoc
         self.yLoc = yLoc
 
-        self.image = self.sprites[DOWN][self.currSprite]
+        self.image = pygame.image.load(iconImg)
 
-        self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
+        self.image = pygame.transform.scale(self.image, (ICON_SCALE, ICON_SCALE))
+
     
+    def draw(self, surface):
+        surface.blit(self.image, (self.xLoc, self.yLoc))
+        
+
 
 
 
 class Character(pygame.sprite.Sprite):
-    def __init__(self, xLoc, yLoc, charImg):
+    def __init__(self, xLoc, yLoc, charImg, objID):
          # Call the parent class (Sprite) constructor
         super().__init__()
 
+        self.id = objID
         self.type = "Character"
 
         self.xLoc = xLoc
@@ -112,8 +118,8 @@ class Character(pygame.sprite.Sprite):
 
 
 class Player(Character, object):
-    def __init__(self, xLoc, yLoc, charImg):
-        Character.__init__(self, xLoc, yLoc, charImg)
+    def __init__(self, xLoc, yLoc, charImg, objID):
+        Character.__init__(self, xLoc, yLoc, charImg, objID)
 
         self.__staminaRecharge = 0
         self.__stamina = MAX_STAMINA
