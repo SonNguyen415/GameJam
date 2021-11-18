@@ -1,7 +1,7 @@
 import pygame
 from settings import *
 import time
-from dungeon_generation import playerPosition
+from dungeon_generation import playerPosition, updateMap()
 
 
 class Objects(pygame.sprite.Sprite):
@@ -32,3 +32,4 @@ class Objects(pygame.sprite.Sprite):
             playerPosition[0] -= 1
         elif self.rot == 'E':
             playerPosition[0] += 1
+        updateMap()

@@ -231,13 +231,32 @@ def reset(answer):
         return gridStats
 
 
+
+
+
+
+
+
+
 def display(screen):
     for i in range(len(playerGrid)):
         for j in range(len(playerGrid[i])):
             image = pygame.image.load(IMAGES[playerGrid[i][j]][0])
             image = pygame.transform.scale(image, (20,20))
             screen.blit(image, ((0+(j*19)) , (505+(i*19))))
-    pygame.draw.circle(screen, (255,0,0), (10+((playerPosition[0])*19), 515+((playerPosition[1])*19)), 5)
+    pygame.draw.circle(screen, (255,0,0), (10+((playerPosition[0])*19), 515+((playerPosition[1])*19)), 3)
+
+def updateMap():
+    pGrid = playerGrid[playerPosition[0]][playerPosition[1]]
+    if pGrid == 'B':
+        pGrid = grid[playerPosition[0]][playerPosition[1]]
+
+
+
+
+
+
+
 
 def checkForDoors(i,j):
     directions = []
