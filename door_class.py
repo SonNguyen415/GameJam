@@ -1,8 +1,7 @@
 import pygame
 from settings import *
 import time
-
-playerPosition = [2,2]
+from dungeon_generation import playerPosition
 
 
 class Door(pygame.sprite.Sprite):

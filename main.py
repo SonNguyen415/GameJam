@@ -46,6 +46,8 @@ while running:
 
     mouse = pygame.mouse.get_pos()
 
+
+
     # Game states
     if currentScreen == "Main":
         currentScreen = main_menu(currentScreen)
@@ -53,6 +55,9 @@ while running:
         currentScreen = credit_menu(currentScreen)
     elif currentScreen == "Play":
         currentScreen = run_gameplay(screen, mouse, player, npc, heartIcons, spriteList)
+
+        # Minimap Gen
+        display(screen)
 
     pygame.display.update()
 
