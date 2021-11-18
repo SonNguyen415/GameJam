@@ -1,7 +1,11 @@
 import pygame
+import pygame.font
 from settings import *
 import time
 import math
+
+pygame.font.init()
+
 
 class Graphics(pygame.sprite.Sprite):
     def __init__(self, xLoc, yLoc, iconImg):
@@ -15,12 +19,10 @@ class Graphics(pygame.sprite.Sprite):
         self.image = pygame.image.load(iconImg)
 
         self.image = pygame.transform.scale(self.image, (ICON_SCALE, ICON_SCALE))
-
-
+        self.rect = self.image.get_rect(topleft=(xLoc, yLoc))
+    
     def draw(self, surface):
         surface.blit(self.image, (self.xLoc, self.yLoc))
-
-
 
 
 
@@ -159,9 +161,6 @@ class Player(Character, object):
             self.xLoc -= self.movementSpeed
             self.orientation = LEFT
             self.increment_sprite()
-
-        # if key[pygame.K_e] and collidedObject.type == "Artifacts":
-        #     self.interact()
         if key[pygame.K_LSHIFT]:
             if(self.__stamina >= 3):
                 self.movementSpeed = SPRINT_SPEED
@@ -174,10 +173,13 @@ class Player(Character, object):
             self.__staminaRecharge = 0
             self.restore_stamina()
 
+    
+   
 
     def restore_stamina(self):
         if(self.__stamina < MAX_STAMINA):
             self.__stamina += 1
+
 
     def spawn_boomerang(self, surface):
         bmrX = self.xLoc + CHAR_WIDTH/2
@@ -186,10 +188,13 @@ class Player(Character, object):
         bmr.draw(surface)
         return bmr
 
-    def interact(self, object, isArtifact):
-        if(self.check_collision(object)):
-            self.speaking = True
 
+
+    def generate_text(self, surface):
+        font = pygame.font.SysFont('Arial', 10) 
+        textsurface  = font.render('Press e to view artifact', False, COLOR_WHITE).convert_alpha()
+        surface.blit(textsurface, (self.xLoc,self.yLoc))
+        
 
 
 

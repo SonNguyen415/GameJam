@@ -1,6 +1,7 @@
 import pygame
 from classes import *
 from settings import *
+import time
 import random
 from dungeon_generation import *
 
@@ -11,6 +12,17 @@ ctr = 0
 npcTimer = 0
 k = 1
 
+
+artifactList = [[],[]]
+
+
+def show_curr_artifact(player):
+    for artifact, i in enumerate(artifactList[0]):
+        if artifact.rect.colliderect(player.rect):
+            player.generate_text()
+            if key[pygame.K_e]:
+                artifactList[1][i].draw()
+                time.sleep(10)
 
 def initiate_doors():
     for i in playerGrid[playerPosition[0]][playerPosition[1]]:
