@@ -3,6 +3,7 @@ import pygame.font
 from settings import *
 import time
 import math
+from dungeon_generation import *
 
 pygame.font.init()
 
@@ -62,8 +63,6 @@ class Character(pygame.sprite.Sprite):
 
     def draw(self, surface):
         # blit yourself at your current position
-        if(self.alive == False):
-            return
         if(self.orientation == UP):
             self.image = self.sprites[UP][self.currSprite]
         if(self.orientation == DOWN):
@@ -76,25 +75,18 @@ class Character(pygame.sprite.Sprite):
         surface.blit(self.image, (self.xLoc, self.yLoc))
 
     def wounded(self, damage):
-        if(self.alive == False):
-            return
         self.health -= damage
         if(self.health == 0):
             self.alive = False
 
 
     def increment_sprite(self):
-        if(self.alive == False):
-            return
         if(self.currSprite < 2):
             self.currSprite += 1
         else:
             self.currSprite = 0
 
     def update_rect(self):
-        if(self.alive == False):
-            self.kill()
-            return
         self.rect.update(self.xLoc, self.yLoc, CHAR_WIDTH, CHAR_HEIGHT)
 
 
@@ -128,8 +120,6 @@ class Character(pygame.sprite.Sprite):
 
 
     def check_collision(self, spriteList):
-        if(self.alive == False):
-            return
         for eachSprite in spriteList:
             if(eachSprite.type == self.type):
                 pass
@@ -246,7 +236,7 @@ class Enemy (Character, object):
         self.rect.move_ip(dirvect)
 
     def whacked(self):
-        self.wounded(self.health)
+        self.wounded(BMR_DMG)
 
     def random_movement(self, k):
         if k == 1 and self.yLoc + CHAR_HEIGHT <= PLAYGROUND_HEIGHT-PLAYGROUND_Y_OFFSET and self.canMoveDown:
@@ -284,7 +274,7 @@ class Boomerang(pygame.sprite.Sprite):
         self.xLoc = xLoc
         self.yLoc = yLoc
 
-        self.image = pygame.image.load("Objects/icon.png")
+        self.image = pygame.image.load("icon.png")
         self.image = pygame.transform.scale(self.image, (BOOMERANG_SIZE, BOOMERANG_SIZE))
 
         self.rect = self.image.get_rect(topleft=(xLoc, yLoc))
@@ -399,3 +389,40 @@ class Boomerang(pygame.sprite.Sprite):
         self.accel = 2*self.find_a(x, y, myPlayer)
         self.currSpeed = -self.accel*BOOMERANG_TIME/2
         self.direction = self.find_normalized_dir(x, y)
+
+
+class Door(pygame.sprite.Sprite):
+    def __init__(self, xLoc, yLoc, objImg, rotation):
+        super().__init__()
+
+        self.type = 'door'
+
+        self.xLoc = xLoc
+        self.yLoc = yLoc
+
+        self.state = 'locked'
+
+        self.image  = objImg
+
+        self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
+
+
+        self.rot = rotation
+
+    def rotate(self, angle):
+        self.image = pygame.transform.rotate(self.image, angle)
+
+    def draw(self, surface):
+        surface.blit(self.image, (self.xLoc, self.yLoc))
+
+
+    def change_position(self):
+        if self.rot == 'N':
+            playerPosition[1] -= 1
+        elif self.rot == 'S':
+            playerPosition[1] += 1
+        elif self.rot == 'W':
+            playerPosition[0] -= 1
+        elif self.rot == 'E':
+            playerPosition[0] += 1
+        updateMap(spriteList)
