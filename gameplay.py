@@ -22,7 +22,7 @@ def get_playground():
 
 
 
-def bmr_gameplay(surface, mouse, player):
+def bmr_gameplay(surface, mouse, player, spriteList):
     global bmrExist
     global bmrTime
     global ctr
@@ -36,7 +36,7 @@ def bmr_gameplay(surface, mouse, player):
         bmrTime = 0
     elif (bmrExist):
         bmrTime += 1
-        bmr.move_boomerang(surface, mouse[0], mouse[1], player)
+        bmr.move_boomerang(surface, mouse[0], mouse[1], player, spriteList)
         bmrExist = not bmr.check_finish(bmrTime, surface, player)
 
 
@@ -70,7 +70,7 @@ def run_gameplay(surface, mouse, player, npc, heartIcons, spriteList):
     surface.blit(PLAY_AREA, (0, 0))
 
     update_game(player, npc, surface, spriteList)
-    bmr_gameplay(surface, mouse, player)
+    bmr_gameplay(surface, mouse, player, spriteList)
 
 
     for i in range(0, player.health):

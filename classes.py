@@ -228,8 +228,7 @@ class Enemy (Character, object):
         self.rect.move_ip(dirvect)
 
     def whacked(self):
-        if self.rect.colliderect(Boomerang.rect):
-            self.wounded()
+        self.wounded(BMR_DMG)
 
     def random_movement(self, k):
         if k == 1 and self.yLoc + CHAR_HEIGHT <= PLAYGROUND_HEIGHT-PLAYGROUND_Y_OFFSET and self.canMoveDown:
@@ -334,7 +333,7 @@ class Boomerang(pygame.sprite.Sprite):
         return (x**2 + y**2)**0.5
 
 
-    def move_boomerang(self, surface, xSetPoint, ySetPoint, player):
+    def move_boomerang(self, surface, xSetPoint, ySetPoint, player, spriteList):
         self.currSpeed += self.accel
         if not self.returning:
             if(self.check_at_set_point(xSetPoint, ySetPoint)):
@@ -345,7 +344,24 @@ class Boomerang(pygame.sprite.Sprite):
             direction = self.find_normalized_dir_player(player.xLoc, player.yLoc)
             self.xLoc -= direction[0] * self.currSpeed
             self.yLoc -= direction[1] * self.currSpeed
+        self.rect = self.image.get_rect(topleft=(self.xLoc, self.yLoc))
         self.draw(surface)
+        for sprite in spriteList:
+            if self.rect.colliderect(sprite.rect):
+                if sprite.type == "npc":
+                    if not self.returning:
+                        self.returning = True
+                        self.currSpeed = 0
+                        sprite.whacked()
+                    else:
+                        sprite.whacked()
+
+                elif sprite.type != "player":
+                    if not self.returning:
+                        self.returning = True
+                        self.currSpeed = 0
+
+
 
     def spawn_boomerang(self, x, y, myPlayer):
         self.returning = False
