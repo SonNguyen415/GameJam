@@ -4,7 +4,7 @@ import time
 from dungeon_generation import playerPosition, updateMap
 
 
-class Objects(pygame.sprite.Sprite):
+class Door(pygame.sprite.Sprite):
     def __init__(self, xLoc, yLoc, objImg, rotation):
         super().__init__()
 
