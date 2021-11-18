@@ -1,109 +1,77 @@
 import pygame
 import sys
+import button
+from settings import WINDOW_HEIGHT, WINDOW_LENGTH
+
 
 #initialize pygame
 pygame.init()
 
 # Generate Window
-screen = pygame.display.set_mode((500, 500))
+screen = pygame.display.set_mode((WINDOW_LENGTH, WINDOW_HEIGHT))
 
 # Title and Icon
 pygame.display.set_caption("Jelly Jammers")
 icon = pygame.image.load('icon.png')
 pygame.display.set_icon(icon)
 
+# Title and Icon
+pygame.display.set_caption("Jelly Jammers")
+icon = pygame.image.load('icon.png')
+pygame.display.set_icon(icon)
+
+# Set image path as variables for later use
+START_IMG = pygame.image.load("Button Icons/Play Button.png").convert_alpha()
+EXIT_IMG = pygame.image.load("Button Icons/Quit Button.png").convert_alpha()
+CREDIT_IMG = pygame.image.load("Button Icons/Credit Button.png").convert_alpha()
+BACK_IMG = pygame.image.load("Button Icons/Back Button.png").convert_alpha()
+BACKGROUND = pygame.image.load("Backgrounds/Background.png")
+BG_CREDITS = pygame.image.load("Backgrounds/Background Credits.png")
+
+WIDTH = screen.get_width()
+HEIGHT = screen.get_height()
+startButtonWidth = START_IMG.get_width()
+exitButtonWidth = EXIT_IMG.get_width()
+creditButtonWidth = CREDIT_IMG.get_width()
+backButtonWidth = BACK_IMG.get_width()
+backButtonHeight = BACK_IMG.get_height()
 
 
+startButton = button.Button(((WIDTH/2) - (startButtonWidth*4/2)), 100, START_IMG, 4)
+exitButton = button.Button(((WIDTH/2) - (exitButtonWidth*4/2)), 400, EXIT_IMG, 4)
+creditButton = button.Button(((WIDTH/2) - (creditButtonWidth*4/2)), 250, CREDIT_IMG, 4)
+backButton = button.Button(50, ((HEIGHT/2) - (backButtonHeight*3/2)), BACK_IMG, 3)
 
-# white color
-color = (255,255,255)
-# light shade of the button
-color_light = (255,170,0)
-# dark shade of the button
-color_dark = (180,130,0)
+sound = pygame.mixer.Sound('sound.mp3')
 
-# get width and height for later reference
-width = screen.get_width()
-height = screen.get_height()
-button_width = 140
-button_height = 40
+#----------------------------------------------#
 
+def main_menu(currScreen):
+    screen.blit(BACKGROUND, (0,0))
 
-# set font
-smallfont = pygame.font.SysFont('Corbel', 40)
+    if startButton.draw(screen):
+        sound.play()
+        return "Play"
+    if exitButton.draw(screen):
+        pygame.quit()
+    if creditButton.draw(screen):
+        currScreen = "Credits"
 
-credit_names = ("Oliver"
-                "Fred"
-                "Son"
-                "Warren")
-
-# renders text
-quit_text = smallfont.render('Quit' , True , color)
-credit_text = smallfont.render('Credits', True, color)
-credits = smallfont.render(credit_names, True, color)
-play_text = smallfont.render('Play', True, color)
-
-current_screen = "Main Menu"
-
-# Game Loop
-running = True
-while running:
-    for event in pygame.event.get():
-
-        if event.type == pygame.QUIT:
-            pygame.quit()
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                pygame.quit()
-
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            if width/2-70 <= mouse[0] <= width/2+70 and height/2-20 <= mouse[1] <= height/2+20:
-                screen.fill((100,60,25))
-                current_screen = "Credits"
-            elif width/2-70 <= mouse[0] <= width/2+70 and height/2+40 <= mouse[1] <= height/2+80:
-                pygame.quit()
-            elif width/2-70 <= mouse[0] <= width/2+70 and height/2-80 <= mouse[1] <= height/2+80:
-                screen.fill((100,60,25))
-
-
-    screen.fill((100,60,25))
-
-    mouse = pygame.mouse.get_pos()
-
-    if current_screen == "Main Menu":
-        # Credit button
-        if width/2-70 <= mouse[0] <= width/2+70 and height/2-20 <= mouse[1] <= height/2+20:
-            pygame.draw.rect(screen,color_light,[(width/2-70),(height/2-20),140,40])
-            screen.blit(credit_text , (width/2-50,height/2-10))
-        else:
-            pygame.draw.rect(screen,color_dark,[(width/2-70),(height/2-20),140,40])
-            screen.blit(credit_text , (width/2-50,height/2-10))
-
-
-
-            # Quit button
-        if width/2-70 <= mouse[0] <= width/2+70 and height/2+40 <= mouse[1] <= height/2+80:
-            pygame.draw.rect(screen,color_light,[(width/2-70),(height/2+40),140,40])
-            screen.blit(quit_text , (width/2-32.5,height/2+50))
-        else:
-            pygame.draw.rect(screen,color_dark,[(width/2-70),(height/2+40),140,40])
-            screen.blit(quit_text , (width/2-32.5,height/2+50))
-
-
-
-
-            # Play Button
-        if width/2-70 <= mouse[0] <= width/2+70 and height/2-80 <= mouse[1] <= height/2-40:
-            pygame.draw.rect(screen,color_light,[(width/2-70),(height/2-80),140,40])
-            screen.blit(play_text , (width/2-32.5,height/2-70))
-        else:
-            pygame.draw.rect(screen,color_dark,[(width/2-70),(height/2-80),140,40])
-            screen.blit(play_text , (width/2-32.5,height/2-70))
-
-
-
-    elif current_screen == "Credits":
-        screen.blit(credits , (width/2,height/2))
-
-    # updates the frames of the game
     pygame.display.update()
+
+    return currScreen
+
+#----------------------------------------------#
+
+def credit_menu(currScreen):
+    currScreen = "Credits"
+
+    screen.blit(BG_CREDITS, (0,0))
+
+    if backButton.draw(screen):
+        currScreen = "Main"
+
+    pygame.display.update()
+
+    return currScreen
+
