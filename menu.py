@@ -1,13 +1,14 @@
 import pygame
 import sys
 import button
+from settings import WINDOW_HEIGHT, WINDOW_LENGTH
 
 
 #initialize pygame
 pygame.init()
 
 # Generate Window
-screen = pygame.display.set_mode((1000, 600))
+screen = pygame.display.set_mode((WINDOW_LENGTH, WINDOW_HEIGHT))
 
 # Title and Icon
 pygame.display.set_caption("Jelly Jammers")
@@ -63,7 +64,7 @@ def main_menu(currScreen):
 #----------------------------------------------#
 
 def credit_menu(currScreen):
-    changeScreen = "Credits"
+    currScreen = "Credits"
 
     screen.blit(BG_CREDITS, (0,0))
 
