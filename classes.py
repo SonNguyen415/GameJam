@@ -1,11 +1,40 @@
 import pygame
 import pygame.font
 from settings import *
+from dungeon_generation import *
 import time
 import math
-from dungeon_generation import *
 
 pygame.font.init()
+
+
+def initiate_doors(spriteList):
+    for i in playerGrid[playerPosition[0]][playerPosition[1]]:
+        if i == 'N':
+            north = Door(500,100, DOOR_IMG, 'N')
+            spriteList.append(north)
+            north.draw(screen)
+        elif i == 'S':
+            south = Door(500,500, DOOR_IMG, 'S')
+            spriteList.append(south)
+            south.rotate(180)
+            south.draw(screen)
+        elif i == 'W':
+            west = Door(100,300, DOOR_IMG, 'W')
+            spriteList.append(west)
+            west.rotate(90)
+            west.draw(screen)
+        elif i == 'E':
+            east = Door(900,300, DOOR_IMG, 'E')
+            spriteList.append(east)
+            east.rotate(270)
+            east.draw(screen)
+
+def updateMap(spriteList):
+    pGrid = playerGrid[playerPosition[0]][playerPosition[1]]
+    if pGrid == 'B':
+        pGrid = grid[playerPosition[0]][playerPosition[1]]
+    initiate_doors(spriteList)
 
 
 class Graphics(pygame.sprite.Sprite):
@@ -20,7 +49,7 @@ class Graphics(pygame.sprite.Sprite):
         self.image = pygame.image.load(iconImg)
 
         self.image = pygame.transform.scale(self.image, (ICON_SCALE, ICON_SCALE))
-        self.rect = self.image.get_rect(topleft=(xLoc, yLoc))
+        self.rect = self.image.get_rect(topleft=(self.xLoc, self.yLoc))
 
     def draw(self, surface):
         surface.blit(self.image, (self.xLoc, self.yLoc))
@@ -45,7 +74,7 @@ class Character(pygame.sprite.Sprite):
 
         self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
 
-        self.rect = self.image.get_rect(topleft=(xLoc, yLoc))
+        self.rect = self.image.get_rect(topleft=(self.xLoc, self.yLoc))
 
 
         # Set our transparent color
@@ -124,12 +153,13 @@ class Character(pygame.sprite.Sprite):
             if(eachSprite.type == self.type):
                 pass
             elif(self.rect.colliderect(eachSprite.rect)):
-                if(eachSprite.type == "door" and self.type == "player"):
-                    # updateMap()
-                    # initiate_doors()print
-                    print("it Works!")
-                    return
                 self.collision_enforcement(eachSprite)
+
+                if(eachSprite.type == "door" and self.type == "player"):
+                    
+                    updateMap(spriteList)
+                    # initiate_doors()print
+                    return
             else:
                 self.canMoveRight = True
                 self.canMoveLeft = True
@@ -277,7 +307,7 @@ class Boomerang(pygame.sprite.Sprite):
         self.image = pygame.image.load("icon.png")
         self.image = pygame.transform.scale(self.image, (BOOMERANG_SIZE, BOOMERANG_SIZE))
 
-        self.rect = self.image.get_rect(topleft=(xLoc, yLoc))
+        self.rect = self.image.get_rect(topleft=(self.xLoc, self.yLoc))
 
         self.returning = False
         self.direction = []
@@ -391,6 +421,8 @@ class Boomerang(pygame.sprite.Sprite):
         self.direction = self.find_normalized_dir(x, y)
 
 
+
+
 class Door(pygame.sprite.Sprite):
     def __init__(self, xLoc, yLoc, objImg, rotation):
         super().__init__()
@@ -405,7 +437,7 @@ class Door(pygame.sprite.Sprite):
         self.image  = objImg
 
         self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
-
+        self.rect = self.image.get_rect(topleft=(self.xLoc, self.yLoc))
 
         self.rot = rotation
 
@@ -416,12 +448,12 @@ class Door(pygame.sprite.Sprite):
         surface.blit(self.image, (self.xLoc, self.yLoc))
 
 
-    def change_position(self):
-        if self.rot == 'N':
-            playerPosition[1] -= 1
-        elif self.rot == 'S':
-            playerPosition[1] += 1
-        elif self.rot == 'W':
-            playerPosition[0] -= 1
-        elif self.rot == 'E':
-            playerPosition[0] += 1
+    # def change_position(self):
+    #     if self.rot == 'N':
+    #         playerPosition[1] -= 1
+    #     elif self.rot == 'S':
+    #         playerPosition[1] += 1
+    #     elif self.rot == 'W':
+    #         playerPosition[0] -= 1
+    #     elif self.rot == 'E':
+    #         playerPosition[0] += 1

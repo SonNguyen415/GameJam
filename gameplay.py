@@ -1,4 +1,5 @@
 import pygame
+from pygame import sprite
 from classes import *
 from settings import *
 import time
@@ -89,7 +90,7 @@ def run_gameplay(surface, mouse, heartIcons, spriteList):
     generate()
     generateStats()
 
-    updateMap()
+    updateMap(spriteList)
 
     for i in range(0, player.health):
         heartIcons[i].draw(surface)

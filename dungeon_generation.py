@@ -1,7 +1,6 @@
 import pygame
 import random as rnd
 import time
-from classes import Door
 from menu import *
 from settings import *
 #-----------------------------#
@@ -237,24 +236,6 @@ def reset(answer):
 
 
 
-def initiate_doors(spriteList):
-    for i in playerGrid[playerPosition[0]][playerPosition[1]]:
-        if i == 'N':
-            north = Door(500,100, DOOR_IMG, 'N')
-            north.draw(screen)
-        elif i == 'S':
-            south = Door(500,500, DOOR_IMG, 'S')
-            south.rotate(180)
-            south.draw(screen)
-        elif i == 'W':
-            west = Door(100,300, DOOR_IMG, 'W')
-            west.rotate(90)
-            west.draw(screen)
-        elif i == 'E':
-            east = Door(900,300, DOOR_IMG, 'E')
-            east.rotate(270)
-            east.draw(screen)
-
 def display(screen):
     for i in range(len(playerGrid)):
         for j in range(len(playerGrid[i])):
@@ -262,14 +243,6 @@ def display(screen):
             image = pygame.transform.scale(image, (20,20))
             screen.blit(image, ((0+(j*19)) , (505+(i*19))))
     pygame.draw.circle(screen, (255,0,0), (10+((playerPosition[0])*19), 515+((playerPosition[1])*19)), 3)
-
-def updateMap(spriteList):
-    pGrid = playerGrid[playerPosition[0]][playerPosition[1]]
-    if pGrid == 'B':
-        pGrid = grid[playerPosition[0]][playerPosition[1]]
-    initiate_doors(spriteList)
-
-
 
 
 
@@ -286,6 +259,8 @@ def checkForDoors(i,j):
     if check_down(i,j):
         directions.append('N')
     return directions
+
+
 
 def checkForWalls(i,j):
     directions = []
