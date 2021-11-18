@@ -51,14 +51,13 @@ def npc_movement(npc):
 
 def update_game(player, npc, surface, spriteList):
     player.handle_keys()
-    # npc_movement(npc)
+    npc_movement(npc)
     npc.draw(surface)
     player.draw(surface)
     npc.update_rect()
     player.update_rect()
-
     player.check_collision(spriteList)
-   
+    npc.check_collision(spriteList)
 
 
 def run_gameplay(surface, mouse, player, npc, heartIcons, spriteList):

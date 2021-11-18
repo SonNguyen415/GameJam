@@ -86,44 +86,50 @@ class Character(pygame.sprite.Sprite):
     def update_rect(self):
         self.rect.update(self.xLoc, self.yLoc, CHAR_WIDTH, CHAR_HEIGHT)
 
+
+    def collision_enforcement(self, eachSprite):               
+        if(-POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom  <= 0):
+            self.canMoveDown = False
+            eachSprite.canMoveUp = False
+        else:
+            self.canMoveDown = True
+            eachSprite.canMoveUp = True
+        if(-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom <= -POS_TOLERANCE/2):
+            self.canMoveUp = False
+            eachSprite.canMoveDown = False
+        else:
+            self.canMoveUp = True
+            eachSprite.canMoveDown = True
+        if(-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE/2):
+            self.canMoveLeft = False
+            eachSprite.canMoveRight = False
+        else:
+            self.canMoveLeft = True
+            eachSprite.canMoveRight = True
+        
+        if(-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE/2):
+            self.canMoveRight = False
+            eachSprite.canMoveLeft = False
+        else: 
+            self.canMoveRight = True
+            eachSprite.canMoveDown = True
+
+
+
     def check_collision(self, spriteList):
         for eachSprite in spriteList:
             if(eachSprite.type == self.type):
                 pass
             elif(self.rect.colliderect(eachSprite.rect)):
                 if(eachSprite.type == "door" and self.type == "player"):
-                    return                    
-                if(-POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom  <= 0):
-                    self.canMoveDown = False
-                if(eachSprite.type == "npc" or eachSprite.type == "player"):
-                    if(-POS_TOLERANCE < self.rect.bottom - eachSprite.rect.bottom < POS_TOLERANCE):
-                        self.canMoveUp = False
-                    if(eachSprite.rect.top - 1 < self.rect.bottom < eachSprite.rect.bottom + 3):
-                        if(-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE):
-                            self.canMoveLeft = False
-                        if(-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE):
-                            self.canMoveRight = False
-                    else:
-                        self.canMoveLeft = True
-                        self.canMoveRight = True
-                    # if(eachSprite.type == "npc" and eachSprite.attacking == True):
-                    #     self.wounded(1)
-                    # if(self.type == "npc" and eachSprite.type == "boomerang"):
-                    #     self.wounded()
-                else:
-                    if(-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom <= 0):
-                        self.canMoveUp = False
-                    if(-POS_TOLERANCE < self.rect.left - eachSprite.rect.right <= 0):
-                        self.canMoveLeft = False
-                    if(-POS_TOLERANCE < eachSprite.rect.left - self.rect.right <= 0):
-                        self.canMoveRight = False
-                return eachSprite
+                    # change scene
+                    return     
+                self.collision_enforcement(eachSprite)
             else:
                 self.canMoveRight = True
                 self.canMoveLeft = True
                 self.canMoveUp = True
                 self.canMoveDown = True
-        return self
 
 
 class Player(Character, object):
