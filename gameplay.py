@@ -25,6 +25,8 @@ def show_curr_artifact(player):
                 artifactList[1][i].draw()
                 time.sleep(10)
 
+
+
 def initiate_doors():
     for i in playerGrid[playerPosition[0]][playerPosition[1]]:
         if i == 'N':
@@ -35,6 +37,8 @@ def initiate_doors():
             west = Door(0,0, DOOR_IMG, 'W')
         elif i == 'E':
             east = Door(0,0, DOOR_IMG, 'E')
+
+
 
 def get_playground():
     playground = pygame.image.load("Map Play Area/W.png").convert_alpha()
