@@ -2,6 +2,7 @@ import pygame
 from classes import *
 from settings import *
 import random
+from dungeon_generation import *
 
 bmr = object
 bmrExist = False
@@ -10,6 +11,9 @@ ctr = 0
 npcTimer = 0
 k = 1
 
+
+def initiate_doors():
+    for i in
 
 def get_playground():
     playground = pygame.image.load("Map Play Area/W.png").convert_alpha()
@@ -58,18 +62,18 @@ def update_game(player, npc, surface, spriteList):
     player.update_rect()
 
     player.check_collision(spriteList)
-   
+
 
 
 def run_gameplay(surface, mouse, player, npc, heartIcons, spriteList):
     PLAY_AREA = get_playground()
 
     surface.blit(PLAY_AREA, (0, 0))
-    
+
     update_game(player, npc, surface, spriteList)
     bmr_gameplay(surface, mouse, player)
 
-    
-    for i in range(0, player.health): 
+
+    for i in range(0, player.health):
         heartIcons[i].draw(surface)
     return "Play"
