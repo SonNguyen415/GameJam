@@ -162,6 +162,8 @@ class Character(pygame.sprite.Sprite):
                 if(eachSprite.type == "door" and self.type == "player"):
                     eachSprite.change_position()
                     updateMap(spriteList)
+                    self.xLoc = 500
+                    self.yLoc = 500
                     time.sleep(0)
                     return
             else:
