@@ -425,4 +425,3 @@ class Door(pygame.sprite.Sprite):
             playerPosition[0] -= 1
         elif self.rot == 'E':
             playerPosition[0] += 1
-        updateMap(spriteList)

@@ -1,6 +1,7 @@
 import pygame
 import random as rnd
 import time
+from classes import Door
 from menu import *
 from settings import *
 #-----------------------------#
