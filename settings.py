@@ -67,7 +67,7 @@ LEFT_IMG.append(pygame.image.load('Character Sprites/Left/3.png'))
 
 PLAYER_IMG = [UP_IMG, RIGHT_IMG, DOWN_IMG, LEFT_IMG]
 
-FPS = 20
+FPS = 25
 
 UP = 0
 RIGHT = 1
