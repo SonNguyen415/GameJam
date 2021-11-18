@@ -160,9 +160,9 @@ class Character(pygame.sprite.Sprite):
                 self.collision_enforcement(eachSprite)
 
                 if(eachSprite.type == "door" and self.type == "player"):
-                    
+                    eachSprite.change_position()
                     updateMap(spriteList)
-                    # initiate_doors()print
+                    time.sleep(0)
                     return
             else:
                 self.canMoveRight = True
@@ -456,12 +456,12 @@ class Door(pygame.sprite.Sprite):
         surface.blit(self.image, (self.xLoc, self.yLoc))
 
 
-    # def change_position(self):
-    #     if self.rot == 'N':
-    #         playerPosition[1] -= 1
-    #     elif self.rot == 'S':
-    #         playerPosition[1] += 1
-    #     elif self.rot == 'W':
-    #         playerPosition[0] -= 1
-    #     elif self.rot == 'E':
-    #         playerPosition[0] += 1
+    def change_position(self):
+        if self.rot == 'N':
+            playerPosition[1] -= 1
+        elif self.rot == 'S':
+            playerPosition[1] += 1
+        elif self.rot == 'W':
+            playerPosition[0] -= 1
+        elif self.rot == 'E':
+            playerPosition[0] += 1
