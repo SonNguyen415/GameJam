@@ -1,15 +1,23 @@
 import pygame
 import random as rnd
 import time
-
+from menu import *
 
 #-----------------------------#
+
+playerPosition = [2,2]
 
 grid = [['B','B','B','B','B',],
          ['B','B','B','B','B',],
          ['B','B','NSWE','B','B',],
          ['B','B','B','B','B',],
          ['B','B','B','B','B',]]
+
+playerGrid = [['B','B','B','B','B',],
+              ['B','B','B','B','B',],
+              ['B','B','NSWE','B','B',],
+              ['B','B','B','B','B',],
+              ['B','B','B','B','B',]]
 
 gridStats ={
             '(0, 0)':[],
@@ -224,11 +232,12 @@ def reset(answer):
 
 
 def display(screen):
-    for i in range(len(grid)):
-        for j in range(len(grid[i])):
-            image = pygame.image.load(IMAGES[grid[i][j]][0])
-            image = pygame.transform.scale(image, (50,50))
-            screen.blit(image, ((j+(j*48)) , (i+(i*48))))
+    for i in range(len(playerGrid)):
+        for j in range(len(playerGrid[i])):
+            image = pygame.image.load(IMAGES[playerGrid[i][j]][0])
+            image = pygame.transform.scale(image, (20,20))
+            screen.blit(image, ((0+(j*19)) , (505+(i*19))))
+    pygame.draw.circle(screen, (255,0,0), (10+((playerPosition[0])*19), 515+((playerPosition[1])*19)), 5)
 
 def checkForDoors(i,j):
     directions = []
