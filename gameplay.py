@@ -94,6 +94,8 @@ def run_gameplay(surface, mouse, player, npc, heartIcons, spriteList):
     update_game(player, npc, surface, spriteList)
     bmr_gameplay(surface, mouse, player, spriteList)
 
+    generate()
+    generateStats()
 
     for i in range(0, player.health):
         heartIcons[i].draw(surface)

@@ -2,7 +2,6 @@ import pygame, sys
 from classes import *
 from menu import *
 import os
-from dungeon_generation import *
 from gameplay import *
 
 PLAYER_START_X = 500
@@ -24,13 +23,6 @@ bmrExist = False
 currentScreen = "Main"
 
 spriteList = [player, npc]
-
-#-----------#
-
-generate()
-generateStats()
-
-#-----------#
 
 
 running = True
