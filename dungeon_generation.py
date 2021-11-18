@@ -5,13 +5,11 @@ import time
 
 #-----------------------------#
 
-grid = [['B','B','B','B','B','B','B'],
-        ['B','B','B','B','B','B','B'],
-        ['B','B','B','B','B','B','B'],
-        ['B','B','B','NSWE','B','B','B'],
-        ['B','B','B','B','B','B','B'],
-        ['B','B','B','B','B','B','B'],
-        ['B','B','B','B','B','B','B']]
+grid = [['B','B','B','B','B',],
+         ['B','B','B','B','B',],
+         ['B','B','NSWE','B','B',],
+         ['B','B','B','B','B',],
+         ['B','B','B','B','B',]]
 
 gridStats ={
             '(0, 0)':[],
@@ -40,22 +38,6 @@ gridStats ={
             '(4, 3)':[],
             '(4, 4)':[]
             }
-
-grid2 = [['B','B','B'],
-         ['B','NSWE','B'],
-         ['B','B','B']]
-
-grid3 = [['B','B','B','B','B',],
-         ['B','B','B','B','B',],
-         ['B','B','NSWE','B','B',],
-         ['B','B','B','B','B',],
-         ['B','B','B','B','B',]]
-
-grid = grid3
-
-grid4 = [['B','B','B','B'],
-         ['B','NSWE','B','B'],
-         ['B','B','B','B']]
 
 ROOMS = {
         'N': ['NS', 'NS', 'NS', 'NS', 'S', 'S', 'S', 'SW', 'SE', 'SWE', 'NSW', 'NSE'],
@@ -307,7 +289,7 @@ def generateStats():
                 gridStats[tile].append(ENEMIES[rnd.randint(0,len(ENEMIES)-1)])
             else:
                 gridStats[tile].append([])
-            
+
 def fix():
     for i in range(len(grid)):
         for j in range(len(grid[i])):
