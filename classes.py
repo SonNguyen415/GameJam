@@ -297,9 +297,7 @@ class Boomerang(pygame.sprite.Sprite):
     def check_finish(self, bmrTime, surface, myPlayer):
         if (bmrTime >= BOOMERANG_TIME or
         (self.returning == True and self.get_distance(myPlayer.xLoc, myPlayer.yLoc) < 40)):
-            self.xLoc = myPlayer.xLoc
-            self.yLoc = myPlayer.yLoc
-            self.draw(surface)
+
             time.sleep(0.01)
             return True
         return False
