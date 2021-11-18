@@ -83,7 +83,7 @@ class Character(pygame.sprite.Sprite):
 
         # Some character data
         self.health = 10
-        self.alive = True
+        self.dead = False
         self.canMoveUp = True
         self.canMoveDown = True
         self.canMoveLeft = True
@@ -92,6 +92,8 @@ class Character(pygame.sprite.Sprite):
 
     def draw(self, surface):
         # blit yourself at your current position
+        if(self.dead):
+            return
         if(self.orientation == UP):
             self.image = self.sprites[UP][self.currSprite]
         if(self.orientation == DOWN):
@@ -106,7 +108,7 @@ class Character(pygame.sprite.Sprite):
     def wounded(self, damage):
         self.health -= damage
         if(self.health == 0):
-            self.alive = False
+            self.dead = True
 
 
     def increment_sprite(self):
@@ -116,6 +118,8 @@ class Character(pygame.sprite.Sprite):
             self.currSprite = 0
 
     def update_rect(self):
+        if(self.dead):
+            return
         self.rect.update(self.xLoc, self.yLoc, CHAR_WIDTH, CHAR_HEIGHT)
 
 
@@ -177,6 +181,8 @@ class Player(Character, object):
         self.speaking = False
 
     def handle_keys(self):
+        if(self.dead):
+            return
         key = pygame.key.get_pressed()
         if key[pygame.K_DOWN] and self.yLoc+CHAR_HEIGHT <= PLAYGROUND_HEIGHT+PLAYGROUND_Y_OFFSET and self.canMoveDown:
             self.yLoc += self.movementSpeed
@@ -269,6 +275,8 @@ class Enemy (Character, object):
         self.wounded(BMR_DMG)
 
     def random_movement(self, k):
+        if(self.dead):
+            return
         if k == 1 and self.yLoc + CHAR_HEIGHT <= PLAYGROUND_HEIGHT-PLAYGROUND_Y_OFFSET and self.canMoveDown:
             #Move down
             self.orientation = DOWN
@@ -304,7 +312,7 @@ class Boomerang(pygame.sprite.Sprite):
         self.xLoc = xLoc
         self.yLoc = yLoc
 
-        self.image = pygame.image.load("icon.png")
+        self.image = pygame.image.load("Objects/icon.png")
         self.image = pygame.transform.scale(self.image, (BOOMERANG_SIZE, BOOMERANG_SIZE))
 
         self.rect = self.image.get_rect(topleft=(self.xLoc, self.yLoc))
