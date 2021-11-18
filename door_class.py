@@ -1,7 +1,7 @@
 import pygame
 from settings import *
 import time
-from dungeon_generation import playerPosition, updateMap()
+from dungeon_generation import playerPosition, updateMap
 
 
 class Objects(pygame.sprite.Sprite):
