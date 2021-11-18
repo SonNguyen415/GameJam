@@ -1,12 +1,13 @@
 import pygame
 from settings import *
 import time
+import math
 
 class Graphics(pygame.sprite.Sprite):
     def __init__(self, xLoc, yLoc, iconImg):
          # Call the parent class (Sprite) constructor
         super().__init__()
-        self.type = "Graphics"
+        self.type = "graphics"
 
         self.xLoc = xLoc
         self.yLoc = yLoc
@@ -29,7 +30,6 @@ class Character(pygame.sprite.Sprite):
         super().__init__()
 
         self.id = objID
-        self.type = "Character"
 
         self.xLoc = xLoc
         self.yLoc = yLoc
@@ -50,7 +50,7 @@ class Character(pygame.sprite.Sprite):
 
 
         # Some character data
-        self.__health = 10
+        self.health = 10
         self.alive = True
         self.canMoveUp = True
         self.canMoveDown = True
@@ -71,10 +71,11 @@ class Character(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
         surface.blit(self.image, (self.xLoc, self.yLoc))
 
-    def wounded(self):
-        self.__health -= 1
-        if(self.__health == 0):
+    def wounded(self, damage):
+        self.health -= damage
+        if(self.health == 0):
             self.alive = False
+            
 
     def increment_sprite(self):
         if(self.currSprite < 2):
@@ -87,10 +88,14 @@ class Character(pygame.sprite.Sprite):
 
     def check_collision(self, spriteList):
         for eachSprite in spriteList:
-            if(self.rect.colliderect(eachSprite.rect)):
+            if(eachSprite.type == self.type):
+                pass
+            elif(self.rect.colliderect(eachSprite.rect)):
+                if(eachSprite.type == "door" and self.type == "player"):
+                    return                    
                 if(-POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom  <= 0):
                     self.canMoveDown = False
-                if(eachSprite.type == "Character"):
+                if(eachSprite.type == "npc" or eachSprite.type == "player"):
                     if(-POS_TOLERANCE < self.rect.bottom - eachSprite.rect.bottom < POS_TOLERANCE):
                         self.canMoveUp = False
                     if(eachSprite.rect.top - 1 < self.rect.bottom < eachSprite.rect.bottom + 1):
@@ -101,6 +106,10 @@ class Character(pygame.sprite.Sprite):
                     else:
                         self.canMoveLeft = True
                         self.canMoveRight = True
+                    # if(eachSprite.type == "npc" and eachSprite.attacking == True):
+                    #     self.wounded(1)
+                    # if(self.type == "npc" and eachSprite.type == "boomerang"):
+                    #     self.wounded()
                 else:
                     if(-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom <= 0):
                         self.canMoveUp = False
@@ -121,6 +130,7 @@ class Player(Character, object):
     def __init__(self, xLoc, yLoc, charImg, objID):
         Character.__init__(self, xLoc, yLoc, charImg, objID)
 
+        self.type = "player"
         self.__staminaRecharge = 0
         self.__stamina = MAX_STAMINA
         self.speaking = False
@@ -174,6 +184,72 @@ class Player(Character, object):
         if(self.check_collision(object)):
             self.speaking = True
 
+    
+    
+
+
+class Enemy (Character, object):
+    def __init__(self, xLoc, yLoc, charImg, objID):
+        Character.__init__(self, xLoc, yLoc, charImg, objID)
+
+        self.type = "npc"
+        self.sightLength = 100
+        self.__movementSpeed = WALK_SPEED + 1
+        self.agro = False
+        self.fiveSec = True
+
+    def sense(self, pxLoc, pyLoc):
+        #find distance of npc to player
+        distance = math.sqrt(((self.xLoc-pxLoc)**2)+((self.yLoc-pyLoc)**2))
+        #find the range of sight
+        leftRange = (self.orientation*45)-45
+        rightRange = (self.orientation*45)+45
+        #find the angle from npc to character
+        angle = math.degrees(math.atan2(pyLoc - self.yLoc, pxLoc - self.xLoc))
+        #if distance is less than sight length
+        if (distance<self.sightLength):
+            #if angle is between
+            if (angle>leftRange and angle<rightRange):
+                self.agro = True
+
+
+    def move_towards_player(self, xLoc, yLoc):
+        # Find direction vector (dx, dy) between enemy and player.
+        dirvect = pygame.math.Vector2(xLoc - self.xLoc, yLoc - self.yLoc)
+        dirvect.normalize()
+        # Move along this normalized vector towards the player at current speed.
+        dirvect.scale_to_length(self.__movementSpeed)
+        self.rect.move_ip(dirvect)
+
+    def whacked(self):
+        if self.rect.colliderect(Boomerang.rect):
+            self.wounded()
+
+    def random_movement(self, k):
+        if k == 1 and self.yLoc + CHAR_HEIGHT <= PLAYGROUND_HEIGHT-PLAYGROUND_Y_OFFSET and self.canMoveDown:
+            #Move down
+            self.orientation = DOWN
+            self.yLoc += self.__movementSpeed
+            self.increment_sprite()
+
+        elif k == 2 and PLAYGROUND_Y_OFFSET <= self.yLoc+CHAR_HEIGHT-10 and self.canMoveUp:
+            #Move up
+            self.orientation = UP
+            self.yLoc -= self.__movementSpeed
+            self.increment_sprite()
+
+        elif k == 3 and self.xLoc + CHAR_WIDTH <= PLAYGROUND_LENGTH+PLAYGROUND_X_OFFSET and self.canMoveRight:
+            #Move right
+            self.orientation = RIGHT
+            self.xLoc += self.__movementSpeed
+            self.increment_sprite()
+
+        elif k == 4 and PLAYGROUND_X_OFFSET <= self.xLoc and self.canMoveLeft:
+            #Move left
+            self.orientation = LEFT
+            self.xLoc -= self.__movementSpeed
+            self.increment_sprite()
+    
 
 
 

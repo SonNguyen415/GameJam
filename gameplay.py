@@ -38,28 +38,36 @@ def bmr_gameplay(surface, mouse, player):
 
 
 
-def run_gameplay(surface, mouse, player, npc, heartIcons, spriteList):
+def npc_movement(npc):
     global npcTimer
     global k
-
-    PLAY_AREA = get_playground()
-
-    surface.blit(PLAY_AREA, (0, 0))
-    collidedObject = player.check_collision(spriteList)
-    player.handle_keys()
-    # npc.random_movement()
     if (npcTimer==10):
         npcTimer = 0
         k = random.randint(0, 5)
     npcTimer+=1
     npc.random_movement(k)
+
+def update_game(player, npc, surface, spriteList):
+    player.handle_keys()
+    npc_movement(npc)
     player.update_rect()
+    npc.update_rect()
+    player.check_collision(spriteList)
+    npc.check_collision(spriteList)
+    player.draw(surface)
+    npc.draw(surface)
+   
 
 
+def run_gameplay(surface, mouse, player, npc, heartIcons, spriteList):
+    PLAY_AREA = get_playground()
+
+    surface.blit(PLAY_AREA, (0, 0))
+    
+    update_game(player, npc, surface, spriteList)
     bmr_gameplay(surface, mouse, player)
 
-    npc.draw(surface)
-    player.draw(surface)
-    for i in range(0, 10): 
+    
+    for i in range(0, player.health): 
         heartIcons[i].draw(surface)
     return "Play"
