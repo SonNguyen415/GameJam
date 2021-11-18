@@ -136,7 +136,7 @@ class Character(pygame.sprite.Sprite):
             elif(self.rect.colliderect(eachSprite.rect)):
                 if(eachSprite.type == "door" and self.type == "player"):
                     # updateMap()
-                    # initiate_doors()
+                    # initiate_doors()print
                     print("it Works!")
                     return
                 self.collision_enforcement(eachSprite)

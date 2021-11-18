@@ -46,7 +46,7 @@ while running:
     elif currentScreen == "Credits":
         currentScreen = credit_menu(currentScreen)
     elif currentScreen == "Play":
-        currentScreen = run_gameplay(screen, mouse, player, npc, heartIcons, spriteList)
+        currentScreen = run_gameplay(screen, mouse, heartIcons, spriteList)
 
         # Minimap Gen
         display(screen)
