@@ -227,8 +227,8 @@ def display(screen):
     for i in range(len(grid)):
         for j in range(len(grid[i])):
             image = pygame.image.load(IMAGES[grid[i][j]][0])
-            image = pygame.transform.scale(image, (50,50))
-            screen.blit(image, ((j+(j*48)) , (i+(i*48))))
+            image = pygame.transform.scale(image, (10,10))
+            screen.blit(image, ((0+(j*48)) , (550+(i*48))))
 
 def checkForDoors(i,j):
     directions = []

@@ -12,8 +12,6 @@ class Door(pygame.sprite.Sprite):
         self.xLoc = xLoc
         self.yLoc = yLoc
 
-        self.state = 'locked'
-
         self.sprite = charImg
 
         self.sprite = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
@@ -33,4 +31,3 @@ class Door(pygame.sprite.Sprite):
             playerPosition[0] -= 1
         elif rotation == 'E':
             playerPosition[0] += 1
-        
