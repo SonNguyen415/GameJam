@@ -27,7 +27,7 @@ def show_curr_artifact(player):
 
 
 def get_playground():
-    playground = pygame.image.load("Map Play Area/W.png").convert_alpha()
+    playground = pygame.image.load("Base Room.png").convert_alpha()
     playground = pygame.transform.scale(playground, (WINDOW_LENGTH, WINDOW_HEIGHT))
     return playground
 
