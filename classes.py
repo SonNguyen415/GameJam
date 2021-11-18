@@ -98,7 +98,7 @@ class Character(pygame.sprite.Sprite):
                 if(eachSprite.type == "npc" or eachSprite.type == "player"):
                     if(-POS_TOLERANCE < self.rect.bottom - eachSprite.rect.bottom < POS_TOLERANCE):
                         self.canMoveUp = False
-                    if(eachSprite.rect.top - 1 < self.rect.bottom < eachSprite.rect.bottom + 1):
+                    if(eachSprite.rect.top - 1 < self.rect.bottom < eachSprite.rect.bottom + 3):
                         if(-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE):
                             self.canMoveLeft = False
                         if(-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE):

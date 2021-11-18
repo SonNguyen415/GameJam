@@ -4,30 +4,32 @@ import time
 from dungeon_generation import playerPosition, updateMap()
 
 
-class Door(pygame.sprite.Sprite):
-    def __init__(self, xLoc, yLoc, charImg, rotation):
+class Objects(pygame.sprite.Sprite):
+    def __init__(self, xLoc, yLoc, objImg, rotation):
         super().__init__()
 
         self.xLoc = xLoc
         self.yLoc = yLoc
 
-        self.sprite = charImg
+        self.state = 'locked'
 
-        self.sprite = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
+        self.image  = objImg
+
+        self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
 
         self.rot = rotation
 
     def draw(self, surface):
-        self.sprite = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
-        surface.blit(self.sprite, (xLoc, yLoc))
+        surface.blit(self.image, (self.xLoc, self.yLoc))
+
 
     def change_position(self):
-        if rotation == 'N':
+        if self.rot == 'N':
             playerPosition[1] -= 1
-        elif rotation == 'S':
+        elif self.rot == 'S':
             playerPosition[1] += 1
-        elif rotation == 'W':
+        elif self.rot == 'W':
             playerPosition[0] -= 1
-        elif rotation == 'E':
+        elif self.rot == 'E':
             playerPosition[0] += 1
         updateMap()

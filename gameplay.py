@@ -47,15 +47,17 @@ def npc_movement(npc):
     npcTimer+=1
     npc.random_movement(k)
 
+
+
 def update_game(player, npc, surface, spriteList):
     player.handle_keys()
-    npc_movement(npc)
-    player.update_rect()
-    npc.update_rect()
-    player.check_collision(spriteList)
-    npc.check_collision(spriteList)
-    player.draw(surface)
+    # npc_movement(npc)
     npc.draw(surface)
+    player.draw(surface)
+    npc.update_rect()
+    player.update_rect()
+
+    player.check_collision(spriteList)
    
 
 
