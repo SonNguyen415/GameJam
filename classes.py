@@ -338,8 +338,23 @@ class Boomerang(pygame.sprite.Sprite):
         if not self.returning:
             if(self.check_at_set_point(xSetPoint, ySetPoint)):
                 self.returning = True
+
             self.xLoc += self.direction[0] * self.currSpeed
             self.yLoc += self.direction[1] * self.currSpeed
+            if self.xLoc < 120 or self.xLoc > 870:
+                if self.xLoc < 120:
+                    self.xLoc = 120
+                else:
+                    self.xLoc = 870
+                self.returning = True
+                self.currSpeed = 0
+            if self.yLoc < 100 or self.yLoc > 490:
+                if self.yLoc < 100:
+                    self.yLoc = 100
+                else:
+                    self.yLoc = 490
+                self.returning = True
+                self.currSpeed = 0
         else:
             direction = self.find_normalized_dir_player(player.xLoc, player.yLoc)
             self.xLoc -= direction[0] * self.currSpeed

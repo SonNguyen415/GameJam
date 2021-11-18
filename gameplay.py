@@ -30,6 +30,7 @@ def bmr_gameplay(surface, mouse, player, spriteList):
     if(ctr <  WAIT_TIME):
         ctr += 1
     if (bmrExist == False and pygame.mouse.get_pressed()[0] and ctr >= WAIT_TIME):
+        print(mouse)
         bmr = player.spawn_boomerang(surface)
         bmr.spawn_boomerang(mouse[0], mouse[1], player)
         bmrExist = True
