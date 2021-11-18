@@ -4,6 +4,7 @@ from settings import *
 import time
 import random
 from dungeon_generation import *
+from door_class import Door
 
 bmr = object
 bmrExist = False
