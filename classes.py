@@ -16,10 +16,10 @@ class Graphics(pygame.sprite.Sprite):
 
         self.image = pygame.transform.scale(self.image, (ICON_SCALE, ICON_SCALE))
 
-    
+
     def draw(self, surface):
         surface.blit(self.image, (self.xLoc, self.yLoc))
-        
+
 
 
 
@@ -75,7 +75,7 @@ class Character(pygame.sprite.Sprite):
         self.health -= damage
         if(self.health == 0):
             self.alive = False
-            
+
 
     def increment_sprite(self):
         if(self.currSprite < 2):
@@ -87,7 +87,7 @@ class Character(pygame.sprite.Sprite):
         self.rect.update(self.xLoc, self.yLoc, CHAR_WIDTH, CHAR_HEIGHT)
 
 
-    def collision_enforcement(self, eachSprite):               
+    def collision_enforcement(self, eachSprite):
         if(-POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom  <= 0):
             self.canMoveDown = False
             eachSprite.canMoveUp = False
@@ -106,11 +106,11 @@ class Character(pygame.sprite.Sprite):
         else:
             self.canMoveLeft = True
             eachSprite.canMoveRight = True
-        
+
         if(-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE/2):
             self.canMoveRight = False
             eachSprite.canMoveLeft = False
-        else: 
+        else:
             self.canMoveRight = True
             eachSprite.canMoveDown = True
 
@@ -123,7 +123,7 @@ class Character(pygame.sprite.Sprite):
             elif(self.rect.colliderect(eachSprite.rect)):
                 if(eachSprite.type == "door" and self.type == "player"):
                     # change scene
-                    return     
+                    return
                 self.collision_enforcement(eachSprite)
             else:
                 self.canMoveRight = True
@@ -190,8 +190,8 @@ class Player(Character, object):
         if(self.check_collision(object)):
             self.speaking = True
 
-    
-    
+
+
 
 
 class Enemy (Character, object):
@@ -255,7 +255,7 @@ class Enemy (Character, object):
             self.orientation = LEFT
             self.xLoc -= self.__movementSpeed
             self.increment_sprite()
-    
+
 
 
 
@@ -309,6 +309,10 @@ class Boomerang(pygame.sprite.Sprite):
     def find_a(self, xSetPoint, ySetPoint, myPlayer):
         x = xSetPoint - (myPlayer.xLoc + CHAR_WIDTH/2) + 3
         y = ySetPoint - (myPlayer.yLoc + CHAR_HEIGHT/2) + 3
+        length = (x**2 + y**2)**0.5
+        if length > MAX_BMR_DISTANCE:
+            x = x/length * MAX_BMR_DISTANCE
+            y = y/length * MAX_BMR_DISTANCE
         aX = -x/(BOOMERANG_TIME/2)**2
         aY = -y/(BOOMERANG_TIME/2)**2
         return (aX**2 + aY**2)**0.5

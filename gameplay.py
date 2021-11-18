@@ -13,7 +13,7 @@ k = 1
 
 
 def initiate_doors():
-    for i in
+    pass
 
 def get_playground():
     playground = pygame.image.load("Map Play Area/W.png").convert_alpha()
