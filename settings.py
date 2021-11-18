@@ -68,6 +68,9 @@ LEFT_IMG.append(pygame.image.load('Character Sprites/Left/3.png'))
 
 PLAYER_IMG = [UP_IMG, RIGHT_IMG, DOWN_IMG, LEFT_IMG]
 
+DOOR_IMG = pygame.image.load('Objects/Door.png')
+
+
 FPS = 25
 
 UP = 0

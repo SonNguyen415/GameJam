@@ -15,13 +15,13 @@ k = 1
 def initiate_doors():
     for i in playerGrid[playerPosition[0]][playerPosition[1]]:
         if i == 'N':
-
+            north = Door(0,0, DOOR_IMG, 'N')
         elif i == 'S':
-
+            south = Door(0,0, DOOR_IMG, 'S')
         elif i == 'W':
-
+            west = Door(0,0, DOOR_IMG, 'W')
         elif i == 'E':
-
+            east = Door(0,0, DOOR_IMG, 'E')
 
 def get_playground():
     playground = pygame.image.load("Map Play Area/W.png").convert_alpha()
