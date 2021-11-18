@@ -5,8 +5,8 @@ import time
 playerPosition = [2,2]
 
 
-class Door(pygame.sprite.Sprite):
-    def __init__(self, xLoc, yLoc, charImg, rotation):
+class Objects(pygame.sprite.Sprite):
+    def __init__(self, xLoc, yLoc, objImg, rotation):
         super().__init__()
 
         self.xLoc = xLoc
@@ -14,23 +14,23 @@ class Door(pygame.sprite.Sprite):
 
         self.state = 'locked'
 
-        self.sprite = charImg
+        self.image  = objImg
 
-        self.sprite = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
+        self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
 
         self.rot = rotation
 
     def draw(self, surface):
-        self.sprite = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
-        surface.blit(self.sprite, (xLoc, yLoc))
+        surface.blit(self.image, (self.xLoc, self.yLoc))
+
 
     def change_position(self):
-        if rotation == 'N':
+        if self.rot == 'N':
             playerPosition[1] -= 1
-        elif rotation == 'S':
+        elif self.rot == 'S':
             playerPosition[1] += 1
-        elif rotation == 'W':
+        elif self.rot == 'W':
             playerPosition[0] -= 1
-        elif rotation == 'E':
+        elif self.rot == 'E':
             playerPosition[0] += 1
         

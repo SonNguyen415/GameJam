@@ -48,14 +48,15 @@ def npc_movement(npc):
     npc.random_movement(k)
 
 def update_game(player, npc, surface, spriteList):
+    player.check_collision(spriteList)
+    npc.check_collision(spriteList)
     player.handle_keys()
     npc_movement(npc)
     player.update_rect()
     npc.update_rect()
-    player.check_collision(spriteList)
-    npc.check_collision(spriteList)
-    player.draw(surface)
     npc.draw(surface)
+    player.draw(surface)
+
    
 
 
