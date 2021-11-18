@@ -2,6 +2,8 @@ class Door(pygame.sprite.Sprite):
     def __init__(self, xLoc, yLoc, objImg, rotation):
         super().__init__()
 
+        self.type = 'door'
+
         self.xLoc = xLoc
         self.yLoc = yLoc
 

@@ -20,7 +20,7 @@ class Graphics(pygame.sprite.Sprite):
 
         self.image = pygame.transform.scale(self.image, (ICON_SCALE, ICON_SCALE))
         self.rect = self.image.get_rect(topleft=(xLoc, yLoc))
-    
+
     def draw(self, surface):
         surface.blit(self.image, (self.xLoc, self.yLoc))
 
@@ -124,7 +124,9 @@ class Character(pygame.sprite.Sprite):
                 pass
             elif(self.rect.colliderect(eachSprite.rect)):
                 if(eachSprite.type == "door" and self.type == "player"):
-                    # change scene
+                    updateMap()
+                    initiate_doors()
+                    print("it Works!")
                     return
                 self.collision_enforcement(eachSprite)
             else:
@@ -173,8 +175,8 @@ class Player(Character, object):
             self.__staminaRecharge = 0
             self.restore_stamina()
 
-    
-   
+
+
 
     def restore_stamina(self):
         if(self.__stamina < MAX_STAMINA):
@@ -191,10 +193,10 @@ class Player(Character, object):
 
 
     def generate_text(self, surface):
-        font = pygame.font.SysFont('Arial', 10) 
+        font = pygame.font.SysFont('Arial', 10)
         textsurface  = font.render('Press e to view artifact', False, COLOR_WHITE).convert_alpha()
         surface.blit(textsurface, (self.xLoc,self.yLoc))
-        
+
 
 
 
