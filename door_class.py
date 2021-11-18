@@ -1,7 +1,7 @@
 import pygame
 from settings import *
 import time
-from dungeon_generation import playerPosition
+from dungeon_generation import playerPosition, updateMap()
 
 
 class Door(pygame.sprite.Sprite):
@@ -30,3 +30,4 @@ class Door(pygame.sprite.Sprite):
             playerPosition[0] -= 1
         elif rotation == 'E':
             playerPosition[0] += 1
+        updateMap()
