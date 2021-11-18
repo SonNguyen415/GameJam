@@ -332,7 +332,7 @@ class Boomerang(pygame.sprite.Sprite):
 
 
     def move_boomerang(self, surface, xSetPoint, ySetPoint, player, spriteList):
-        self.currSpeed += self.accel
+        self.currSpeed = min(self.currSpeed + self.accel, BOOMERANG_MAX_SPEED)
         if not self.returning:
             if(self.check_at_set_point(xSetPoint, ySetPoint)):
                 self.returning = True
