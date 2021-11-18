@@ -4,7 +4,6 @@ from menu import *
 import os
 from dungeon_generation import *
 from gameplay import *
-from npc import Enemy
 
 PLAYER_START_X = 500
 PLAYER_START_Y = 300
@@ -24,7 +23,7 @@ for i in range(0, 10):
 bmrExist = False
 currentScreen = "Main"
 
-spriteList = [npc]
+spriteList = [player, npc]
 
 #-----------#
 
