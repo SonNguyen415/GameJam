@@ -2,6 +2,45 @@ import pygame
 import random as rnd
 import time
 from menu import *
+from settings import *
+
+
+class Door(pygame.sprite.Sprite):
+    def __init__(self, xLoc, yLoc, objImg, rotation):
+        super().__init__()
+
+        self.type = 'door'
+
+        self.xLoc = xLoc
+        self.yLoc = yLoc
+
+        self.state = 'locked'
+
+        self.image  = objImg
+
+        self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
+
+
+        self.rot = rotation
+
+    def rotate(self, angle):
+        self.image = pygame.transform.rotate(self.image, angle)
+
+    def draw(self, surface):
+        surface.blit(self.image, (self.xLoc, self.yLoc))
+
+
+    def change_position(self):
+        if self.rot == 'N':
+            playerPosition[1] -= 1
+        elif self.rot == 'S':
+            playerPosition[1] += 1
+        elif self.rot == 'W':
+            playerPosition[0] -= 1
+        elif self.rot == 'E':
+            playerPosition[0] += 1
+        updateMap()
+
 
 #-----------------------------#
 
@@ -236,7 +275,23 @@ def reset(answer):
 
 
 
-
+def initiate_doors():
+    for i in playerGrid[playerPosition[0]][playerPosition[1]]:
+        if i == 'N':
+            north = Door(500,100, DOOR_IMG, 'N')
+            north.draw(screen)
+        elif i == 'S':
+            south = Door(500,500, DOOR_IMG, 'S')
+            south.rotate(180)
+            south.draw(screen)
+        elif i == 'W':
+            west = Door(100,300, DOOR_IMG, 'W')
+            west.rotate(90)
+            west.draw(screen)
+        elif i == 'E':
+            east = Door(900,300, DOOR_IMG, 'E')
+            east.rotate(270)
+            east.draw(screen)
 
 def display(screen):
     for i in range(len(playerGrid)):
@@ -250,7 +305,7 @@ def updateMap():
     pGrid = playerGrid[playerPosition[0]][playerPosition[1]]
     if pGrid == 'B':
         pGrid = grid[playerPosition[0]][playerPosition[1]]
-
+    initiate_doors()
 
 
 

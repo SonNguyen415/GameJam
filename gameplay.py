@@ -4,7 +4,7 @@ from settings import *
 import time
 import random
 from dungeon_generation import *
-from door_class import Door
+
 
 bmr = object
 bmrExist = False
@@ -24,20 +24,6 @@ def show_curr_artifact(player):
             if key[pygame.K_e]:
                 artifactList[1][i].draw()
                 time.sleep(10)
-
-
-
-def initiate_doors():
-    for i in playerGrid[playerPosition[0]][playerPosition[1]]:
-        if i == 'N':
-            north = Door(0,0, DOOR_IMG, 'N')
-        elif i == 'S':
-            south = Door(0,0, DOOR_IMG, 'S')
-        elif i == 'W':
-            west = Door(0,0, DOOR_IMG, 'W')
-        elif i == 'E':
-            east = Door(0,0, DOOR_IMG, 'E')
-
 
 
 def get_playground():
@@ -100,6 +86,8 @@ def run_gameplay(surface, mouse, player, npc, heartIcons, spriteList):
 
     generate()
     generateStats()
+
+    updateMap()
 
     for i in range(0, player.health):
         heartIcons[i].draw(surface)
