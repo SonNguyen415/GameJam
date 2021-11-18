@@ -1,6 +1,7 @@
 import pygame
 from classes import *
 from settings import *
+import time
 import random
 
 bmr = object
@@ -9,6 +10,18 @@ bmrTime = 0
 ctr = 0
 npcTimer = 0
 k = 1
+
+
+artifactList = [[],[]]
+
+
+def show_curr_artifact(player):
+    for artifact, i in enumerate(artifactList[0]):
+        if artifact.rect.colliderect(player.rect):
+            player.generate_text()
+            if key[pygame.K_e]:
+                artifactList[1][i].draw()
+                time.sleep(10)
 
 
 def get_playground():
@@ -67,7 +80,7 @@ def run_gameplay(surface, mouse, player, npc, heartIcons, spriteList):
     
     update_game(player, npc, surface, spriteList)
     bmr_gameplay(surface, mouse, player)
-
+    
     
     for i in range(0, player.health): 
         heartIcons[i].draw(surface)
