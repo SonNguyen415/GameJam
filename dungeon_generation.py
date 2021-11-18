@@ -3,45 +3,6 @@ import random as rnd
 import time
 from menu import *
 from settings import *
-
-
-class Door(pygame.sprite.Sprite):
-    def __init__(self, xLoc, yLoc, objImg, rotation):
-        super().__init__()
-
-        self.type = 'door'
-
-        self.xLoc = xLoc
-        self.yLoc = yLoc
-
-        self.state = 'locked'
-
-        self.image  = objImg
-
-        self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
-
-
-        self.rot = rotation
-
-    def rotate(self, angle):
-        self.image = pygame.transform.rotate(self.image, angle)
-
-    def draw(self, surface):
-        surface.blit(self.image, (self.xLoc, self.yLoc))
-
-
-    def change_position(self):
-        if self.rot == 'N':
-            playerPosition[1] -= 1
-        elif self.rot == 'S':
-            playerPosition[1] += 1
-        elif self.rot == 'W':
-            playerPosition[0] -= 1
-        elif self.rot == 'E':
-            playerPosition[0] += 1
-        updateMap()
-
-
 #-----------------------------#
 
 playerPosition = [2,2]
@@ -275,7 +236,7 @@ def reset(answer):
 
 
 
-def initiate_doors():
+def initiate_doors(spriteList):
     for i in playerGrid[playerPosition[0]][playerPosition[1]]:
         if i == 'N':
             north = Door(500,100, DOOR_IMG, 'N')
@@ -301,11 +262,11 @@ def display(screen):
             screen.blit(image, ((0+(j*19)) , (505+(i*19))))
     pygame.draw.circle(screen, (255,0,0), (10+((playerPosition[0])*19), 515+((playerPosition[1])*19)), 3)
 
-def updateMap():
+def updateMap(spriteList):
     pGrid = playerGrid[playerPosition[0]][playerPosition[1]]
     if pGrid == 'B':
         pGrid = grid[playerPosition[0]][playerPosition[1]]
-    initiate_doors()
+    initiate_doors(spriteList)
 
 
 
