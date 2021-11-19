@@ -277,6 +277,8 @@ class Enemy (Character, object):
         self.fiveSec = True
 
     def sense(self, pxLoc, pyLoc):
+        if self.health < 10:
+            self.agro = True
         #find distance of npc to player
         distance = math.sqrt(((self.xLoc-pxLoc)**2)+((self.yLoc-pyLoc)**2))
         #find the range of sight
@@ -292,13 +294,20 @@ class Enemy (Character, object):
 
 
     def move_towards_player(self, x, y):
+        if self.dead:
+            return
         distX = x - self.xLoc
         distY = y - self.yLoc
         dist = math.sqrt((distX*distX)+(distY*distY))
-        if (distX<0 and self.canMoveLeft) or (distX>0 and self.canMoveRight):
+        if distX < 0 and self.canMoveLeft:
             self.xLoc += (distX/dist) * self.movementSpeed
-        if (distY<0 and self.canMoveUp) or (distY>0 and self.canMoveDown):
+        if distX > 0 and self.canMoveRight:
+            self.xLoc += (distX / dist) * self.movementSpeed
+        if distY < 0 and self.canMoveUp:
             self.yLoc += (distY/dist) * self.movementSpeed
+        if distY > 0 and self.canMoveDown:
+            self.yLoc += (distY / dist) * self.movementSpeed
+        self.increment_sprite()
 
         if abs(distX) > abs(distY):
             if distX<0:
@@ -315,8 +324,6 @@ class Enemy (Character, object):
         self.wounded(BMR_DMG)
 
     def random_movement(self, k):
-        if(self.dead):
-            return
         if k == 1 and self.yLoc + CHAR_HEIGHT <= PLAYGROUND_HEIGHT-PLAYGROUND_Y_OFFSET and self.canMoveDown:
             #Move down
             self.orientation = DOWN
