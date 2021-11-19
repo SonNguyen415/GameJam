@@ -81,15 +81,14 @@ def npc_movement(player, npc):
 
 def update_game(player, npc, surface, spriteList):
     npc.sense(player.xLoc, player.yLoc)
-
-    player.check_collision(spriteList)
-    npc.check_collision(spriteList)
     player.handle_keys()
     npc_movement(player, npc)
-    for sprite in spriteList:
-        sprite.draw(surface)
     npc.update_rect()
     player.update_rect()
+    player.check_collision(spriteList)
+    npc.check_collision(spriteList)
+    for sprite in spriteList:
+        sprite.draw(surface)
 
 
 def run_gameplay(surface, mouse, heartIcons, spriteList):
