@@ -68,6 +68,7 @@ PLAYER_IMG = [UP_IMG, RIGHT_IMG, DOWN_IMG, LEFT_IMG]
 
 DOOR_IMG = pygame.image.load('Objects/Door.png')
 
+ROCK_IMG = 'Obstacles/Rock1.png'
 
 FPS = 25
 

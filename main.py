@@ -13,6 +13,7 @@ clock = pygame.time.Clock()
 bmrExistTime = 0 # time boomerang has existed
 player = Player(PLAYER_START_X, PLAYER_START_Y, PLAYER_IMG, 0)
 npc = Enemy(PLAYER_START_X + 200, PLAYER_START_Y, PLAYER_IMG, 1)
+rock = SpriteObject(PLAYER_START_X - 200, PLAYER_START_Y, ROCK_IMG, 30, 'obstacle')
 
 heartIcons = []
 
@@ -22,7 +23,7 @@ for i in range(0, 10):
 bmrExist = False
 currentScreen = "Main"
 
-spriteList = [player, npc]
+spriteList = [player, npc, rock]
 
 
 running = True

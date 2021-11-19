@@ -283,7 +283,7 @@ class Enemy (Character, object):
         Character.__init__(self, xLoc, yLoc, charImg, objID)
 
         self.type = "npc"
-        self.sightLength = 300
+        self.sightLength = 100
         self.__movementSpeed = WALK_SPEED + 1
         self.agro = False
         self.fiveSec = True
@@ -298,7 +298,7 @@ class Enemy (Character, object):
         leftRange = (self.orientation*45)-45
         rightRange = (self.orientation*45)+45
         #find the angle from npc to character
-        angle = math.degrees(math.atan2(pyLoc - self.yLoc, pxLoc - self.xLoc))
+        angle = math.degrees(math.atan2(pyLoc + (CHAR_WIDTH/2) - self.yLoc, pxLoc + (CHAR_HEIGHT/2) - self.xLoc))
         #if distance is less than sight length
         if (distance<self.sightLength):
             #if angle is between
@@ -351,7 +351,7 @@ class Enemy (Character, object):
             self.yLoc += self.__movementSpeed
             self.increment_sprite()
 
-        elif k == 2 and PLAYGROUND_Y_OFFSET <= self.yLoc+CHAR_HEIGHT-10 and self.canMoveUp:
+        elif k == 2 and PLAYGROUND_Y_OFFSET <= self.yLoc and self.canMoveUp:
             #Move up
             self.orientation = UP
             self.yLoc -= self.__movementSpeed
