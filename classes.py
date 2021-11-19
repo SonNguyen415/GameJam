@@ -271,7 +271,7 @@ class Enemy (Character, object):
         Character.__init__(self, xLoc, yLoc, charImg, objID)
 
         self.type = "npc"
-        self.sightLength = 100
+        self.sightLength = 300
         self.__movementSpeed = WALK_SPEED + 1
         self.agro = False
         self.fiveSec = True
@@ -291,13 +291,25 @@ class Enemy (Character, object):
                 self.agro = True
 
 
-    def move_towards_player(self, xLoc, yLoc):
-        # Find direction vector (dx, dy) between enemy and player.
-        dirvect = pygame.math.Vector2(xLoc - self.xLoc, yLoc - self.yLoc)
-        dirvect.normalize()
-        # Move along this normalized vector towards the player at current speed.
-        dirvect.scale_to_length(self.__movementSpeed)
-        self.rect.move_ip(dirvect)
+    def move_towards_player(self, x, y):
+        distX = x - self.xLoc
+        distY = y - self.yLoc
+        dist = math.sqrt((distX*distX)+(distY*distY))
+        if (distX<0 and self.canMoveLeft) or (distX>0 and self.canMoveRight):
+            self.xLoc += (distX/dist) * self.movementSpeed
+        if (distY<0 and self.canMoveUp) or (distY>0 and self.canMoveDown):
+            self.yLoc += (distY/dist) * self.movementSpeed
+
+        if abs(distX) > abs(distY):
+            if distX<0:
+                self.orientation = LEFT
+            else:
+                self.orientation = RIGHT
+        else:
+            if(distY<0):
+                self.orientation = UP
+            else:
+                self.orientation = DOWN
 
     def whacked(self):
         self.wounded(BMR_DMG)

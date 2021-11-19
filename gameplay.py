@@ -55,26 +55,31 @@ def bmr_gameplay(surface, mouse, player, spriteList):
 
 
 
-def npc_movement(npc):
+def npc_movement(player, npc):
     global npcTimer
     global k
-    if (npcTimer==10):
-        npcTimer = 0
-        k = random.randint(0, 5)
-    npcTimer+=1
-    npc.random_movement(k)
+    if npc.agro == False:
+        if npcTimer==10:
+            npcTimer = 0
+            k = random.randint(1, 5)
+        npcTimer += 1
+        npc.random_movement(k)
+    else:
+        npc.move_towards_player(player.xLoc,player.yLoc)
+
 
 
 
 def update_game(player, npc, surface, spriteList):
     player.handle_keys()
-    npc_movement(npc)
+    npc_movement(player, npc)
     npc.draw(surface)
     player.draw(surface)
     npc.update_rect()
     player.update_rect()
     player.check_collision(spriteList)
     npc.check_collision(spriteList)
+    npc.sense(player.xLoc, player.yLoc)
 
 
 def run_gameplay(surface, mouse, heartIcons, spriteList):
