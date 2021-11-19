@@ -13,21 +13,21 @@ pygame.font.init()
 def initiate_doors(spriteList):
     for i in playerGrid[playerPosition[0]][playerPosition[1]]:
         if i == 'N':
-            north = SpriteObject(500,100, DOOR_IMG, 'door', 'N')
+            north = SpriteObject(500,100, 'Objects/Door.png', 50, 'door', 'N')
             spriteList.append(north)
             north.draw(screen)
         elif i == 'S':
-            south = SpriteObject(500,500, DOOR_IMG, 'door', 'S')
+            south = SpriteObject(500,500, 'Objects/Door.png', 50, 'door', 'S')
             spriteList.append(south)
             south.rotate(180)
             south.draw(screen)
         elif i == 'W':
-            west = SpriteObject(100,300, DOOR_IMG, 'door', 'W')
+            west = SpriteObject(100,300, 'Objects/Door.png', 50, 'door', 'W')
             spriteList.append(west)
             west.rotate(90)
             west.draw(screen)
         elif i == 'E':
-            east = SpriteObject(900,300, DOOR_IMG, 'door', 'E')
+            east = SpriteObject(900,300, 'Objects/Door.png', 50, 'door', 'E')
             spriteList.append(east)
             east.rotate(270)
             east.draw(screen)
@@ -41,7 +41,7 @@ def updateMap(spriteList):
 
 
 class SpriteObject(pygame.sprite.Sprite):
-    def __init__(self, xLoc, yLoc, iconImg, objType, rotation = 'C'):
+    def __init__(self, xLoc, yLoc, iconImg, imageSize, objType, rotation = 'C'):
          # Call the parent class (Sprite) constructor
         super().__init__()
         self.type = objType
@@ -54,7 +54,7 @@ class SpriteObject(pygame.sprite.Sprite):
 
         self.image = pygame.image.load(iconImg)
 
-        self.image = pygame.transform.scale(self.image, (ICON_SCALE, ICON_SCALE))
+        self.image = pygame.transform.scale(self.image, (imageSize, imageSize))
         self.rect = self.image.get_rect(topleft=(self.xLoc, self.yLoc))
 
     def draw(self, surface):
