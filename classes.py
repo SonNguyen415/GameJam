@@ -253,6 +253,10 @@ class Player(Character, object):
         if(self.__stamina < MAX_STAMINA):
             self.__stamina += 1
 
+    def get_stamina_ratio(self):
+        if MAX_STAMINA > 0:
+            return self.__stamina / MAX_STAMINA
+        return 0
 
     def spawn_boomerang(self, surface):
         bmrX = self.xLoc + CHAR_WIDTH/2
@@ -489,7 +493,3 @@ class Boomerang(pygame.sprite.Sprite):
         self.accel = 2*self.find_a(x, y, myPlayer)
         self.currSpeed = -self.accel*BOOMERANG_TIME/2
         self.direction = self.find_normalized_dir(x, y)
-
-
-
-

@@ -94,7 +94,7 @@ def run_gameplay(surface, mouse, heartIcons, spriteList):
     PLAY_AREA = get_playground()
 
     surface.blit(PLAY_AREA, (0, 0))
-    
+
     player = spriteList[0]
     npc = spriteList[1]
 
@@ -108,4 +108,7 @@ def run_gameplay(surface, mouse, heartIcons, spriteList):
 
     for i in range(0, player.health):
         heartIcons[i].draw(surface)
+
+    pygame.draw.rect(surface, (0,203,255), pygame.Rect(15,45,60,15), width=2)
+    pygame.draw.rect(surface, (0,203,255), pygame.Rect(15,45,60*player.get_stamina_ratio(),15))
     return "Play"
