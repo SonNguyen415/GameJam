@@ -153,54 +153,40 @@ class Character(pygame.sprite.Sprite):
 
     def collision_enforcement(self, eachSprite):
         if(-POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom  <= 0):
-            self.canMoveDown = False
-            # eachSprite.canMoveUp = False
-        else:
-            self.canMoveDown = True
-            # eachSprite.canMoveUp = True
+            self.canMoveDown = False     
         if(-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom <= -POS_TOLERANCE/2):
-            self.canMoveUp = False
-            # eachSprite.canMoveDown = False
-        else:
-            self.canMoveUp = True
-            # eachSprite.canMoveDown = True
+            self.canMoveUp = False        
         if(-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE):
             self.canMoveLeft = False
-            if(self.type == "npc"):
-                print(self.canMoveLeft)
-            # eachSprite.canMoveRight = False
-        else:
-            self.canMoveLeft = True
-            # eachSprite.canMoveRight = True
         if(-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE):
             self.canMoveRight = False
-            # eachSprite.canMoveLeft = False
-        else:
-            self.canMoveRight = True
-            # eachSprite.canMoveLeft = True
 
+        
 
 
     def check_collision(self, spriteList):
+        self.canMoveLeft = True
+        self.canMoveRight = True
+        self.canMoveDown = True
+        self.canMoveUp = True
         for eachSprite in spriteList:
             if(eachSprite.type == self.type):
                 pass
-            elif(self.rect.colliderect(eachSprite.rect)):
-                self.collision_enforcement(eachSprite)
-                if(eachSprite.type == "door" and self.type == "player"):
-                    eachSprite.change_position()
-                    updateMap(spriteList)
-                    self.xLoc = WINDOW_LENGTH/2
-                    self.yLoc = PLAYGROUND_HEIGHT
-                    time.sleep(0.1)
-                    return
-                if(eachSprite.type == "player" and self.type == "npc"):
-                    self.slappable = True
             else:
-                self.canMoveRight = True
-                self.canMoveLeft = True
-                self.canMoveUp = True
-                self.canMoveDown = True
+                if(self.rect.colliderect(eachSprite.rect)):
+                    self.collision_enforcement(eachSprite)
+                    if(eachSprite.type == "door" and self.type == "player"):
+                        
+                        eachSprite.change_position()
+                        updateMap(spriteList)
+                        
+                        self.xLoc = WINDOW_LENGTH/2
+                        self.yLoc = PLAYGROUND_HEIGHT
+                        time.sleep(0.1)
+                        return
+                    if(eachSprite.type == "player" and self.type == "npc"):
+                        self.slappable = True
+    
 
 
 class Player(Character, object):
