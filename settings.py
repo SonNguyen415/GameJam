@@ -34,12 +34,13 @@ ICON_SCALE = 25
 
 
 BOOMERANG_SIZE = 20
-BOOMERANG_SPEED = [30, 30]
+BOOMERANG_MAX_SPEED = 50
 BOOMERANG_TIME = 20
 LOC_TOLERANCE = 1
 SPEED_TOLERANCE = 5
-MAX_BMR_DISTANCE = 100
+MAX_BMR_DISTANCE = 200
 MAX_BMR_TIME = 20
+BMR_DMG = 1
 
 
 
@@ -67,7 +68,10 @@ LEFT_IMG.append(pygame.image.load('Character Sprites/Left/3.png'))
 
 PLAYER_IMG = [UP_IMG, RIGHT_IMG, DOWN_IMG, LEFT_IMG]
 
-FPS = 20
+DOOR_IMG = pygame.image.load('Objects/Door.png')
+
+
+FPS = 25
 
 UP = 0
 RIGHT = 1

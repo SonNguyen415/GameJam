@@ -1,17 +1,23 @@
 import pygame
 import random as rnd
 import time
-
-
+from menu import *
+from settings import *
 #-----------------------------#
 
-grid = [['B','B','B','B','B','B','B'],
-        ['B','B','B','B','B','B','B'],
-        ['B','B','B','B','B','B','B'],
-        ['B','B','B','NSWE','B','B','B'],
-        ['B','B','B','B','B','B','B'],
-        ['B','B','B','B','B','B','B'],
-        ['B','B','B','B','B','B','B']]
+playerPosition = [2,2]
+
+grid = [['B','B','B','B','B',],
+         ['B','B','B','B','B',],
+         ['B','B','NSWE','B','B',],
+         ['B','B','B','B','B',],
+         ['B','B','B','B','B',]]
+
+playerGrid = [['B','B','B','B','B',],
+              ['B','B','B','B','B',],
+              ['B','B','NSWE','B','B',],
+              ['B','B','B','B','B',],
+              ['B','B','B','B','B',]]
 
 gridStats ={
             '(0, 0)':[],
@@ -40,22 +46,6 @@ gridStats ={
             '(4, 3)':[],
             '(4, 4)':[]
             }
-
-grid2 = [['B','B','B'],
-         ['B','NSWE','B'],
-         ['B','B','B']]
-
-grid3 = [['B','B','B','B','B',],
-         ['B','B','B','B','B',],
-         ['B','B','NSWE','B','B',],
-         ['B','B','B','B','B',],
-         ['B','B','B','B','B',]]
-
-grid = grid3
-
-grid4 = [['B','B','B','B'],
-         ['B','NSWE','B','B'],
-         ['B','B','B','B']]
 
 ROOMS = {
         'N': ['NS', 'NS', 'NS', 'NS', 'S', 'S', 'S', 'SW', 'SE', 'SWE', 'NSW', 'NSE'],
@@ -241,12 +231,22 @@ def reset(answer):
         return gridStats
 
 
+
+
+
+
+
 def display(screen):
-    for i in range(len(grid)):
-        for j in range(len(grid[i])):
-            image = pygame.image.load(IMAGES[grid[i][j]][0])
-            image = pygame.transform.scale(image, (50,50))
-            screen.blit(image, ((j+(j*48)) , (i+(i*48))))
+    for i in range(len(playerGrid)):
+        for j in range(len(playerGrid[i])):
+            image = pygame.image.load(IMAGES[playerGrid[i][j]][0])
+            image = pygame.transform.scale(image, (20,20))
+            screen.blit(image, ((0+(j*19)) , (505+(i*19))))
+    pygame.draw.circle(screen, (255,0,0), (10+((playerPosition[0])*19), 515+((playerPosition[1])*19)), 3)
+
+
+
+
 
 def checkForDoors(i,j):
     directions = []
@@ -259,6 +259,8 @@ def checkForDoors(i,j):
     if check_down(i,j):
         directions.append('N')
     return directions
+
+
 
 def checkForWalls(i,j):
     directions = []
@@ -307,7 +309,7 @@ def generateStats():
                 gridStats[tile].append(ENEMIES[rnd.randint(0,len(ENEMIES)-1)])
             else:
                 gridStats[tile].append([])
-            
+
 def fix():
     for i in range(len(grid)):
         for j in range(len(grid[i])):

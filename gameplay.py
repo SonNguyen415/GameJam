@@ -1,7 +1,11 @@
 import pygame
+from pygame import sprite
 from classes import *
 from settings import *
+import time
 import random
+from dungeon_generation import *
+
 
 bmr = object
 bmrExist = False
@@ -11,14 +15,26 @@ npcTimer = 0
 k = 1
 
 
+artifactList = [[],[]]
+
+
+def show_curr_artifact(player):
+    for artifact, i in enumerate(artifactList[0]):
+        if artifact.rect.colliderect(player.rect):
+            player.generate_text()
+            if key[pygame.K_e]:
+                artifactList[1][i].draw()
+                time.sleep(10)
+
+
 def get_playground():
-    playground = pygame.image.load("Map Play Area/W.png").convert_alpha()
+    playground = pygame.image.load("Base Room.png").convert_alpha()
     playground = pygame.transform.scale(playground, (WINDOW_LENGTH, WINDOW_HEIGHT))
     return playground
 
 
 
-def bmr_gameplay(surface, mouse, player):
+def bmr_gameplay(surface, mouse, player, spriteList):
     global bmrExist
     global bmrTime
     global ctr
@@ -32,34 +48,50 @@ def bmr_gameplay(surface, mouse, player):
         bmrTime = 0
     elif (bmrExist):
         bmrTime += 1
-        bmr.move_boomerang(surface, mouse[0], mouse[1], player)
+        bmr.move_boomerang(surface, mouse[0], mouse[1], player, spriteList)
         bmrExist = not bmr.check_finish(bmrTime, surface, player)
 
 
 
 
-def run_gameplay(surface, mouse, player, npc, heartIcons, spriteList):
+def npc_movement(npc):
     global npcTimer
     global k
-
-    PLAY_AREA = get_playground()
-
-    surface.blit(PLAY_AREA, (0, 0))
-    collidedObject = player.check_collision(spriteList)
-    player.handle_keys()
-    # npc.random_movement()
     if (npcTimer==10):
         npcTimer = 0
         k = random.randint(0, 5)
     npcTimer+=1
     npc.random_movement(k)
-    player.update_rect()
 
 
-    bmr_gameplay(surface, mouse, player)
 
+def update_game(player, npc, surface, spriteList):
+    player.handle_keys()
+    npc_movement(npc)
     npc.draw(surface)
     player.draw(surface)
-    for i in range(0, 10): 
+    npc.update_rect()
+    player.update_rect()
+    player.check_collision(spriteList)
+    npc.check_collision(spriteList)
+
+
+def run_gameplay(surface, mouse, heartIcons, spriteList):
+    PLAY_AREA = get_playground()
+
+    surface.blit(PLAY_AREA, (0, 0))
+    
+    player = spriteList[0]
+    npc = spriteList[1]
+
+    update_game(player, npc, surface, spriteList)
+    bmr_gameplay(surface, mouse, player, spriteList)
+
+    generate()
+    generateStats()
+
+    updateMap(spriteList)
+
+    for i in range(0, player.health):
         heartIcons[i].draw(surface)
     return "Play"

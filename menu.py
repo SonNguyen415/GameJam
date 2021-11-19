@@ -1,23 +1,20 @@
 import pygame
 import sys
 import button
+from settings import WINDOW_HEIGHT, WINDOW_LENGTH
 
 
 #initialize pygame
 pygame.init()
 
 # Generate Window
-screen = pygame.display.set_mode((1000, 600))
+screen = pygame.display.set_mode((WINDOW_LENGTH, WINDOW_HEIGHT))
 
 # Title and Icon
 pygame.display.set_caption("Jelly Jammers")
-icon = pygame.image.load('icon.png')
+icon = pygame.image.load('Objects/icon.png')
 pygame.display.set_icon(icon)
 
-# Title and Icon
-pygame.display.set_caption("Jelly Jammers")
-icon = pygame.image.load('icon.png')
-pygame.display.set_icon(icon)
 
 # Set image path as variables for later use
 START_IMG = pygame.image.load("Button Icons/Play Button.png").convert_alpha()
@@ -63,7 +60,7 @@ def main_menu(currScreen):
 #----------------------------------------------#
 
 def credit_menu(currScreen):
-    changeScreen = "Credits"
+    currScreen = "Credits"
 
     screen.blit(BG_CREDITS, (0,0))
 
