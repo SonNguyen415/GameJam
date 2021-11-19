@@ -281,7 +281,7 @@ class Enemy (Character, object):
         Character.__init__(self, xLoc, yLoc, charImg, objID)
 
         self.type = "npc"
-        self.sightLength = 100
+        self.sightLength = 300
         self.__movementSpeed = WALK_SPEED + 1
         self.agro = False
         self.fiveSec = True
