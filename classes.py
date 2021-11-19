@@ -185,7 +185,6 @@ class Character(pygame.sprite.Sprite):
                 pass
             elif(self.rect.colliderect(eachSprite.rect)):
                 self.collision_enforcement(eachSprite)
-
                 if(eachSprite.type == "door" and self.type == "player"):
                     eachSprite.change_position()
                     updateMap(spriteList)

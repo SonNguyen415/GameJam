@@ -15,18 +15,15 @@ npcTimer = 0
 k = 1
 
 
-artifactList = [[],[]]
-
-
-
+currentArtifacts = [[],[]]
 
 
 def show_curr_artifact(player):
-    for artifact, i in enumerate(artifactList[0]):
+    for artifact, i in enumerate(currentArtifacts[0]):
         if artifact.rect.colliderect(player.rect):
             player.generate_text()
             if key[pygame.K_e]:
-                artifactList[1][i].draw()
+                currentArtifacts[1][i].draw()
                 time.sleep(10)
 
 
