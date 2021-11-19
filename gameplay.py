@@ -41,7 +41,6 @@ def bmr_gameplay(surface, mouse, player, spriteList):
     global ctr
     global bmr
     if (bmrExist == False and pygame.mouse.get_pressed()[0] and (pygame.time.get_ticks() - ctr) > (WAIT_TIME * 1000)):
-        print(pygame.time.get_ticks())
         bmr = player.spawn_boomerang(surface)
         bmr.spawn_boomerang(mouse[0], mouse[1], player)
         bmrExist = True
@@ -51,9 +50,7 @@ def bmr_gameplay(surface, mouse, player, spriteList):
         bmr.move_boomerang(surface, mouse[0], mouse[1], player, spriteList)
         if bmr.check_finish(bmrTime, surface, player):
             bmrExist = False
-            print("meow")
             ctr = pygame.time.get_ticks()
-            print(ctr)
 
 
 
@@ -73,7 +70,7 @@ def npc_movement(player, npc):
     else:
         npc.move_towards_player(player.xLoc,player.yLoc)
     if npc.agro:
-        npc.slaps(player)
+        # npc.slaps(player)
         if npc.coolDown:
             t+=1
             if t==15:
@@ -83,15 +80,16 @@ def npc_movement(player, npc):
 
 
 def update_game(player, npc, surface, spriteList):
+    npc.sense(player.xLoc, player.yLoc)
+
+    player.check_collision(spriteList)
+    npc.check_collision(spriteList)
     player.handle_keys()
     npc_movement(player, npc)
     for sprite in spriteList:
         sprite.draw(surface)
     npc.update_rect()
     player.update_rect()
-    player.check_collision(spriteList)
-    npc.check_collision(spriteList)
-    npc.sense(player.xLoc, player.yLoc)
 
 
 def run_gameplay(surface, mouse, heartIcons, spriteList):

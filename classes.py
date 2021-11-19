@@ -164,19 +164,18 @@ class Character(pygame.sprite.Sprite):
         else:
             self.canMoveUp = True
             eachSprite.canMoveDown = True
-        if(-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE/2):
+        if(-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE):
             self.canMoveLeft = False
             eachSprite.canMoveRight = False
         else:
             self.canMoveLeft = True
             eachSprite.canMoveRight = True
-
-        if(-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE/2):
+        if(-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE):
             self.canMoveRight = False
             eachSprite.canMoveLeft = False
         else:
             self.canMoveRight = True
-            eachSprite.canMoveDown = True
+            eachSprite.canMoveLeft = True
 
 
 
@@ -189,9 +188,9 @@ class Character(pygame.sprite.Sprite):
                 if(eachSprite.type == "door" and self.type == "player"):
                     eachSprite.change_position()
                     updateMap(spriteList)
-                    self.xLoc = 500
-                    self.yLoc = 500
-                    time.sleep(0)
+                    self.xLoc = WINDOW_LENGTH/2
+                    self.yLoc = PLAYGROUND_HEIGHT
+                    time.sleep(0.1)
                     return
                 if(eachSprite.type == "player" and self.type == "npc"):
                     self.slappable = True
@@ -223,7 +222,6 @@ class Player(Character, object):
         if key[pygame.K_DOWN] and self.yLoc+CHAR_HEIGHT <= PLAYGROUND_HEIGHT+PLAYGROUND_Y_OFFSET and self.canMoveDown:
             self.yLoc += self.movementSpeed
             self.orientation = DOWN
-            self.increment_sprite()
         elif key[pygame.K_UP] and PLAYGROUND_Y_OFFSET <= self.yLoc+CHAR_HEIGHT-10 and self.canMoveUp:
             self.yLoc -= self.movementSpeed
             self.orientation = UP
@@ -253,7 +251,7 @@ class Player(Character, object):
 
     def restore_stamina(self):
         if(self.__stamina < MAX_STAMINA):
-            self.__stamina += 1
+            self.__stamina += 5
 
     def get_stamina_ratio(self):
         if MAX_STAMINA > 0:
@@ -309,19 +307,25 @@ class Enemy (Character, object):
     def move_towards_player(self, x, y):
         if self.dead:
             return
-        distX = x - self.xLoc
-        distY = y - self.yLoc
+        distX = x - self.xLoc 
+        distY = y - self.yLoc 
         dist = math.sqrt((distX*distX)+(distY*distY))
 
         if distX < 0 and self.canMoveLeft:
             self.xLoc += (distX/dist) * self.movementSpeed
+            self.increment_sprite()
+
         if distX > 0 and self.canMoveRight:
             self.xLoc += (distX / dist) * self.movementSpeed
+            self.increment_sprite()
         if distY < 0 and self.canMoveUp:
             self.yLoc += (distY/dist) * self.movementSpeed
+            self.increment_sprite()
+
         if distY > 0 and self.canMoveDown:
             self.yLoc += (distY / dist) * self.movementSpeed
-        self.increment_sprite()
+            self.increment_sprite()
+
 
         if abs(distX) > abs(distY):
             if distX<0:
