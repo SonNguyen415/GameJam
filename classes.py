@@ -211,6 +211,8 @@ class Player(Character, object):
         self.__stamina = MAX_STAMINA
         self.speaking = False
 
+        
+
     def slapped(self):
         self.wounded(1)
 
@@ -387,6 +389,10 @@ class Boomerang(pygame.sprite.Sprite):
         self.direction = []
         self.currSpeed = 0
         self.accel = 0
+
+
+        self.tick = 0
+        self.fire = True
 
     def draw(self, surface):
         surface.blit(self.image, (self.xLoc, self.yLoc))
