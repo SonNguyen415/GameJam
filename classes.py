@@ -8,27 +8,30 @@ import math
 pygame.font.init()
 
 
+
+
 def initiate_doors(spriteList):
     for i in playerGrid[playerPosition[0]][playerPosition[1]]:
         if i == 'N':
-            north = Door(500,100, DOOR_IMG, 'N')
+            north = SpriteObject(500,100, DOOR_IMG, 'door', 'N')
             spriteList.append(north)
             north.draw(screen)
         elif i == 'S':
-            south = Door(500,500, DOOR_IMG, 'S')
+            south = SpriteObject(500,500, DOOR_IMG, 'door', 'S')
             spriteList.append(south)
             south.rotate(180)
             south.draw(screen)
         elif i == 'W':
-            west = Door(100,300, DOOR_IMG, 'W')
+            west = SpriteObject(100,300, DOOR_IMG, 'door', 'W')
             spriteList.append(west)
             west.rotate(90)
             west.draw(screen)
         elif i == 'E':
-            east = Door(900,300, DOOR_IMG, 'E')
+            east = SpriteObject(900,300, DOOR_IMG, 'door', 'E')
             spriteList.append(east)
             east.rotate(270)
             east.draw(screen)
+
 
 def updateMap(spriteList):
     pGrid = playerGrid[playerPosition[0]][playerPosition[1]]
@@ -37,14 +40,17 @@ def updateMap(spriteList):
     initiate_doors(spriteList)
 
 
-class Graphics(pygame.sprite.Sprite):
-    def __init__(self, xLoc, yLoc, iconImg):
+class SpriteObject(pygame.sprite.Sprite):
+    def __init__(self, xLoc, yLoc, iconImg, objType, rotation = 'C'):
          # Call the parent class (Sprite) constructor
         super().__init__()
-        self.type = "graphics"
+        self.type = objType
 
         self.xLoc = xLoc
         self.yLoc = yLoc
+
+        self.state = 'locked'
+        self.rot = rotation
 
         self.image = pygame.image.load(iconImg)
 
@@ -53,6 +59,27 @@ class Graphics(pygame.sprite.Sprite):
 
     def draw(self, surface):
         surface.blit(self.image, (self.xLoc, self.yLoc))
+
+    def rotate(self, angle):
+        self.image = pygame.transform.rotate(self.image, angle)
+
+    def draw(self, surface):
+        surface.blit(self.image, (self.xLoc, self.yLoc))
+
+
+    def change_position(self):
+        if self.rot == 'N':
+            playerPosition[1] -= 1
+        elif self.rot == 'S':
+            playerPosition[1] += 1
+        elif self.rot == 'W':
+            playerPosition[0] -= 1
+        elif self.rot == 'E':
+            playerPosition[0] += 1
+
+
+
+
 
 
 
@@ -433,37 +460,3 @@ class Boomerang(pygame.sprite.Sprite):
 
 
 
-class Door(pygame.sprite.Sprite):
-    def __init__(self, xLoc, yLoc, objImg, rotation):
-        super().__init__()
-
-        self.type = 'door'
-
-        self.xLoc = xLoc
-        self.yLoc = yLoc
-
-        self.state = 'locked'
-
-        self.image  = objImg
-
-        self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
-        self.rect = self.image.get_rect(topleft=(self.xLoc, self.yLoc))
-
-        self.rot = rotation
-
-    def rotate(self, angle):
-        self.image = pygame.transform.rotate(self.image, angle)
-
-    def draw(self, surface):
-        surface.blit(self.image, (self.xLoc, self.yLoc))
-
-
-    def change_position(self):
-        if self.rot == 'N':
-            playerPosition[1] -= 1
-        elif self.rot == 'S':
-            playerPosition[1] += 1
-        elif self.rot == 'W':
-            playerPosition[0] -= 1
-        elif self.rot == 'E':
-            playerPosition[0] += 1

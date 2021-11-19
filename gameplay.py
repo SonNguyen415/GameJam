@@ -18,6 +18,9 @@ k = 1
 artifactList = [[],[]]
 
 
+
+
+
 def show_curr_artifact(player):
     for artifact, i in enumerate(artifactList[0]):
         if artifact.rect.colliderect(player.rect):
