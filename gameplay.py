@@ -13,7 +13,7 @@ bmrTime = 0
 ctr = 0
 npcTimer = 0
 k = 1
-
+t = 0
 
 currentArtifacts = [[],[]]
 
@@ -58,6 +58,8 @@ def bmr_gameplay(surface, mouse, player, spriteList):
 def npc_movement(player, npc):
     global npcTimer
     global k
+    global t
+
     if npc.agro == False:
         if npcTimer==10:
             npcTimer = 0
@@ -66,7 +68,13 @@ def npc_movement(player, npc):
         npc.random_movement(k)
     else:
         npc.move_towards_player(player.xLoc,player.yLoc)
-
+    if npc.agro:
+        npc.slaps(player)
+        if npc.coolDown:
+            t+=1
+            if t==15:
+                t=0
+                npc.coolDown = False
 
 
 

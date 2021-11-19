@@ -116,6 +116,7 @@ class Character(pygame.sprite.Sprite):
         self.canMoveLeft = True
         self.canMoveRight = True
         self.movementSpeed = WALK_SPEED
+        self.slappable = False
 
     def draw(self, surface):
         # blit yourself at your current position
@@ -192,6 +193,8 @@ class Character(pygame.sprite.Sprite):
                     self.yLoc = 500
                     time.sleep(0)
                     return
+                if(eachSprite.type == "player" and self.type == "npc"):
+                    self.slappable = True
             else:
                 self.canMoveRight = True
                 self.canMoveLeft = True
@@ -207,6 +210,9 @@ class Player(Character, object):
         self.__staminaRecharge = 0
         self.__stamina = MAX_STAMINA
         self.speaking = False
+
+    def slapped(self):
+        self.wounded(1)
 
     def handle_keys(self):
         if(self.dead):
@@ -275,6 +281,7 @@ class Enemy (Character, object):
         self.__movementSpeed = WALK_SPEED + 1
         self.agro = False
         self.fiveSec = True
+        self.coolDown = False
 
     def sense(self, pxLoc, pyLoc):
         if self.health < 10:
@@ -299,6 +306,7 @@ class Enemy (Character, object):
         distX = x - self.xLoc
         distY = y - self.yLoc
         dist = math.sqrt((distX*distX)+(distY*distY))
+
         if distX < 0 and self.canMoveLeft:
             self.xLoc += (distX/dist) * self.movementSpeed
         if distX > 0 and self.canMoveRight:
@@ -322,6 +330,13 @@ class Enemy (Character, object):
 
     def whacked(self):
         self.wounded(BMR_DMG)
+
+    def slaps(self, player):
+        if not self.coolDown:
+            if self.slappable:
+                player.slapped()
+                self.slappable = False
+                self.coolDown = True
 
     def random_movement(self, k):
         if k == 1 and self.yLoc + CHAR_HEIGHT <= PLAYGROUND_HEIGHT-PLAYGROUND_Y_OFFSET and self.canMoveDown:
