@@ -13,7 +13,7 @@ bmrTime = 0
 ctr = 0
 npcTimer = 0
 k = 1
-
+t = 0
 
 currentArtifacts = [[],[]]
 
@@ -40,9 +40,8 @@ def bmr_gameplay(surface, mouse, player, spriteList):
     global bmrTime
     global ctr
     global bmr
-    if(ctr <  WAIT_TIME):
-        ctr += 1
-    if (bmrExist == False and pygame.mouse.get_pressed()[0] and ctr >= WAIT_TIME):
+    if (bmrExist == False and pygame.mouse.get_pressed()[0] and (pygame.time.get_ticks() - ctr) > (WAIT_TIME * 1000)):
+        print(pygame.time.get_ticks())
         bmr = player.spawn_boomerang(surface)
         bmr.spawn_boomerang(mouse[0], mouse[1], player)
         bmrExist = True
@@ -50,38 +49,56 @@ def bmr_gameplay(surface, mouse, player, spriteList):
     elif (bmrExist):
         bmrTime += 1
         bmr.move_boomerang(surface, mouse[0], mouse[1], player, spriteList)
-        bmrExist = not bmr.check_finish(bmrTime, surface, player)
+        if bmr.check_finish(bmrTime, surface, player):
+            bmrExist = False
+            print("meow")
+            ctr = pygame.time.get_ticks()
+            print(ctr)
 
 
 
 
-def npc_movement(npc):
+
+def npc_movement(player, npc):
     global npcTimer
     global k
-    if (npcTimer==10):
-        npcTimer = 0
-        k = random.randint(0, 5)
-    npcTimer+=1
-    npc.random_movement(k)
+    global t
+
+    if npc.agro == False:
+        if npcTimer==10:
+            npcTimer = 0
+            k = random.randint(1, 5)
+        npcTimer += 1
+        npc.random_movement(k)
+    else:
+        npc.move_towards_player(player.xLoc,player.yLoc)
+    if npc.agro:
+        npc.slaps(player)
+        if npc.coolDown:
+            t+=1
+            if t==15:
+                t=0
+                npc.coolDown = False
 
 
 
 def update_game(player, npc, surface, spriteList):
     player.handle_keys()
-    npc_movement(npc)
+    npc_movement(player, npc)
     npc.draw(surface)
     player.draw(surface)
     npc.update_rect()
     player.update_rect()
     player.check_collision(spriteList)
     npc.check_collision(spriteList)
+    npc.sense(player.xLoc, player.yLoc)
 
 
 def run_gameplay(surface, mouse, heartIcons, spriteList):
     PLAY_AREA = get_playground()
 
     surface.blit(PLAY_AREA, (0, 0))
-    
+
     player = spriteList[0]
     npc = spriteList[1]
 
@@ -95,4 +112,7 @@ def run_gameplay(surface, mouse, heartIcons, spriteList):
 
     for i in range(0, player.health):
         heartIcons[i].draw(surface)
+
+    pygame.draw.rect(surface, (0,203,255), pygame.Rect(15,45,60,15), width=2)
+    pygame.draw.rect(surface, (0,203,255), pygame.Rect(15,45,60*player.get_stamina_ratio(),15))
     return "Play"

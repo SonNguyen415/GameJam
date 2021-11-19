@@ -116,6 +116,7 @@ class Character(pygame.sprite.Sprite):
         self.canMoveLeft = True
         self.canMoveRight = True
         self.movementSpeed = WALK_SPEED
+        self.slappable = False
 
     def draw(self, surface):
         # blit yourself at your current position
@@ -192,6 +193,8 @@ class Character(pygame.sprite.Sprite):
                     self.yLoc = 500
                     time.sleep(0)
                     return
+                if(eachSprite.type == "player" and self.type == "npc"):
+                    self.slappable = True
             else:
                 self.canMoveRight = True
                 self.canMoveLeft = True
@@ -207,6 +210,11 @@ class Player(Character, object):
         self.__staminaRecharge = 0
         self.__stamina = MAX_STAMINA
         self.speaking = False
+
+        
+
+    def slapped(self):
+        self.wounded(1)
 
     def handle_keys(self):
         if(self.dead):
@@ -247,6 +255,10 @@ class Player(Character, object):
         if(self.__stamina < MAX_STAMINA):
             self.__stamina += 1
 
+    def get_stamina_ratio(self):
+        if MAX_STAMINA > 0:
+            return self.__stamina / MAX_STAMINA
+        return 0
 
     def spawn_boomerang(self, surface):
         bmrX = self.xLoc + CHAR_WIDTH/2
@@ -271,12 +283,15 @@ class Enemy (Character, object):
         Character.__init__(self, xLoc, yLoc, charImg, objID)
 
         self.type = "npc"
-        self.sightLength = 100
+        self.sightLength = 300
         self.__movementSpeed = WALK_SPEED + 1
         self.agro = False
         self.fiveSec = True
+        self.coolDown = False
 
     def sense(self, pxLoc, pyLoc):
+        if self.health < 10:
+            self.agro = True
         #find distance of npc to player
         distance = math.sqrt(((self.xLoc-pxLoc)**2)+((self.yLoc-pyLoc)**2))
         #find the range of sight
@@ -291,20 +306,45 @@ class Enemy (Character, object):
                 self.agro = True
 
 
-    def move_towards_player(self, xLoc, yLoc):
-        # Find direction vector (dx, dy) between enemy and player.
-        dirvect = pygame.math.Vector2(xLoc - self.xLoc, yLoc - self.yLoc)
-        dirvect.normalize()
-        # Move along this normalized vector towards the player at current speed.
-        dirvect.scale_to_length(self.__movementSpeed)
-        self.rect.move_ip(dirvect)
+    def move_towards_player(self, x, y):
+        if self.dead:
+            return
+        distX = x - self.xLoc
+        distY = y - self.yLoc
+        dist = math.sqrt((distX*distX)+(distY*distY))
+
+        if distX < 0 and self.canMoveLeft:
+            self.xLoc += (distX/dist) * self.movementSpeed
+        if distX > 0 and self.canMoveRight:
+            self.xLoc += (distX / dist) * self.movementSpeed
+        if distY < 0 and self.canMoveUp:
+            self.yLoc += (distY/dist) * self.movementSpeed
+        if distY > 0 and self.canMoveDown:
+            self.yLoc += (distY / dist) * self.movementSpeed
+        self.increment_sprite()
+
+        if abs(distX) > abs(distY):
+            if distX<0:
+                self.orientation = LEFT
+            else:
+                self.orientation = RIGHT
+        else:
+            if(distY<0):
+                self.orientation = UP
+            else:
+                self.orientation = DOWN
 
     def whacked(self):
         self.wounded(BMR_DMG)
 
+    def slaps(self, player):
+        if not self.coolDown:
+            if self.slappable:
+                player.slapped()
+                self.slappable = False
+                self.coolDown = True
+
     def random_movement(self, k):
-        if(self.dead):
-            return
         if k == 1 and self.yLoc + CHAR_HEIGHT <= PLAYGROUND_HEIGHT-PLAYGROUND_Y_OFFSET and self.canMoveDown:
             #Move down
             self.orientation = DOWN
@@ -349,6 +389,10 @@ class Boomerang(pygame.sprite.Sprite):
         self.direction = []
         self.currSpeed = 0
         self.accel = 0
+
+
+        self.tick = 0
+        self.fire = True
 
     def draw(self, surface):
         surface.blit(self.image, (self.xLoc, self.yLoc))
@@ -455,7 +499,3 @@ class Boomerang(pygame.sprite.Sprite):
         self.accel = 2*self.find_a(x, y, myPlayer)
         self.currSpeed = -self.accel*BOOMERANG_TIME/2
         self.direction = self.find_normalized_dir(x, y)
-
-
-
-
