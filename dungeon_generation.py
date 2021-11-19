@@ -2,7 +2,7 @@ import pygame
 import random as rnd
 import time
 from menu import *
-
+from settings import *
 #-----------------------------#
 
 playerPosition = [2,2]
@@ -236,8 +236,6 @@ def reset(answer):
 
 
 
-
-
 def display(screen):
     for i in range(len(playerGrid)):
         for j in range(len(playerGrid[i])):
@@ -245,14 +243,6 @@ def display(screen):
             image = pygame.transform.scale(image, (20,20))
             screen.blit(image, ((0+(j*19)) , (505+(i*19))))
     pygame.draw.circle(screen, (255,0,0), (10+((playerPosition[0])*19), 515+((playerPosition[1])*19)), 3)
-
-def updateMap():
-    pGrid = playerGrid[playerPosition[0]][playerPosition[1]]
-    if pGrid == 'B':
-        pGrid = grid[playerPosition[0]][playerPosition[1]]
-
-
-
 
 
 
@@ -269,6 +259,8 @@ def checkForDoors(i,j):
     if check_down(i,j):
         directions.append('N')
     return directions
+
+
 
 def checkForWalls(i,j):
     directions = []

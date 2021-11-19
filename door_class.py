@@ -1,12 +1,8 @@
-import pygame
-from settings import *
-import time
-from dungeon_generation import playerPosition, updateMap
-
-
 class Door(pygame.sprite.Sprite):
     def __init__(self, xLoc, yLoc, objImg, rotation):
         super().__init__()
+
+        self.type = 'door'
 
         self.xLoc = xLoc
         self.yLoc = yLoc
@@ -17,7 +13,11 @@ class Door(pygame.sprite.Sprite):
 
         self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
 
+
         self.rot = rotation
+
+    def rotate(self, angle):
+        self.image = pygame.transform.rotate(self.image, angle)
 
     def draw(self, surface):
         surface.blit(self.image, (self.xLoc, self.yLoc))

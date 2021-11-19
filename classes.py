@@ -1,10 +1,40 @@
 import pygame
 import pygame.font
 from settings import *
+from dungeon_generation import *
 import time
 import math
 
 pygame.font.init()
+
+
+def initiate_doors(spriteList):
+    for i in playerGrid[playerPosition[0]][playerPosition[1]]:
+        if i == 'N':
+            north = Door(500,100, DOOR_IMG, 'N')
+            spriteList.append(north)
+            north.draw(screen)
+        elif i == 'S':
+            south = Door(500,500, DOOR_IMG, 'S')
+            spriteList.append(south)
+            south.rotate(180)
+            south.draw(screen)
+        elif i == 'W':
+            west = Door(100,300, DOOR_IMG, 'W')
+            spriteList.append(west)
+            west.rotate(90)
+            west.draw(screen)
+        elif i == 'E':
+            east = Door(900,300, DOOR_IMG, 'E')
+            spriteList.append(east)
+            east.rotate(270)
+            east.draw(screen)
+
+def updateMap(spriteList):
+    pGrid = playerGrid[playerPosition[0]][playerPosition[1]]
+    if pGrid == 'B':
+        pGrid = grid[playerPosition[0]][playerPosition[1]]
+    initiate_doors(spriteList)
 
 
 class Graphics(pygame.sprite.Sprite):
@@ -19,8 +49,8 @@ class Graphics(pygame.sprite.Sprite):
         self.image = pygame.image.load(iconImg)
 
         self.image = pygame.transform.scale(self.image, (ICON_SCALE, ICON_SCALE))
-        self.rect = self.image.get_rect(topleft=(xLoc, yLoc))
-    
+        self.rect = self.image.get_rect(topleft=(self.xLoc, self.yLoc))
+
     def draw(self, surface):
         surface.blit(self.image, (self.xLoc, self.yLoc))
 
@@ -44,7 +74,7 @@ class Character(pygame.sprite.Sprite):
 
         self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
 
-        self.rect = self.image.get_rect(topleft=(xLoc, yLoc))
+        self.rect = self.image.get_rect(topleft=(self.xLoc, self.yLoc))
 
 
         # Set our transparent color
@@ -53,7 +83,7 @@ class Character(pygame.sprite.Sprite):
 
         # Some character data
         self.health = 10
-        self.alive = True
+        self.dead = False
         self.canMoveUp = True
         self.canMoveDown = True
         self.canMoveLeft = True
@@ -62,6 +92,8 @@ class Character(pygame.sprite.Sprite):
 
     def draw(self, surface):
         # blit yourself at your current position
+        if(self.dead):
+            return
         if(self.orientation == UP):
             self.image = self.sprites[UP][self.currSprite]
         if(self.orientation == DOWN):
@@ -76,7 +108,7 @@ class Character(pygame.sprite.Sprite):
     def wounded(self, damage):
         self.health -= damage
         if(self.health == 0):
-            self.alive = False
+            self.dead = True
 
 
     def increment_sprite(self):
@@ -86,6 +118,8 @@ class Character(pygame.sprite.Sprite):
             self.currSprite = 0
 
     def update_rect(self):
+        if(self.dead):
+            return
         self.rect.update(self.xLoc, self.yLoc, CHAR_WIDTH, CHAR_HEIGHT)
 
 
@@ -123,10 +157,15 @@ class Character(pygame.sprite.Sprite):
             if(eachSprite.type == self.type):
                 pass
             elif(self.rect.colliderect(eachSprite.rect)):
-                if(eachSprite.type == "door" and self.type == "player"):
-                    # change scene
-                    return
                 self.collision_enforcement(eachSprite)
+
+                if(eachSprite.type == "door" and self.type == "player"):
+                    eachSprite.change_position()
+                    updateMap(spriteList)
+                    self.xLoc = 500
+                    self.yLoc = 500
+                    time.sleep(0)
+                    return
             else:
                 self.canMoveRight = True
                 self.canMoveLeft = True
@@ -144,6 +183,8 @@ class Player(Character, object):
         self.speaking = False
 
     def handle_keys(self):
+        if(self.dead):
+            return
         key = pygame.key.get_pressed()
         if key[pygame.K_DOWN] and self.yLoc+CHAR_HEIGHT <= PLAYGROUND_HEIGHT+PLAYGROUND_Y_OFFSET and self.canMoveDown:
             self.yLoc += self.movementSpeed
@@ -173,8 +214,8 @@ class Player(Character, object):
             self.__staminaRecharge = 0
             self.restore_stamina()
 
-    
-   
+
+
 
     def restore_stamina(self):
         if(self.__stamina < MAX_STAMINA):
@@ -191,10 +232,10 @@ class Player(Character, object):
 
 
     def generate_text(self, surface):
-        font = pygame.font.SysFont('Arial', 10) 
+        font = pygame.font.SysFont('Arial', 10)
         textsurface  = font.render('Press e to view artifact', False, COLOR_WHITE).convert_alpha()
         surface.blit(textsurface, (self.xLoc,self.yLoc))
-        
+
 
 
 
@@ -236,6 +277,8 @@ class Enemy (Character, object):
         self.wounded(BMR_DMG)
 
     def random_movement(self, k):
+        if(self.dead):
+            return
         if k == 1 and self.yLoc + CHAR_HEIGHT <= PLAYGROUND_HEIGHT-PLAYGROUND_Y_OFFSET and self.canMoveDown:
             #Move down
             self.orientation = DOWN
@@ -271,10 +314,10 @@ class Boomerang(pygame.sprite.Sprite):
         self.xLoc = xLoc
         self.yLoc = yLoc
 
-        self.image = pygame.image.load("icon.png")
+        self.image = pygame.image.load("Objects/icon.png")
         self.image = pygame.transform.scale(self.image, (BOOMERANG_SIZE, BOOMERANG_SIZE))
 
-        self.rect = self.image.get_rect(topleft=(xLoc, yLoc))
+        self.rect = self.image.get_rect(topleft=(self.xLoc, self.yLoc))
 
         self.returning = False
         self.direction = []
@@ -386,3 +429,41 @@ class Boomerang(pygame.sprite.Sprite):
         self.accel = 2*self.find_a(x, y, myPlayer)
         self.currSpeed = -self.accel*BOOMERANG_TIME/2
         self.direction = self.find_normalized_dir(x, y)
+
+
+
+
+class Door(pygame.sprite.Sprite):
+    def __init__(self, xLoc, yLoc, objImg, rotation):
+        super().__init__()
+
+        self.type = 'door'
+
+        self.xLoc = xLoc
+        self.yLoc = yLoc
+
+        self.state = 'locked'
+
+        self.image  = objImg
+
+        self.image = pygame.transform.scale(self.image, (CHAR_WIDTH, CHAR_HEIGHT))
+        self.rect = self.image.get_rect(topleft=(self.xLoc, self.yLoc))
+
+        self.rot = rotation
+
+    def rotate(self, angle):
+        self.image = pygame.transform.rotate(self.image, angle)
+
+    def draw(self, surface):
+        surface.blit(self.image, (self.xLoc, self.yLoc))
+
+
+    def change_position(self):
+        if self.rot == 'N':
+            playerPosition[1] -= 1
+        elif self.rot == 'S':
+            playerPosition[1] += 1
+        elif self.rot == 'W':
+            playerPosition[0] -= 1
+        elif self.rot == 'E':
+            playerPosition[0] += 1
