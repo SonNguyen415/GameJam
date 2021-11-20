@@ -100,7 +100,6 @@ class Playground():
 
     def generate_enemies(self):
         numEnemy = random.randint(2, 6)
-        numEnemy = 1
         for i in range(1, numEnemy+1):
             npc = Enemy(500-(numEnemy*50)+50*i, 100, NPC_IMG, i)
             self.spriteList.append(npc)
@@ -255,7 +254,8 @@ class Character(pygame.sprite.Sprite):
         self.canMoveDown = True
         self.canMoveUp = True
         for eachSprite in playArea.spriteList:
-            if(eachSprite.type == self.type):
+            if((eachSprite.type == self.type and self.type == 'player') or 
+            (self.type == 'npc' and eachSprite.type == 'npc' and self.id == eachSprite.id)):
                 pass
             else:
                 if(self.rect.colliderect(eachSprite.rect)):

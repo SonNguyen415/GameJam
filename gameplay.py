@@ -12,8 +12,8 @@ bmr = object
 bmrExist = False
 bmrTime = 0
 ctr = 0
-npcTimer = 0
 k = 1
+npcTimer = 0
 t = 0
 p = False
 
@@ -48,28 +48,30 @@ def bmr_gameplay(surface, mouse, spriteList):
             ctr = pygame.time.get_ticks()
 
 
+
 def npc_movement(player, npc):
     global npcTimer
     global k
     global t
 
-    npc.agro = False # for testing purpose
+
+    maxTime = random.randint(9, 14)
 
     if npc.agro == False:
-        if npcTimer == 10:
+        if npcTimer == maxTime:
             npcTimer = 0
             k = random.randint(1, 5)
         npcTimer += 1
         npc.random_movement(k)
-    # else:
-    #     npc.move_towards_player(player.xLoc, player.yLoc)
-    # if npc.agro:
-    #     npc.slaps(player)
-    #     if npc.coolDown:
-    #         t += 1
-    #         if t == 15:
-    #             t = 0
-    #             npc.coolDown = False
+    else:
+        npc.move_towards_player(player.xLoc, player.yLoc)
+    if npc.agro:
+        npc.slaps(player)
+        if npc.coolDown:
+            t += 1
+            if t == 15:
+                t = 0
+                npc.coolDown = False
 
 
 def update_game(surface, playArea):
@@ -128,6 +130,10 @@ def run_gameplay(surface, mouse, playArea, graphics):
     bmr_gameplay(surface, mouse, playArea.spriteList)
 
     display(surface)
+
+    if spriteList[0].type != 'player':
+        return "Main"
+
 
     for i in range(0, spriteList[0].health):
         graphics[0][i].draw(surface)
