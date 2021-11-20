@@ -8,6 +8,7 @@ COLOR_LIGHT = (255,170,0)
 # dark shade of the button
 COLOR_DARK = (180,130,0)
 
+COLOR_STAMINA = (0, 203, 255)
 
 WAIT_TIME = 1
 
@@ -79,3 +80,5 @@ LEFT = 3
 
 
 artifactList = ['BearSword', 'Croc', 'DreamCatcher', 'Drum', 'Mask', 'NavajoPot']
+MAX_ARTY_PER_ROOM = 1
+ARTY_PROB = 0.2

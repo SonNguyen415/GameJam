@@ -15,7 +15,7 @@ bmrExistTime = 0 # time boomerang has existed
 
 
 
-    
+
 playArea = Playground()
 player = Player(PLAYER_START_X, PLAYER_START_Y, PLAYER_IMG, 0)
 playArea.spriteList.append(player)
@@ -28,7 +28,8 @@ heartIcons = []
 for i in range(0, 10):
     heartIcons.append(SpriteObject(20*i+2, 10, 'Objects/heart.png', 25, 'display'))
 
-pauseButton = startButton = button.Button(50, 100, 'Button Icons/Pause.png', 4)
+P_BUTTON = pygame.image.load("Button Icons/Pause.png").convert_alpha()
+pauseButton = startButton = button.Button(50, 100, P_BUTTON, 4)
 
 
 graphics.append(heartIcons)

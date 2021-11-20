@@ -83,6 +83,8 @@ def update_game(surface, playArea):
 
 
 def check_door(spriteList):
+    if len(spriteList) < 4:
+        print(spriteList)
     for i in range(5, len(spriteList)):
         if spriteList[i].type == "npc":
             return
@@ -99,22 +101,23 @@ def run_gameplay(surface, mouse, playArea, graphics):
     check_door(playArea.spriteList)
 
     update_game(surface, playArea)
-
+    playArea.get_current_artifacts()
+    print(playArea.currArtifactNames)
     # player = spriteList[0]
 
-    graphics[1].draw()
+    #graphics[1].draw(surface)
 
     if graphics[1].draw(surface):
         pauseMenu = SpriteObject(300, 200, 'Background/Pause Menu.png', 300, 'Graphics')
         pause_menu(pauseMenu)
 
-    # bmr_gameplay(surface, mouse, playArea.spriteList)
+    #bmr_gameplay(surface, mouse, playArea.spriteList)
 
     display(surface)
 
     # for i in range(0, player.health):
     #     heartIcons[i].draw(surface)
 
-    pygame.draw.rect(surface, (0, 203, 255), pygame.Rect(15, 45, 60, 15), width=2)
-    pygame.draw.rect(surface, (0, 203, 255), pygame.Rect(15, 45, 60 * playArea.spriteList[0].get_stamina_ratio(), 15))
+    pygame.draw.rect(surface, COLOR_STAMINA, pygame.Rect(15, 45, 60, 15), width=2)
+    pygame.draw.rect(surface, COLOR_STAMINA, pygame.Rect(15, 45, 60 * playArea.spriteList[0].get_stamina_ratio(), 15))
     return "Play"
