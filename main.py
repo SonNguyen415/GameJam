@@ -23,9 +23,6 @@ playArea.updateMap()
 
 
 
-
-
-
 # heartIcons = []
 
 # for i in range(0, 10):
