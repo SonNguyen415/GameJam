@@ -287,11 +287,11 @@ class Player(Character, object):
     def slapped(self):
         self.wounded(1)
 
-    def move(self):
+    def handle_keys(self):
         if(self.dead):
             return
         key = pygame.key.get_pressed()
-        if key[pygame.K_DOWN] and self.yLoc+CHAR_HEIGHT <= PLAYGROUND_HEIGHT+PLAYGROUND_Y_OFFSET and self.canMoveDown:
+        if ((key[pygame.K_DOWN] or (key[pygame.K_s])) and self.yLoc+CHAR_HEIGHT <= PLAYGROUND_HEIGHT+PLAYGROUND_Y_OFFSET and self.canMoveDown):
             self.yLoc += self.movementSpeed
             self.orientation = DOWN
             self.increment_sprite()
@@ -359,6 +359,7 @@ class Enemy (Character, object):
         self.agro = False
         self.fiveSec = True
         self.coolDown = False
+        self.randK = random.randint(1,5)
 
     def sense(self, pxLoc, pyLoc):
         if self.health < 10:

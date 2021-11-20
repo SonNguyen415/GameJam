@@ -12,8 +12,8 @@ bmr = object
 bmrExist = False
 bmrTime = 0
 ctr = 0
-k = 1
-npcTimer = 0
+maxTime = 1
+npcTimer = 1
 t = 0
 p = False
 
@@ -51,18 +51,16 @@ def bmr_gameplay(surface, mouse, spriteList):
 
 def npc_movement(player, npc):
     global npcTimer
-    global k
     global t
-
-
-    maxTime = random.randint(9, 14)
+    global maxTime
 
     if npc.agro == False:
         if npcTimer == maxTime:
             npcTimer = 0
-            k = random.randint(1, 5)
+            maxTime = random.randint(10, 15)
+            npc.randK = random.randint(1,5)
         npcTimer += 1
-        npc.random_movement(k)
+        npc.random_movement(npc.randK)
     else:
         npc.move_towards_player(player.xLoc, player.yLoc)
     if npc.agro:
@@ -82,7 +80,7 @@ def update_game(surface, playArea):
                 sprite.sense(player.xLoc, player.yLoc)
             sprite.check_collision(playArea)
             if sprite.type == 'player':
-                sprite.move()
+                sprite.handle_keys()
             else:
                 npc_movement(player, sprite)
             sprite.update_rect()
