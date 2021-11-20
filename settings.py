@@ -1,5 +1,6 @@
 import pygame
-from pygame import key
+
+
 
 # white color
 COLOR_WHITE = (255,255,255)
@@ -19,8 +20,9 @@ PLAYGROUND_LENGTH = 688
 PLAYGROUND_HEIGHT = 416
 PLAYGROUND_X_OFFSET = 148
 PLAYGROUND_Y_OFFSET = 90
+WALL_SIZE = 30
+WALL_IMG = 'Obstacles/wall.png'
 WALL_HEIGHT = 20
-
 
 WALK_SPEED = 4
 SPRINT_SPEED = 6.5
@@ -39,7 +41,7 @@ LOC_TOLERANCE = 1
 SPEED_TOLERANCE = 5
 MAX_BMR_DISTANCE = 400
 MAX_BMR_TIME = 20
-BMR_DMG = 2
+BMR_DMG = 10
 
 
 
@@ -99,6 +101,9 @@ NPC_IMG = [NPC_UP, NPC_RIGHT, NPC_DOWN, NPC_LEFT]
 DOOR_IMG = pygame.image.load('Objects/Door.png')
 
 ROCK_IMG = 'Obstacles/Rock1.png'
+ROCK_SIZE = CHAR_WIDTH
+
+
 
 FPS = 25
 
@@ -108,6 +113,10 @@ DOWN = 2
 LEFT = 3
 
 
-artifactList = ['BearSword', 'Croc', 'DreamCatcher', 'Drum', 'Mask', 'NavajoPot']
+artifactList = ['BearSword', 'Croc', 'DreamCatcher', 'Drum', 'Mask', 'NavajoPot', 'Sword']
 MAX_ARTY_PER_ROOM = 1
 ARTY_PROB = 0.2
+
+
+
+
