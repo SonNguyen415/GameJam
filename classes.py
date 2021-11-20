@@ -210,6 +210,7 @@ class Player(Character, object):
         if key[pygame.K_DOWN] and self.yLoc+CHAR_HEIGHT <= PLAYGROUND_HEIGHT+PLAYGROUND_Y_OFFSET and self.canMoveDown:
             self.yLoc += self.movementSpeed
             self.orientation = DOWN
+            self.increment_sprite()
         elif key[pygame.K_UP] and PLAYGROUND_Y_OFFSET <= self.yLoc+CHAR_HEIGHT-10 and self.canMoveUp:
             self.yLoc -= self.movementSpeed
             self.orientation = UP
