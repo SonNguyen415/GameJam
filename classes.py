@@ -260,7 +260,7 @@ class Character(pygame.sprite.Sprite):
             else:
                 if(self.rect.colliderect(eachSprite.rect)):
                     self.collision_enforcement(eachSprite)
-                    if eachSprite.type == "door" and self.type == "player" and eachSprite.unlocked:
+                    if self.type == "player" and eachSprite.type == "door" and eachSprite.unlocked:
                         playArea.updateMap()
                         eachSprite.change_position()
 
