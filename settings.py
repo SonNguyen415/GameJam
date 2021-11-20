@@ -67,6 +67,35 @@ LEFT_IMG.append(pygame.image.load('Character Sprites/Left/3.png'))
 
 PLAYER_IMG = [UP_IMG, RIGHT_IMG, DOWN_IMG, LEFT_IMG]
 
+
+
+
+NPC_DOWN = []
+NPC_UP = []
+NPC_LEFT = []
+NPC_RIGHT = []
+
+NPC_DOWN.append(pygame.image.load('NPC Sprites/Down/guard1.png'))
+NPC_DOWN.append(pygame.image.load('NPC Sprites/Down/guard2.png'))
+NPC_DOWN.append(pygame.image.load('NPC Sprites/Down/guard3.png'))
+
+
+NPC_UP.append(pygame.image.load('NPC Sprites/Up/guard1.png'))
+NPC_UP.append(pygame.image.load('NPC Sprites/Up/guard2.png'))
+NPC_UP.append(pygame.image.load('NPC Sprites/Up/guard3.png'))
+
+NPC_RIGHT.append(pygame.image.load('NPC Sprites/Right/guard1.png'))
+NPC_RIGHT.append(pygame.image.load('NPC Sprites/Right/guard2.png'))
+NPC_RIGHT.append(pygame.image.load('NPC Sprites/Right/guard3.png'))
+
+NPC_LEFT.append(pygame.image.load('NPC Sprites/Left/guard1.png'))
+NPC_LEFT.append(pygame.image.load('NPC Sprites/Left/guard2.png'))
+NPC_LEFT.append(pygame.image.load('NPC Sprites/Left/guard3.png'))
+
+NPC_IMG = [NPC_UP, NPC_RIGHT, NPC_DOWN, NPC_LEFT]
+
+
+
 DOOR_IMG = pygame.image.load('Objects/Door.png')
 
 ROCK_IMG = 'Obstacles/Rock1.png'

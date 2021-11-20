@@ -28,12 +28,16 @@ heartIcons = []
 for i in range(0, 10):
     heartIcons.append(SpriteObject(20*i+2, 10, 'Objects/heart.png', 25, 'display'))
 
+<<<<<<< Updated upstream
 P_BUTTON = pygame.image.load("Button Icons/Pause.png").convert_alpha()
 pauseButton = startButton = button.Button(50, 100, P_BUTTON, 4)
+=======
+# pauseButton = startButton = button.Button(50, 100, 'Button Icons/Pause.png', 4)
+>>>>>>> Stashed changes
 
 
 graphics.append(heartIcons)
-graphics.append(pauseButton)
+# graphics.append(pauseButton)
 
 
 bmrExist = False

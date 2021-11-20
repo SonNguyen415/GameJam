@@ -2,7 +2,7 @@ import pygame
 from pygame import sprite
 from pygame.mixer import pause
 from classes import *
-from menu import pause_menu
+# from menu import pause_menu
 from settings import *
 import time
 import random
@@ -74,22 +74,30 @@ def update_game(surface, playArea):
     player = playArea.spriteList[0]
     for sprite in playArea.spriteList:
         if sprite.type == 'player' or sprite.type == 'npc':
-            if sprite == 'npc':
+            if sprite.type == 'npc':
                 sprite.sense(player.xLoc, player.yLoc)
             sprite.check_collision(playArea)
-            sprite.move()
+            if sprite.type == 'player':
+                sprite.move()
+            else:
+                npc_movement(player, sprite)
             sprite.update_rect()
         sprite.draw(surface)
 
 
 def check_door(spriteList):
+<<<<<<< Updated upstream
     if len(spriteList) < 4:
         print(spriteList)
     for i in range(5, len(spriteList)):
+=======
+    for i in range(0, len(spriteList)):
+>>>>>>> Stashed changes
         if spriteList[i].type == "npc":
             return
-    for j in range(1, 4):
-        spriteList[j].unlocked = True
+    for j in range(0, len(spriteList)):
+        if spriteList[j].type == "door":
+            spriteList[j].unlocked = True
 
 
 
@@ -97,26 +105,37 @@ def check_door(spriteList):
 
 
 def run_gameplay(surface, mouse, playArea, graphics):
+    spriteList = playArea.spriteList
+
     playArea.draw(surface)
-    check_door(playArea.spriteList)
+    check_door(spriteList)
 
     update_game(surface, playArea)
+<<<<<<< Updated upstream
     playArea.get_current_artifacts()
     print(playArea.currArtifactNames)
     # player = spriteList[0]
 
     #graphics[1].draw(surface)
+=======
 
-    if graphics[1].draw(surface):
-        pauseMenu = SpriteObject(300, 200, 'Background/Pause Menu.png', 300, 'Graphics')
-        pause_menu(pauseMenu)
+    # graphics[1].draw()
+>>>>>>> Stashed changes
 
+    # if graphics[1].draw(surface):
+    #     pauseMenu = SpriteObject(300, 200, 'Background/Pause Menu.png', 300, 'Graphics')
+    #     pause_menu(pauseMenu)
+
+<<<<<<< Updated upstream
     #bmr_gameplay(surface, mouse, playArea.spriteList)
+=======
+    bmr_gameplay(surface, mouse, playArea.spriteList)
+>>>>>>> Stashed changes
 
     display(surface)
 
-    # for i in range(0, player.health):
-    #     heartIcons[i].draw(surface)
+    for i in range(0, spriteList[0].health):
+        graphics[0][i].draw(surface)
 
     pygame.draw.rect(surface, COLOR_STAMINA, pygame.Rect(15, 45, 60, 15), width=2)
     pygame.draw.rect(surface, COLOR_STAMINA, pygame.Rect(15, 45, 60 * playArea.spriteList[0].get_stamina_ratio(), 15))

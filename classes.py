@@ -97,9 +97,14 @@ class Playground():
         self.append_artifacts()
 
 
-    def generate_sprites(self):
+    def generate_enemies(self):
+        numEnemy = random.randint(2, 6)
+        for i in range(1, numEnemy+1):
+            npc = Enemy(10, 10, NPC_IMG, i)
+            self.spriteList.append(npc)
 
-        return
+    def generate_sprites(self):
+        self.generate_enemies()
 
     def updateMap(self):
         while len(self.spriteList) > 1:
@@ -255,10 +260,8 @@ class Character(pygame.sprite.Sprite):
                 if(self.rect.colliderect(eachSprite.rect)):
                     self.collision_enforcement(eachSprite)
                     if eachSprite.type == "door" and self.type == "player" and eachSprite.unlocked:
-
                         playArea.updateMap()
                         eachSprite.change_position()
-
 
                         self.xLoc = WINDOW_LENGTH/2
                         self.yLoc = PLAYGROUND_HEIGHT
