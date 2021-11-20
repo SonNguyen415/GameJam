@@ -9,7 +9,6 @@ pygame.font.init()
 
 
 
-
 def initiate_doors(spriteList):
     for i in playerGrid[playerPosition[1]][playerPosition[0]]:
         if i == 'N':
@@ -178,6 +177,7 @@ class Character(pygame.sprite.Sprite):
 
                         eachSprite.change_position()
                         updateMap(spriteList)
+
 
                         self.xLoc = WINDOW_LENGTH/2
                         self.yLoc = PLAYGROUND_HEIGHT
