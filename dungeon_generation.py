@@ -72,23 +72,19 @@ IMAGES = {'B': ['Map Tiles/B.png'],
           'WE':['Map Tiles/WE.png']
           }
 
-ENEMIES = [[0,0,0],
-           [1,0,0],
-           [2,0,0],
-           [3,0,0],
-           [2,1,0],
-           [0,3,0],
-           [0,0,1],
-           [2,0,1],
-           [1,3,0],
-           [3,1,0],
-           [0,0,2],
-           [0,2,1],
-           [3,2,0],
-           [0,2,0],
-           [5,0,0],
-           [3,2,1],
-           [3,2,2]]
+ENEMIES = [[0],
+           [1, [204,140] ],
+           [1, [204,402] ],
+           [1, [738,140] ],
+           [1, [738,402] ],
+           [2, [204,140], [204,402] ],
+           [2, [204,140], [738,140] ],
+           [2, [204,140], [738,402] ],
+           [2, [204,402], [738,140] ],
+           [2, [204,402], [738,402] ],
+           [2, [738,140], [738,402] ],
+           [3, [204,140], [204,402], [738,140]],
+           [3, [738,402], [204,402], [738,140]]]
 
 #-----------------------------#
 
@@ -301,6 +297,10 @@ def generate():
                     walls = checkForWalls(i,j)
                     grid[i][j] = generate_room(doors,walls)
 
+
+
+
+
 def generateStats():
     for i in range(len(grid)):
         for j in range(len(grid[i])):
@@ -308,7 +308,37 @@ def generateStats():
             if grid[i][j] != 'B' and grid[i][j] != 'NSWE':
                 gridStats[tile].append(ENEMIES[rnd.randint(0,len(ENEMIES)-1)])
             else:
-                gridStats[tile].append([])
+                gridStats[tile].append(["Null"])
+
+
+
+    possibleRooms = [];
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            if grid[i][j] != 'B':
+                possibleRooms.append([i,j])
+
+
+    maxArtifacts = 4
+    artifactRooms = []
+
+    for i in range(4):
+        artifactRooms.append(possibleRooms[rnd.randint(0, len(possibleRooms)-1)])
+
+
+    for i in range(len(grid)):
+        for j in range(len(grid[i])):
+            tile = '({}, {})'.format(i,j)
+            if [i,j] in artifactRooms:
+                gridStats[tile].append([1])
+            else:
+                if grid[i][j] == 'B' or grid[i][j] == 'NSWE':
+                    gridStats[tile].append(['Null'])
+                else:
+                    gridStats[tile].append([0])
+
+
+
 
 def fix():
     for i in range(len(grid)):

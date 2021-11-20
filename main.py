@@ -28,6 +28,10 @@ spriteList = [player, npc, rock]
 
 running = True
 
+generate()
+generateStats()
+
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -49,8 +53,6 @@ while running:
     elif currentScreen == "Play":
         currentScreen = run_gameplay(screen, mouse, heartIcons, spriteList)
 
-        # Minimap Gen
-        display(screen)
 
     pygame.display.update()
 
