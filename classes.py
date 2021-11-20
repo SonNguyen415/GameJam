@@ -291,19 +291,19 @@ class Player(Character, object):
         if(self.dead):
             return
         key = pygame.key.get_pressed()
-        if ((key[pygame.K_DOWN] or (key[pygame.K_s])) and self.yLoc+CHAR_HEIGHT <= PLAYGROUND_HEIGHT+PLAYGROUND_Y_OFFSET and self.canMoveDown):
+        if ((key[pygame.K_DOWN] or key[pygame.K_s]) and self.yLoc+CHAR_HEIGHT <= PLAYGROUND_HEIGHT+PLAYGROUND_Y_OFFSET and self.canMoveDown):
             self.yLoc += self.movementSpeed
             self.orientation = DOWN
             self.increment_sprite()
-        elif key[pygame.K_UP] and PLAYGROUND_Y_OFFSET <= self.yLoc+CHAR_HEIGHT-10 and self.canMoveUp:
+        elif (key[pygame.K_UP] or key[pygame.K_w]) and PLAYGROUND_Y_OFFSET <= self.yLoc+CHAR_HEIGHT-10 and self.canMoveUp:
             self.yLoc -= self.movementSpeed
             self.orientation = UP
             self.increment_sprite()
-        if key[pygame.K_RIGHT] and self.xLoc+CHAR_WIDTH <= PLAYGROUND_LENGTH+PLAYGROUND_X_OFFSET and self.canMoveRight:
+        if (key[pygame.K_RIGHT] or key[pygame.K_d]) and self.xLoc+CHAR_WIDTH <= PLAYGROUND_LENGTH+PLAYGROUND_X_OFFSET and self.canMoveRight:
             self.xLoc += self.movementSpeed
             self.orientation = RIGHT
             self.increment_sprite()
-        elif key[pygame.K_LEFT] and PLAYGROUND_X_OFFSET <= self.xLoc and self.canMoveLeft:
+        elif (key[pygame.K_LEFT] or key[pygame.K_a]) and PLAYGROUND_X_OFFSET <= self.xLoc and self.canMoveLeft:
             self.xLoc -= self.movementSpeed
             self.orientation = LEFT
             self.increment_sprite()
