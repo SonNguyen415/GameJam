@@ -9,32 +9,58 @@ pygame.font.init()
 
 
 
-def initiate_doors(spriteList):
-    for i in playerGrid[playerPosition[1]][playerPosition[0]]:
-        if i == 'N':
-            north = SpriteObject(470,40, 'Objects/Door.png', 50, 'door', 'N')
-            spriteList.append(north)
-            north.draw(screen)
-        elif i == 'S':
-            south = SpriteObject(470,502, 'Objects/Door.png', 50, 'door', 'S')
-            spriteList.append(south)
-            south.rotate(180)
-            south.draw(screen)
-        elif i == 'W':
-            west = SpriteObject(104,264, 'Objects/Door.png', 50, 'door', 'W')
-            spriteList.append(west)
-            west.rotate(90)
-            west.draw(screen)
-        elif i == 'E':
-            east = SpriteObject(838,264, 'Objects/Door.png', 50, 'door', 'E')
-            spriteList.append(east)
-            east.rotate(270)
-            east.draw(screen)
 
-def updateMap(spriteList):
-    if playerGrid[playerPosition[1]][playerPosition[0]] == 'B':
-        playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
-    initiate_doors(spriteList)
+
+
+
+
+
+
+class Playground():
+    def __init__(self):
+        self.image = pygame.image.load("Backgrounds/Base Room.png").convert_alpha()
+        self.image = pygame.transform.scale(self.image, (WINDOW_LENGTH, WINDOW_HEIGHT))
+
+        self.spriteList = []
+    
+    def draw(self, surface):
+        surface.blit(self.image, (0, 0))
+
+    def initiate_doors(self):
+        for i in playerGrid[playerPosition[1]][playerPosition[0]]:
+            if i == 'N':
+                north = SpriteObject(470,40, 'Objects/Door.png', 50, 'door', 'N')
+                self.spriteList.append(north)
+                north.draw(screen)
+            elif i == 'S':
+                south = SpriteObject(470,502, 'Objects/Door.png', 50, 'door', 'S')
+                self.spriteList.append(south)
+                south.rotate(180)
+                south.draw(screen)
+            elif i == 'W':
+                west = SpriteObject(104,264, 'Objects/Door.png', 50, 'door', 'W')
+                self.spriteList.append(west)
+                west.rotate(90)
+                west.draw(screen)
+            elif i == 'E':
+                east = SpriteObject(838,264, 'Objects/Door.png', 50, 'door', 'E')
+                self.spriteList.append(east)
+                east.rotate(270)
+                east.draw(screen)
+
+
+    def generate_sprites(self):
+        return
+
+    def updateMap(self):
+        while len(self.spriteList) > 1:
+            self.spriteList.pop(1)
+        if playerGrid[playerPosition[1]][playerPosition[0]] == 'B':
+            playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
+        self.initiate_doors()
+        self.generate_sprites()
+
+
 
 
 class SpriteObject(pygame.sprite.Sprite):
@@ -162,12 +188,12 @@ class Character(pygame.sprite.Sprite):
 
 
 
-    def check_collision(self, spriteList):
+    def check_collision(self, playArea):
         self.canMoveLeft = True
         self.canMoveRight = True
         self.canMoveDown = True
         self.canMoveUp = True
-        for eachSprite in spriteList:
+        for eachSprite in playArea.spriteList:
             if(eachSprite.type == self.type):
                 pass
             else:
@@ -176,7 +202,7 @@ class Character(pygame.sprite.Sprite):
                     if(eachSprite.type == "door" and self.type == "player"):
 
                         eachSprite.change_position()
-                        updateMap(spriteList)
+                        playArea.updateMap()
 
 
                         self.xLoc = WINDOW_LENGTH/2
@@ -202,7 +228,7 @@ class Player(Character, object):
     def slapped(self):
         self.wounded(1)
 
-    def handle_keys(self):
+    def move(self):
         if(self.dead):
             return
         key = pygame.key.get_pressed()
