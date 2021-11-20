@@ -4,6 +4,7 @@ from settings import *
 from dungeon_generation import *
 import time
 import math
+import random
 
 pygame.font.init()
 
@@ -22,6 +23,9 @@ class Playground():
         self.image = pygame.transform.scale(self.image, (WINDOW_LENGTH, WINDOW_HEIGHT))
 
         self.spriteList = []
+        self.currArtifactNames = []
+        self.currArtifacts = [[], []]
+        self.numArtifacts = 0
     
     def draw(self, surface):
         surface.blit(self.image, (0, 0))
@@ -50,8 +54,51 @@ class Playground():
                 east.draw(screen)
 
 
-    def generate_sprites(self):
+
+    def get_current_artifacts(self):
+        idList = []
+        ctr = 0
+        prevID = random.randint(0, len(artifactList) - 1)
+        while ctr < self.numArtifacts:
+            currID = random.randint(0, len(artifactList) - 1)
+            if currID != prevID:
+                idList.append(currID)
+                prevID = currID
+        for id in idList:
+            myArtifact = artifactList.pop[id]
+            self.currArtifactNames.append(myArtifact)
+
+
+    def artifact_x(currID):
+        xMod = (currID - 1) % 3 
+        return 100+xMod*50
+
+
+    def artifact_y(currID):
+        yMod = (currID - 1) /  3 
+        return 100+yMod*50
         
+
+    def append_artifacts(self):
+        for artifact, i in enumerate(self.currArtifactNames):
+            xLoc = self.artifact_x(i)
+            yLoc = self.artifact_y(i)
+            artifactImg = 'Artifacts/' + artifact + '.png'
+            descrImg = 'Artifact Descriptions/' + artifact + '.png'
+            artifactObj = SpriteObject(xLoc, yLoc, artifactImg, 50, 'artifact')
+            artifactDescr = SpriteObject(200, 200, descrImg, 300, 'description')
+            self.currArtifacts.append(artifactObj)
+            self.artifactDescr.appen(artifactDescr)
+            self.spriteList.append(artifactObj)
+
+    
+    def generate_artifacts(self):
+        self.get_current_artifacts()
+        self.append_artifacts()
+        
+
+    def generate_sprites(self):
+
         return
 
     def updateMap(self):

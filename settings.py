@@ -78,3 +78,4 @@ DOWN = 2
 LEFT = 3
 
 
+artifactList = ['BearSword', 'Croc', 'DreamCatcher', 'Drum', 'Mask', 'NavajoPot']

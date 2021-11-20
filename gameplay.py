@@ -59,8 +59,6 @@ def npc_movement(player, npc):
     global k
     global t
 
-
-
     if npc.agro == False:
         if npcTimer==10:
             npcTimer = 0
@@ -107,7 +105,7 @@ def run_gameplay(surface, mouse, playArea):
     # pauseButton = SpriteObject(PLAYGROUND_LENGTH-50, PLAYGROUND_HEIGHT-50, 'Button Icons/pause.png', 50, 'Graphics')
     # pauseButton.draw(surface)
 
-    #bmr_gameplay(surface, mouse, playArea.spriteList)
+    # bmr_gameplay(surface, mouse, playArea.spriteList)
 
 
     display(screen)
