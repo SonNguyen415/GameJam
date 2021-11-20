@@ -78,4 +78,3 @@ DOWN = 2
 LEFT = 3
 
 
-ARTIFACT_LIST = ['BearSword.png', 'DreamCatcher', 'NavajoPot']

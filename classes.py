@@ -46,10 +46,12 @@ class Playground():
                 east = SpriteObject(838,264, 'Objects/Door.png', 50, 'door', 'E')
                 self.spriteList.append(east)
                 east.rotate(270)
+                'yes'
                 east.draw(screen)
 
 
     def generate_sprites(self):
+        
         return
 
     def updateMap(self):

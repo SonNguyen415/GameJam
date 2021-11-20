@@ -279,6 +279,8 @@ def checkForWalls(i,j):
         directions.append('S')
     return directions
 
+
+
 def checkIteration():
     for i in range(len(grid)):
         for j in range(len(grid[i])):
@@ -288,6 +290,8 @@ def checkIteration():
                     return True
     return False
 
+
+
 def generate():
     while checkIteration() == True:
         for i in range(len(grid)):
@@ -296,8 +300,6 @@ def generate():
                     doors = checkForDoors(i,j)
                     walls = checkForWalls(i,j)
                     grid[i][j] = generate_room(doors,walls)
-
-
 
 
 

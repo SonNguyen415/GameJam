@@ -80,14 +80,15 @@ def npc_movement(player, npc):
 
 
 def update_game(surface, playArea):
+    player = playArea.spriteList[0]
     for sprite in playArea.spriteList:
         if sprite.type == 'player' or sprite.type == 'npc':
             if sprite == 'npc':
-                sprite.sense(playArea.spriteList[0].xLoc, playArea.spriteList[0].yLoc)
+                sprite.sense(player.xLoc, player.yLoc)
             sprite.check_collision(playArea)
             sprite.move()
             sprite.update_rect()
-            sprite.draw(surface)
+        sprite.draw(surface)
 
 
 def get_pause_button():
@@ -101,7 +102,6 @@ def run_gameplay(surface, mouse, playArea):
     update_game(surface, playArea)
 
     # player = spriteList[0]
-    # npc = spriteList[1]
 
 
     # pauseButton = SpriteObject(PLAYGROUND_LENGTH-50, PLAYGROUND_HEIGHT-50, 'Button Icons/pause.png', 50, 'Graphics')
