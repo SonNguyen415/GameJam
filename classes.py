@@ -264,6 +264,7 @@ class Character(pygame.sprite.Sprite):
                         playArea.updateMap()
                         eachSprite.change_position()
 
+                        # Change player position here
                         self.xLoc = WINDOW_LENGTH/2
                         self.yLoc = PLAYGROUND_HEIGHT
                         time.sleep(0.1)
