@@ -1,5 +1,6 @@
 import pygame
-from pygame import key
+
+
 
 # white color
 COLOR_WHITE = (255,255,255)
@@ -108,6 +109,11 @@ DOWN = 2
 LEFT = 3
 
 
-artifactList = ['BearSword', 'Croc', 'DreamCatcher', 'Drum', 'Mask', 'NavajoPot']
+artifactList = ['BearSword', 'Croc', 'DreamCatcher', 'Drum', 'Mask', 'NavajoPot', 'Sword']
 MAX_ARTY_PER_ROOM = 1
 ARTY_PROB = 0.2
+
+
+
+
+

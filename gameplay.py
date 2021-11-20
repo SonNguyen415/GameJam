@@ -1,8 +1,8 @@
 import pygame
-from pygame import sprite
+from pygame import sprite, key
 from pygame.mixer import pause
 from classes import *
-# from menu import pause_menu
+from menu import *
 from settings import *
 import time
 import random
@@ -16,6 +16,7 @@ maxTime = 1
 npcTimer = 1
 t = 0
 p = False
+playing = True
 
 currentArtifacts = [[], []]
 
@@ -72,10 +73,10 @@ def npc_movement(player, npc):
                 npc.coolDown = False
 
 
-def update_game(surface, playArea):
+def update_game(surface, playArea, playing):
     player = playArea.spriteList[0]
     for sprite in playArea.spriteList:
-        if sprite.type == 'player' or sprite.type == 'npc':
+        if (sprite.type == 'player' or sprite.type == 'npc') and playing:
             if sprite.type == 'npc':
                 sprite.sense(player.xLoc, player.yLoc)
             sprite.check_collision(playArea)
@@ -105,37 +106,45 @@ def check_living(spriteList):
         else:
             currIndex += 1
 
+
+
 def run_gameplay(surface, mouse, playArea, graphics):
+    global playing
+    
     spriteList = playArea.spriteList
 
+
     playArea.draw(surface)
+
+    if graphics[1][0].draw(surface):
+        playing = False
+
     check_door(spriteList)
     check_living(spriteList)
 
-
-    update_game(surface, playArea)
+    update_game(surface, playArea, playing)
     playArea.get_current_artifacts()
-    # player = spriteList[0]
-
-    #graphics[1].draw(surface)
-
-    # graphics[1].draw()
-
-    # if graphics[1].draw(surface):
-    #     pauseMenu = SpriteObject(300, 200, 'Background/Pause Menu.png', 300, 'Graphics')
-    #     pause_menu(pauseMenu)
 
     bmr_gameplay(surface, mouse, playArea.spriteList)
 
-    display(surface)
-
-    if spriteList[0].type != 'player':
+    if (len(spriteList) > 0 and spriteList[0].type != 'player') or len(spriteList) <= 0:
         return "Main"
-
 
     for i in range(0, spriteList[0].health):
         graphics[0][i].draw(surface)
 
     pygame.draw.rect(surface, COLOR_STAMINA, pygame.Rect(15, 45, 60, 15), width=2)
     pygame.draw.rect(surface, COLOR_STAMINA, pygame.Rect(15, 45, 60 * playArea.spriteList[0].get_stamina_ratio(), 15))
+    
+    if not playing:
+        graphics[1][1].draw(surface)
+        playing = pause_menu()
+   
+
+    display(surface)
+
+ 
+
+   
+   
     return "Play"

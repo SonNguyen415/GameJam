@@ -99,7 +99,7 @@ class Playground():
 
 
     def generate_enemies(self):
-        numEnemy = 1
+        numEnemy = 0
         for i in range(1, numEnemy+1):
             npc = Enemy(500-(numEnemy*60)+100*i, 100, NPC_IMG, i)
             self.spriteList.append(npc)
@@ -264,7 +264,7 @@ class Character(pygame.sprite.Sprite):
                         playArea.updateMap()
                         eachSprite.change_position()
 
-                        # Change player position here
+                        # Change player position
                         self.xLoc = WINDOW_LENGTH/2
                         self.yLoc = PLAYGROUND_HEIGHT
                         time.sleep(0.1)
