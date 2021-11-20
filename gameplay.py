@@ -1,5 +1,5 @@
 import pygame
-from pygame import sprite, key
+from pygame import key
 from pygame.mixer import pause
 from classes import *
 from menu import *
@@ -19,6 +19,7 @@ p = False
 playing = True
 
 currentArtifacts = [[], []]
+
 
 def show_curr_artifact(player):
     for artifact, i in enumerate(currentArtifacts[0]):
@@ -112,6 +113,10 @@ def run_gameplay(surface, mouse, playArea, graphics):
     global playing
     
     spriteList = playArea.spriteList
+    if (len(spriteList) > 0 and spriteList[0].type != 'player') or len(spriteList) <= 0:
+        return "Defeat"
+    elif len(artifactList) == 0:
+        return "Victory"
 
 
     playArea.draw(surface)
@@ -127,8 +132,7 @@ def run_gameplay(surface, mouse, playArea, graphics):
 
     bmr_gameplay(surface, mouse, playArea.spriteList)
 
-    if (len(spriteList) > 0 and spriteList[0].type != 'player') or len(spriteList) <= 0:
-        return "Main"
+    
 
     for i in range(0, spriteList[0].health):
         graphics[0][i].draw(surface)
@@ -142,9 +146,5 @@ def run_gameplay(surface, mouse, playArea, graphics):
    
 
     display(surface)
-
- 
-
-   
    
     return "Play"

@@ -24,6 +24,14 @@ BACK_IMG = pygame.image.load("Button Icons/Back Button.png").convert_alpha()
 BACKGROUND = pygame.image.load("Backgrounds/Background.png")
 BG_CREDITS = pygame.image.load("Backgrounds/Background Credits.png")
 
+
+victoryImage = pygame.image.load('Backgrounds/Victory.png')
+VICTORY = pygame.transform.scale(victoryImage, (WINDOW_LENGTH, WINDOW_HEIGHT))
+defeatImage = pygame.image.load('Backgrounds/Gameover.png')
+DEFEAT = pygame.transform.scale(defeatImage, (WINDOW_LENGTH, WINDOW_HEIGHT))
+
+
+
 WIDTH = screen.get_width()
 HEIGHT = screen.get_height()
 startButtonWidth = START_IMG.get_width()
@@ -81,6 +89,18 @@ def credit_menu(currScreen):
     return currScreen
 
 
+def victory_screen():
+    screen.blit(VICTORY, (0, 0))
+    pygame.display.update()
+    time.sleep(3)
+    pygame.quit()
+
+
+def defeat_screen():
+    screen.blit(DEFEAT, (0, 0))
+    pygame.display.update()
+    time.sleep(3)
+    pygame.quit()
 
 def pause_menu():
     resumeButton = button.Button(WINDOW_LENGTH/2-resumeWidth/2, WINDOW_HEIGHT/2 - 50, RES_BUTTON, 1)
