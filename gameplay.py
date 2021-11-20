@@ -96,9 +96,19 @@ def pause_button():
 
 
 
+def check_door(spriteList):
+    for i in range(5, len(spriteList)):
+        if spriteList[i].type == "npc":
+            return
+    for j in range(1, 4):
+        spriteList[j].unlocked = True
+
+
+
+
 def run_gameplay(surface, mouse, playArea):
     playArea.draw(surface)
-    
+    check_door(playArea.spriteList)
     update_game(surface, playArea)
 
     # player = spriteList[0]
