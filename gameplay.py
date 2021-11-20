@@ -17,7 +17,6 @@ p = False
 
 currentArtifacts = [[], []]
 
-
 def show_curr_artifact(player):
     for artifact, i in enumerate(currentArtifacts[0]):
         if artifact.rect.colliderect(player.rect):
@@ -89,14 +88,14 @@ def pause_button():
         p = True
 
 
-def pause():
-    global p
-    if p:
-        if key[pygame.K_SPACE]:
-            p = False
-        Event().wait(1)
-        print("hello")
-        pause()
+# def pause():
+#     global p
+#     if p:
+#         if key[pygame.K_SPACE]:
+#             p = False
+#         Event().wait(1)
+#         print("hello")
+#         pause()
 
 
 def check_door(spriteList):
