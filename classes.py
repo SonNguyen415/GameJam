@@ -30,7 +30,7 @@ class Playground():
     def draw(self, surface):
         surface.blit(self.image, (0, 0))
 
-    def initiate_doors(self):
+    def initialize_doors(self):
         for i in playerGrid[playerPosition[1]][playerPosition[0]]:
             if i == 'N':
                 north = SpriteObject(470,40, 'Objects/Door.png', 50, 'door', 'N')
@@ -118,16 +118,16 @@ class Playground():
                 self.spriteList.append(wall)
 
     def generate_sprites(self):
-        self.initiate_doors()
+        self.initialize_doors()
         self.generate_enemies()
         self.generate_obstacles()
 
     def updateMap(self):
         while len(self.spriteList) > 1:
             self.spriteList.pop(1)
+        self.generate_sprites()
         if playerGrid[playerPosition[1]][playerPosition[0]] == 'B':
             playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
-        self.generate_sprites()
 
 
 

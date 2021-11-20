@@ -41,7 +41,7 @@ LOC_TOLERANCE = 1
 SPEED_TOLERANCE = 5
 MAX_BMR_DISTANCE = 400
 MAX_BMR_TIME = 20
-BMR_DMG = 2
+BMR_DMG = 10
 
 
 
@@ -116,7 +116,6 @@ LEFT = 3
 artifactList = ['BearSword', 'Croc', 'DreamCatcher', 'Drum', 'Mask', 'NavajoPot', 'Sword']
 MAX_ARTY_PER_ROOM = 1
 ARTY_PROB = 0.2
-
 
 
 

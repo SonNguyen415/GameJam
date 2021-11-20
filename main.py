@@ -18,8 +18,7 @@ bmrExistTime = 0 # time boomerang has existed
 playArea = Playground()
 player = Player(PLAYER_START_X, PLAYER_START_Y, PLAYER_IMG, 0)
 playArea.spriteList.append(player)
-playArea.updateMap()
-
+playArea.initialize_doors()
 
 
 graphics = []
@@ -60,6 +59,7 @@ while running:
 
     mouse = pygame.mouse.get_pos()
 
+   
 
     # Game states
     if currentScreen == "Main":
@@ -68,7 +68,10 @@ while running:
         currentScreen = credit_menu(currentScreen)
     elif currentScreen == "Play":
         currentScreen = run_gameplay(screen, mouse, playArea, graphics)
-
+    elif currentScreen == "Victory":
+        victory_screen()
+    elif currentScreen == "Defeat":
+        defeat_screen()
 
     pygame.display.update()
 
