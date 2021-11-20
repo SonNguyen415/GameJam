@@ -252,11 +252,11 @@ class Character(pygame.sprite.Sprite):
     def collision_enforcement(self, eachSprite):
         if(-POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom  <= 0):
             self.canMoveDown = False
-        if(-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom <= -POS_TOLERANCE/2):
+        if(-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom <= POS_TOLERANCE/2):
             self.canMoveUp = False
-        if(-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE):
+        if(-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE/2):
             self.canMoveLeft = False
-        if(-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE):
+        if(-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE/2):
             self.canMoveRight = False
 
 
