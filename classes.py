@@ -99,7 +99,7 @@ class Playground():
 
 
     def generate_enemies(self):
-        numEnemy = 0
+        numEnemy = 1
         for i in range(1, numEnemy+1):
             npc = Enemy(500-(numEnemy*60)+100*i, 100, NPC_IMG, i)
             self.spriteList.append(npc)
@@ -263,10 +263,18 @@ class Character(pygame.sprite.Sprite):
                     if self.type == "player" and eachSprite.type == "door" and eachSprite.unlocked:
                         playArea.updateMap()
                         eachSprite.change_position()
-
-                        # Change player position
-                        self.xLoc = WINDOW_LENGTH/2
-                        self.yLoc = PLAYGROUND_HEIGHT
+                        if self.yLoc > WINDOW_HEIGHT*(7/10):
+                            self.xLoc = WINDOW_LENGTH / 2
+                            self.yLoc = 120
+                        elif self.yLoc < WINDOW_HEIGHT/5:
+                            self.xLoc = WINDOW_LENGTH / 2
+                            self.yLoc = PLAYGROUND_HEIGHT
+                        elif self.xLoc < WINDOW_LENGTH/5:
+                            self.yLoc = WINDOW_HEIGHT / 2
+                            self.xLoc = PLAYGROUND_LENGTH+100
+                        elif self.xLoc > WINDOW_LENGTH*(4/5):
+                            self.yLoc = WINDOW_HEIGHT / 2
+                            self.xLoc = PLAYGROUND_X_OFFSET
                         time.sleep(0.1)
                         return
                     if(eachSprite.type == "player" and self.type == "npc"):
@@ -318,6 +326,7 @@ class Player(Character, object):
             self.__staminaRecharge += 1
         else:
             self.__staminaRecharge = 0
+            self.movementSpeed = WALK_SPEED
             self.restore_stamina()
 
 
