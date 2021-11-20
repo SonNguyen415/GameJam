@@ -266,19 +266,15 @@ class Character(pygame.sprite.Sprite):
                         if self.yLoc > WINDOW_HEIGHT*(7/10):
                             self.xLoc = WINDOW_LENGTH / 2
                             self.yLoc = 120
-                        if self.yLoc < WINDOW_HEIGHT/5:
+                        elif self.yLoc < WINDOW_HEIGHT/5:
                             self.xLoc = WINDOW_LENGTH / 2
                             self.yLoc = PLAYGROUND_HEIGHT
-                        if self.xLoc < WINDOW_LENGTH/5:
+                        elif self.xLoc < WINDOW_LENGTH/5:
                             self.yLoc = WINDOW_HEIGHT / 2
                             self.xLoc = PLAYGROUND_LENGTH+100
-                        if self.xLoc > WINDOW_LENGTH*(4/5):
+                        elif self.xLoc > WINDOW_LENGTH*(4/5):
                             self.yLoc = WINDOW_HEIGHT / 2
                             self.xLoc = PLAYGROUND_X_OFFSET
-
-                        # Change player position here
-                        self.xLoc = WINDOW_LENGTH/2
-                        self.yLoc = PLAYGROUND_HEIGHT
                         time.sleep(0.1)
                         return
                     if(eachSprite.type == "player" and self.type == "npc"):
