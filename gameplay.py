@@ -72,7 +72,7 @@ def npc_movement(player, npc):
     else:
         npc.move_towards_player(player.xLoc,player.yLoc)
     if npc.agro:
-        # npc.slaps(player)
+        npc.slaps(player)
         if npc.coolDown:
             t+=1
             if t==15:
@@ -94,13 +94,24 @@ def update_game(player, npc, surface, spriteList):
         sprite.draw(surface)
 
 
-def run_gameplay(surface, mouse, heartIcons, spriteList):
-    PLAY_AREA = get_playground()
 
-    surface.blit(PLAY_AREA, (0, 0))
+def get_pause_button():
+
+    return
+
+
+
+def run_gameplay(surface, mouse, heartIcons, spriteList):
+    playArea = get_playground()
+
+    surface.blit(playArea, (0, 0))
 
     player = spriteList[0]
     npc = spriteList[1]
+
+
+    pauseButton = SpriteObject(PLAYGROUND_LENGTH-50, PLAYGROUND_HEIGHT-50, 'Objects/icon.img', 50, 'Graphics')
+    pauseButton.draw(surface)
 
     update_game(player, npc, surface, spriteList)
     bmr_gameplay(surface, mouse, player, spriteList)
