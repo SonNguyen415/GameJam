@@ -86,13 +86,7 @@ def update_game(surface, playArea):
 
 
 def check_door(spriteList):
-<<<<<<< Updated upstream
-    if len(spriteList) < 4:
-        print(spriteList)
-    for i in range(5, len(spriteList)):
-=======
     for i in range(0, len(spriteList)):
->>>>>>> Stashed changes
         if spriteList[i].type == "npc":
             return
     for j in range(0, len(spriteList)):
@@ -111,26 +105,18 @@ def run_gameplay(surface, mouse, playArea, graphics):
     check_door(spriteList)
 
     update_game(surface, playArea)
-<<<<<<< Updated upstream
     playArea.get_current_artifacts()
-    print(playArea.currArtifactNames)
     # player = spriteList[0]
 
     #graphics[1].draw(surface)
-=======
 
     # graphics[1].draw()
->>>>>>> Stashed changes
 
     # if graphics[1].draw(surface):
     #     pauseMenu = SpriteObject(300, 200, 'Background/Pause Menu.png', 300, 'Graphics')
     #     pause_menu(pauseMenu)
 
-<<<<<<< Updated upstream
-    #bmr_gameplay(surface, mouse, playArea.spriteList)
-=======
     bmr_gameplay(surface, mouse, playArea.spriteList)
->>>>>>> Stashed changes
 
     display(surface)
 

@@ -100,7 +100,7 @@ class Playground():
     def generate_enemies(self):
         numEnemy = random.randint(2, 6)
         for i in range(1, numEnemy+1):
-            npc = Enemy(10, 10, NPC_IMG, i)
+            npc = Enemy(500-(numEnemy*50)+50*i, 100, NPC_IMG, i)
             self.spriteList.append(npc)
 
     def generate_sprites(self):
