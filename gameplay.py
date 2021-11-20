@@ -1,6 +1,8 @@
 import pygame
 from pygame import sprite
+from pygame.mixer import pause
 from classes import *
+# from menu import pause_menu
 from settings import *
 import time
 import random
@@ -16,7 +18,6 @@ t = 0
 p = False
 
 currentArtifacts = [[], []]
-
 
 def show_curr_artifact(player):
     for artifact, i in enumerate(currentArtifacts[0]):
@@ -73,60 +74,69 @@ def update_game(surface, playArea):
     player = playArea.spriteList[0]
     for sprite in playArea.spriteList:
         if sprite.type == 'player' or sprite.type == 'npc':
-            if sprite == 'npc':
+            if sprite.type == 'npc':
                 sprite.sense(player.xLoc, player.yLoc)
             sprite.check_collision(playArea)
-            sprite.move()
+            if sprite.type == 'player':
+                sprite.move()
+            else:
+                npc_movement(player, sprite)
             sprite.update_rect()
         sprite.draw(surface)
 
 
-def pause_button():
-    global p
-    key = pygame.key.get_pressed()
-    if key[pygame.K_SPACE]:
-        print('hello')
-        p = True
-
-
-def pause():
-    global p
-    if p:
-        if key[pygame.K_SPACE]:
-            p = False
-        time.sleep(1)
-        print("hello")
-        pause()
-
-
 def check_door(spriteList):
+<<<<<<< Updated upstream
+    if len(spriteList) < 4:
+        print(spriteList)
     for i in range(5, len(spriteList)):
+=======
+    for i in range(0, len(spriteList)):
+>>>>>>> Stashed changes
         if spriteList[i].type == "npc":
             return
-    for j in range(1, 4):
-        spriteList[j].unlocked = True
+    for j in range(0, len(spriteList)):
+        if spriteList[j].type == "door":
+            spriteList[j].unlocked = True
 
 
 
 
-def run_gameplay(surface, mouse, playArea):
+
+
+def run_gameplay(surface, mouse, playArea, graphics):
+    spriteList = playArea.spriteList
+
     playArea.draw(surface)
-    check_door(playArea.spriteList)
+    check_door(spriteList)
 
     update_game(surface, playArea)
-
+<<<<<<< Updated upstream
+    playArea.get_current_artifacts()
+    print(playArea.currArtifactNames)
     # player = spriteList[0]
 
-    # pauseButton = SpriteObject(PLAYGROUND_LENGTH-50, PLAYGROUND_HEIGHT-50, 'Button Icons/pause.png', 50, 'Graphics')
-    # pauseButton.draw(surface)
+    #graphics[1].draw(surface)
+=======
 
-    # bmr_gameplay(surface, mouse, playArea.spriteList)
+    # graphics[1].draw()
+>>>>>>> Stashed changes
 
-    display(screen)
+    # if graphics[1].draw(surface):
+    #     pauseMenu = SpriteObject(300, 200, 'Background/Pause Menu.png', 300, 'Graphics')
+    #     pause_menu(pauseMenu)
 
-    # for i in range(0, player.health):
-    #     heartIcons[i].draw(surface)
+<<<<<<< Updated upstream
+    #bmr_gameplay(surface, mouse, playArea.spriteList)
+=======
+    bmr_gameplay(surface, mouse, playArea.spriteList)
+>>>>>>> Stashed changes
 
-    pygame.draw.rect(surface, (0, 203, 255), pygame.Rect(15, 45, 60, 15), width=2)
-    pygame.draw.rect(surface, (0, 203, 255), pygame.Rect(15, 45, 60 * playArea.spriteList[0].get_stamina_ratio(), 15))
+    display(surface)
+
+    for i in range(0, spriteList[0].health):
+        graphics[0][i].draw(surface)
+
+    pygame.draw.rect(surface, COLOR_STAMINA, pygame.Rect(15, 45, 60, 15), width=2)
+    pygame.draw.rect(surface, COLOR_STAMINA, pygame.Rect(15, 45, 60 * playArea.spriteList[0].get_stamina_ratio(), 15))
     return "Play"

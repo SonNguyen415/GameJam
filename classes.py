@@ -26,7 +26,7 @@ class Playground():
         self.currArtifactNames = []
         self.currArtifacts = [[], []]
         self.numArtifacts = 0
-    
+
     def draw(self, surface):
         surface.blit(self.image, (0, 0))
 
@@ -70,14 +70,14 @@ class Playground():
 
 
     def artifact_x(currID):
-        xMod = (currID - 1) % 3 
+        xMod = (currID - 1) % 3
         return 100+xMod*50
 
 
     def artifact_y(currID):
-        yMod = (currID - 1) /  3 
+        yMod = (currID - 1) /  3
         return 100+yMod*50
-        
+
 
     def append_artifacts(self):
         for artifact, i in enumerate(self.currArtifactNames):
@@ -91,21 +91,27 @@ class Playground():
             self.artifactDescr.appen(artifactDescr)
             self.spriteList.append(artifactObj)
 
-    
+
     def generate_artifacts(self):
         self.get_current_artifacts()
         self.append_artifacts()
 
 
-    def generate_sprites(self):
+    def generate_enemies(self):
+        numEnemy = random.randint(2, 6)
+        for i in range(1, numEnemy+1):
+            npc = Enemy(10, 10, NPC_IMG, i)
+            self.spriteList.append(npc)
 
-        return
+    def generate_sprites(self):
+        self.generate_enemies()
 
     def updateMap(self):
         while len(self.spriteList) > 1:
             self.spriteList.pop(1)
         if playerGrid[playerPosition[1]][playerPosition[0]] == 'B':
             playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
+
         self.initiate_doors()
         self.generate_sprites()
 
@@ -148,6 +154,11 @@ class SpriteObject(pygame.sprite.Sprite):
             playerPosition[0] -= 1
         elif self.rot == 'E':
             playerPosition[0] += 1
+
+
+        # Temporarily, the Artifact generation code will be placed here
+
+
 
 
 
@@ -249,10 +260,8 @@ class Character(pygame.sprite.Sprite):
                 if(self.rect.colliderect(eachSprite.rect)):
                     self.collision_enforcement(eachSprite)
                     if eachSprite.type == "door" and self.type == "player" and eachSprite.unlocked:
-
                         playArea.updateMap()
                         eachSprite.change_position()
-
 
                         self.xLoc = WINDOW_LENGTH/2
                         self.yLoc = PLAYGROUND_HEIGHT

@@ -8,6 +8,7 @@ COLOR_LIGHT = (255,170,0)
 # dark shade of the button
 COLOR_DARK = (180,130,0)
 
+COLOR_STAMINA = (0, 203, 255)
 
 WAIT_TIME = 1
 
@@ -66,6 +67,35 @@ LEFT_IMG.append(pygame.image.load('Character Sprites/Left/3.png'))
 
 PLAYER_IMG = [UP_IMG, RIGHT_IMG, DOWN_IMG, LEFT_IMG]
 
+
+
+
+NPC_DOWN = []
+NPC_UP = []
+NPC_LEFT = []
+NPC_RIGHT = []
+
+NPC_DOWN.append(pygame.image.load('NPC Sprites/Down/guard1.png'))
+NPC_DOWN.append(pygame.image.load('NPC Sprites/Down/guard2.png'))
+NPC_DOWN.append(pygame.image.load('NPC Sprites/Down/guard3.png'))
+
+
+NPC_UP.append(pygame.image.load('NPC Sprites/Up/guard1.png'))
+NPC_UP.append(pygame.image.load('NPC Sprites/Up/guard2.png'))
+NPC_UP.append(pygame.image.load('NPC Sprites/Up/guard3.png'))
+
+NPC_RIGHT.append(pygame.image.load('NPC Sprites/Right/guard1.png'))
+NPC_RIGHT.append(pygame.image.load('NPC Sprites/Right/guard2.png'))
+NPC_RIGHT.append(pygame.image.load('NPC Sprites/Right/guard3.png'))
+
+NPC_LEFT.append(pygame.image.load('NPC Sprites/Left/guard1.png'))
+NPC_LEFT.append(pygame.image.load('NPC Sprites/Left/guard2.png'))
+NPC_LEFT.append(pygame.image.load('NPC Sprites/Left/guard3.png'))
+
+NPC_IMG = [NPC_UP, NPC_RIGHT, NPC_DOWN, NPC_LEFT]
+
+
+
 DOOR_IMG = pygame.image.load('Objects/Door.png')
 
 ROCK_IMG = 'Obstacles/Rock1.png'
@@ -79,3 +109,5 @@ LEFT = 3
 
 
 artifactList = ['BearSword', 'Croc', 'DreamCatcher', 'Drum', 'Mask', 'NavajoPot']
+MAX_ARTY_PER_ROOM = 1
+ARTY_PROB = 0.2
