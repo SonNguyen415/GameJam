@@ -93,12 +93,14 @@ class Playground():
 
 
     def generate_artifacts(self):
+        # self.numArtifacts = insert artifact number based on room
         self.get_current_artifacts()
         self.append_artifacts()
 
 
     def generate_enemies(self):
         numEnemy = random.randint(2, 6)
+        numEnemy = 1
         for i in range(1, numEnemy+1):
             npc = Enemy(500-(numEnemy*50)+50*i, 100, NPC_IMG, i)
             self.spriteList.append(npc)
@@ -111,7 +113,6 @@ class Playground():
             self.spriteList.pop(1)
         if playerGrid[playerPosition[1]][playerPosition[0]] == 'B':
             playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
-
         self.initiate_doors()
         self.generate_sprites()
 
@@ -390,6 +391,7 @@ class Enemy (Character, object):
         if distX > 0 and self.canMoveRight:
             self.xLoc += (distX / dist) * self.movementSpeed
             self.increment_sprite()
+
         if distY < 0 and self.canMoveUp:
             self.yLoc += (distY/dist) * self.movementSpeed
             self.increment_sprite()

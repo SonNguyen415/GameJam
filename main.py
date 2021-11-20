@@ -15,7 +15,6 @@ bmrExistTime = 0 # time boomerang has existed
 
 
 
-
 playArea = Playground()
 player = Player(PLAYER_START_X, PLAYER_START_Y, PLAYER_IMG, 0)
 playArea.spriteList.append(player)

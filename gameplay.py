@@ -53,21 +53,23 @@ def npc_movement(player, npc):
     global k
     global t
 
+    npc.agro = False # for testing purpose
+
     if npc.agro == False:
         if npcTimer == 10:
             npcTimer = 0
             k = random.randint(1, 5)
         npcTimer += 1
         npc.random_movement(k)
-    else:
-        npc.move_towards_player(player.xLoc, player.yLoc)
-    if npc.agro:
-        npc.slaps(player)
-        if npc.coolDown:
-            t += 1
-            if t == 15:
-                t = 0
-                npc.coolDown = False
+    # else:
+    #     npc.move_towards_player(player.xLoc, player.yLoc)
+    # if npc.agro:
+    #     npc.slaps(player)
+    #     if npc.coolDown:
+    #         t += 1
+    #         if t == 15:
+    #             t = 0
+    #             npc.coolDown = False
 
 
 def update_game(surface, playArea):
@@ -94,15 +96,22 @@ def check_door(spriteList):
             spriteList[j].unlocked = True
 
 
-
-
-
+def check_living(spriteList):
+    currIndex = 0
+    while currIndex < len(spriteList):
+        sprite = spriteList[currIndex]
+        if (sprite.type == 'player' or sprite.type == 'npc') and sprite.health == 0:
+            spriteList.pop(currIndex)
+        else:
+            currIndex += 1
 
 def run_gameplay(surface, mouse, playArea, graphics):
     spriteList = playArea.spriteList
 
     playArea.draw(surface)
     check_door(spriteList)
+    check_living(spriteList)
+
 
     update_game(surface, playArea)
     playArea.get_current_artifacts()
