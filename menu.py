@@ -1,5 +1,5 @@
 import pygame
-import sys
+import time
 import button
 from settings import WINDOW_HEIGHT, WINDOW_LENGTH
 
@@ -47,6 +47,7 @@ def main_menu(currScreen):
 
     if startButton.draw(screen):
         sound.play()
+        time.sleep(0.1)
         return "Play"
     if exitButton.draw(screen):
         pygame.quit()
