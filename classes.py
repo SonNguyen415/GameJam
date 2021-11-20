@@ -263,9 +263,18 @@ class Character(pygame.sprite.Sprite):
                     if self.type == "player" and eachSprite.type == "door" and eachSprite.unlocked:
                         playArea.updateMap()
                         eachSprite.change_position()
-
-                        self.xLoc = WINDOW_LENGTH/2
-                        self.yLoc = PLAYGROUND_HEIGHT
+                        if self.yLoc > WINDOW_HEIGHT*(7/10):
+                            self.xLoc = WINDOW_LENGTH / 2
+                            self.yLoc = 120
+                        if self.yLoc < WINDOW_HEIGHT/5:
+                            self.xLoc = WINDOW_LENGTH / 2
+                            self.yLoc = PLAYGROUND_HEIGHT
+                        if self.xLoc < WINDOW_LENGTH/5:
+                            self.yLoc = WINDOW_HEIGHT / 2
+                            self.xLoc = PLAYGROUND_LENGTH+100a
+                        if self.xLoc > WINDOW_LENGTH*(4/5):
+                            self.yLoc = WINDOW_HEIGHT / 2
+                            self.xLoc = PLAYGROUND_X_OFFSET
                         time.sleep(0.1)
                         return
                     if(eachSprite.type == "player" and self.type == "npc"):
@@ -317,6 +326,7 @@ class Player(Character, object):
             self.__staminaRecharge += 1
         else:
             self.__staminaRecharge = 0
+            self.movementSpeed = WALK_SPEED
             self.restore_stamina()
 
 
