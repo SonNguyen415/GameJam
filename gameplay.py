@@ -94,7 +94,7 @@ def pause():
     if p:
         if key[pygame.K_SPACE]:
             p = False
-        Event().wait(1)
+        time.sleep(1)
         print("hello")
         pause()
 
