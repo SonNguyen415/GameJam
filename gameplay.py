@@ -1,6 +1,8 @@
 import pygame
 from pygame import sprite
+from pygame.mixer import pause
 from classes import *
+from menu import pause_menu
 from settings import *
 import time
 import random
@@ -16,7 +18,6 @@ t = 0
 p = False
 
 currentArtifacts = [[], []]
-
 
 def show_curr_artifact(player):
     for artifact, i in enumerate(currentArtifacts[0]):
@@ -81,24 +82,6 @@ def update_game(surface, playArea):
         sprite.draw(surface)
 
 
-def pause_button():
-    global p
-    key = pygame.key.get_pressed()
-    if key[pygame.K_SPACE]:
-        print('hello')
-        p = True
-
-
-def pause():
-    global p
-    if p:
-        if key[pygame.K_SPACE]:
-            p = False
-        time.sleep(1)
-        print("hello")
-        pause()
-
-
 def check_door(spriteList):
     for i in range(5, len(spriteList)):
         if spriteList[i].type == "npc":
@@ -109,7 +92,9 @@ def check_door(spriteList):
 
 
 
-def run_gameplay(surface, mouse, playArea):
+
+
+def run_gameplay(surface, mouse, playArea, graphics):
     playArea.draw(surface)
     check_door(playArea.spriteList)
 
@@ -117,12 +102,15 @@ def run_gameplay(surface, mouse, playArea):
 
     # player = spriteList[0]
 
-    # pauseButton = SpriteObject(PLAYGROUND_LENGTH-50, PLAYGROUND_HEIGHT-50, 'Button Icons/pause.png', 50, 'Graphics')
-    # pauseButton.draw(surface)
+    graphics[1].draw()
+
+    if graphics[1].draw(surface):
+        pauseMenu = SpriteObject(300, 200, 'Background/Pause Menu.png', 300, 'Graphics')
+        pause_menu(pauseMenu)
 
     # bmr_gameplay(surface, mouse, playArea.spriteList)
 
-    display(screen)
+    display(surface)
 
     # for i in range(0, player.health):
     #     heartIcons[i].draw(surface)

@@ -34,9 +34,14 @@ backButtonHeight = BACK_IMG.get_height()
 
 
 startButton = button.Button(((WIDTH/2) - (startButtonWidth*4/2)), 100, START_IMG, 4)
-exitButton = button.Button(((WIDTH/2) - (exitButtonWidth*4/2)), 400, EXIT_IMG, 4)
 creditButton = button.Button(((WIDTH/2) - (creditButtonWidth*4/2)), 250, CREDIT_IMG, 4)
+exitButton = button.Button(((WIDTH/2) - (exitButtonWidth*4/2)), 400, EXIT_IMG, 4)
 backButton = button.Button(50, ((HEIGHT/2) - (backButtonHeight*3/2)), BACK_IMG, 3)
+
+
+resumeButton = button.Button(50, 100, 'Button Icons/Resume.png', 4)
+exitButton = button.Button(50, 200, 'Button Icons/Exit.png', 4)
+
 
 sound = pygame.mixer.Sound('sound.mp3')
 
@@ -71,4 +76,14 @@ def credit_menu(currScreen):
     pygame.display.update()
 
     return currScreen
+
+
+
+def pause_menu(pauseMenu):
+    pauseMenu.draw()
+    if resumeButton.draw(screen):
+        return
+    elif exitButton.draw(screen):
+        pygame.quit()
+    pause_menu()
 
