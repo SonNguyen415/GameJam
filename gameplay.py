@@ -89,8 +89,10 @@ def update_game(surface, playArea):
         sprite.draw(surface)
 
 
-def get_pause_button():
-    return
+def pause_button():
+    key = pygame.key.get_pressed()
+    if key[pygame.K_SPACE]:
+        pass
 
 
 
