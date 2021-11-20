@@ -61,7 +61,7 @@ def npc_movement(player, npc):
     global k
     global t
 
-   
+
 
     if npc.agro == False:
         if npcTimer==10:
@@ -85,7 +85,7 @@ def update_game(player, npc, surface, spriteList):
     npc.sense(player.xLoc, player.yLoc)
     player.check_collision(spriteList)
     npc.check_collision(spriteList)
-    
+
     player.handle_keys()
     npc_movement(player, npc)
     npc.update_rect()

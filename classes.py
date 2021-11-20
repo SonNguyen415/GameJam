@@ -11,32 +11,30 @@ pygame.font.init()
 
 
 def initiate_doors(spriteList):
-    for i in playerGrid[playerPosition[0]][playerPosition[1]]:
+    for i in playerGrid[playerPosition[1]][playerPosition[0]]:
         if i == 'N':
-            north = SpriteObject(500,100, 'Objects/Door.png', 50, 'door', 'N')
+            north = SpriteObject(470,40, 'Objects/Door.png', 50, 'door', 'N')
             spriteList.append(north)
             north.draw(screen)
         elif i == 'S':
-            south = SpriteObject(500,500, 'Objects/Door.png', 50, 'door', 'S')
+            south = SpriteObject(470,502, 'Objects/Door.png', 50, 'door', 'S')
             spriteList.append(south)
             south.rotate(180)
             south.draw(screen)
         elif i == 'W':
-            west = SpriteObject(100,300, 'Objects/Door.png', 50, 'door', 'W')
+            west = SpriteObject(104,264, 'Objects/Door.png', 50, 'door', 'W')
             spriteList.append(west)
             west.rotate(90)
             west.draw(screen)
         elif i == 'E':
-            east = SpriteObject(900,300, 'Objects/Door.png', 50, 'door', 'E')
+            east = SpriteObject(838,264, 'Objects/Door.png', 50, 'door', 'E')
             spriteList.append(east)
             east.rotate(270)
             east.draw(screen)
 
-
 def updateMap(spriteList):
-    pGrid = playerGrid[playerPosition[0]][playerPosition[1]]
-    if pGrid == 'B':
-        pGrid = grid[playerPosition[0]][playerPosition[1]]
+    if playerGrid[playerPosition[1]][playerPosition[0]] == 'B':
+        playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
     initiate_doors(spriteList)
 
 
@@ -76,6 +74,7 @@ class SpriteObject(pygame.sprite.Sprite):
             playerPosition[0] -= 1
         elif self.rot == 'E':
             playerPosition[0] += 1
+
 
 
 
@@ -153,15 +152,15 @@ class Character(pygame.sprite.Sprite):
 
     def collision_enforcement(self, eachSprite):
         if(-POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom  <= 0):
-            self.canMoveDown = False     
+            self.canMoveDown = False
         if(-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom <= -POS_TOLERANCE/2):
-            self.canMoveUp = False        
+            self.canMoveUp = False
         if(-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE):
             self.canMoveLeft = False
         if(-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE):
             self.canMoveRight = False
 
-        
+
 
 
     def check_collision(self, spriteList):
@@ -176,17 +175,17 @@ class Character(pygame.sprite.Sprite):
                 if(self.rect.colliderect(eachSprite.rect)):
                     self.collision_enforcement(eachSprite)
                     if(eachSprite.type == "door" and self.type == "player"):
-                        
+
                         eachSprite.change_position()
                         updateMap(spriteList)
-                        
+
                         self.xLoc = WINDOW_LENGTH/2
                         self.yLoc = PLAYGROUND_HEIGHT
                         time.sleep(0.1)
                         return
                     if(eachSprite.type == "player" and self.type == "npc"):
                         self.slappable = True
-    
+
 
 
 class Player(Character, object):
@@ -198,7 +197,7 @@ class Player(Character, object):
         self.__stamina = MAX_STAMINA
         self.speaking = False
 
-        
+
 
     def slapped(self):
         self.wounded(1)
@@ -296,8 +295,8 @@ class Enemy (Character, object):
     def move_towards_player(self, x, y):
         if self.dead:
             return
-        distX = x - self.xLoc 
-        distY = y - self.yLoc 
+        distX = x - self.xLoc
+        distY = y - self.yLoc
         dist = math.sqrt((distX*distX)+(distY*distY))
 
         if distX < 0 and self.canMoveLeft:
