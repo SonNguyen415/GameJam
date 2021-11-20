@@ -6,7 +6,6 @@ import time
 import random
 from dungeon_generation import *
 
-
 bmr = object
 bmrExist = False
 bmrTime = 0
@@ -14,9 +13,9 @@ ctr = 0
 npcTimer = 0
 k = 1
 t = 0
+p = False
 
-currentArtifacts = [[],[]]
-
+currentArtifacts = [[], []]
 
 
 def show_curr_artifact(player):
@@ -26,9 +25,6 @@ def show_curr_artifact(player):
             if key[pygame.K_e]:
                 currentArtifacts[1][i].draw()
                 time.sleep(10)
-
-
-
 
 
 def bmr_gameplay(surface, mouse, spriteList):
@@ -51,30 +47,26 @@ def bmr_gameplay(surface, mouse, spriteList):
             ctr = pygame.time.get_ticks()
 
 
-
-
-
 def npc_movement(player, npc):
     global npcTimer
     global k
     global t
 
     if npc.agro == False:
-        if npcTimer==10:
+        if npcTimer == 10:
             npcTimer = 0
             k = random.randint(1, 5)
         npcTimer += 1
         npc.random_movement(k)
     else:
-        npc.move_towards_player(player.xLoc,player.yLoc)
+        npc.move_towards_player(player.xLoc, player.yLoc)
     if npc.agro:
         npc.slaps(player)
         if npc.coolDown:
-            t+=1
-            if t==15:
-                t=0
+            t += 1
+            if t == 15:
+                t = 0
                 npc.coolDown = False
-
 
 
 def update_game(surface, playArea):
@@ -90,32 +82,51 @@ def update_game(surface, playArea):
 
 
 def pause_button():
+    global p
     key = pygame.key.get_pressed()
     if key[pygame.K_SPACE]:
-        pass
+        print('hello')
+        p = True
+
+
+def pause():
+    global p
+    if p:
+        if key[pygame.K_SPACE]:
+            p = False
+        time.sleep(1)
+        print("hello")
+        pause()
+
+
+def check_door(spriteList):
+    for i in range(5, len(spriteList)):
+        if spriteList[i].type == "npc":
+            return
+    for j in range(1, 4):
+        spriteList[j].unlocked = True
+
 
 
 
 def run_gameplay(surface, mouse, playArea):
     playArea.draw(surface)
-    
+    check_door(playArea.spriteList)
+
     update_game(surface, playArea)
 
     # player = spriteList[0]
-
 
     # pauseButton = SpriteObject(PLAYGROUND_LENGTH-50, PLAYGROUND_HEIGHT-50, 'Button Icons/pause.png', 50, 'Graphics')
     # pauseButton.draw(surface)
 
     # bmr_gameplay(surface, mouse, playArea.spriteList)
 
-
     display(screen)
-
 
     # for i in range(0, player.health):
     #     heartIcons[i].draw(surface)
 
-    pygame.draw.rect(surface, (0,203,255), pygame.Rect(15,45,60,15), width=2)
-    pygame.draw.rect(surface, (0,203,255), pygame.Rect(15,45,60*playArea.spriteList[0].get_stamina_ratio(),15))
+    pygame.draw.rect(surface, (0, 203, 255), pygame.Rect(15, 45, 60, 15), width=2)
+    pygame.draw.rect(surface, (0, 203, 255), pygame.Rect(15, 45, 60 * playArea.spriteList[0].get_stamina_ratio(), 15))
     return "Play"

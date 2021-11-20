@@ -95,7 +95,7 @@ class Playground():
     def generate_artifacts(self):
         self.get_current_artifacts()
         self.append_artifacts()
-        
+
 
     def generate_sprites(self):
 
@@ -121,7 +121,7 @@ class SpriteObject(pygame.sprite.Sprite):
         self.xLoc = xLoc
         self.yLoc = yLoc
 
-        self.state = 'locked'
+        self.unlocked = False
         self.rot = rotation
 
         self.image = pygame.image.load(iconImg)
@@ -248,10 +248,10 @@ class Character(pygame.sprite.Sprite):
             else:
                 if(self.rect.colliderect(eachSprite.rect)):
                     self.collision_enforcement(eachSprite)
-                    if(eachSprite.type == "door" and self.type == "player"):
+                    if eachSprite.type == "door" and self.type == "player" and eachSprite.unlocked:
 
-                        eachSprite.change_position()
                         playArea.updateMap()
+                        eachSprite.change_position()
 
 
                         self.xLoc = WINDOW_LENGTH/2
