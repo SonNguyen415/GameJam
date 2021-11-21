@@ -102,23 +102,43 @@ class Playground():
             npcX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - CHAR_WIDTH)
             npcY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - CHAR_HEIGHT)
             nearDoor = self.check_near_door(npcX, npcY)
-            overlapping = self.check_overlapping(npcX, npcY)
+            overlapping = self.check_overlapping(npcX, npcY, 'npc')
             while nearDoor or overlapping:
                 npcX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - CHAR_WIDTH)
                 npcY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - CHAR_HEIGHT)
                 nearDoor = self.check_near_door(npcX, npcY)
-                overlapping = self.check_overlapping(npcX, npcY)
+                overlapping = self.check_overlapping(npcX, npcY, 'npc')
             npc = Enemy(npcX, npcY, NPC_IMG, i)
             self.spriteList.append(npc)
 
-    def check_overlapping(self, x, y):
+    def check_overlapping(self, x, y, type):
         for sprite in self.spriteList:
             if sprite.type == 'rock' or sprite.type == 'wall':
-                if sprite.xLoc < x < sprite.xLoc + ROCK_SIZE and sprite.yLoc < y < sprite.yLoc + ROCK_SIZE:
-                    return True
+                if type == 'rock' or type == 'wall':
+                    if sprite.xLoc < x < sprite.xLoc + ROCK_SIZE and (sprite.yLoc < y < sprite.yLoc + ROCK_SIZE or sprite.yLoc < y + ROCK_SIZE < sprite.yLoc + ROCK_SIZE):
+                        return True
+                    elif sprite.xLoc < x + ROCK_SIZE < sprite.xLoc + ROCK_SIZE and (sprite.yLoc < y < sprite.yLoc + ROCK_SIZE or sprite.yLoc < y + ROCK_SIZE < sprite.yLoc + ROCK_SIZE):
+                        return True
+                else:
+                    if sprite.xLoc < x < sprite.xLoc + ROCK_SIZE and (sprite.yLoc < y < sprite.yLoc + ROCK_SIZE or sprite.yLoc < y + CHAR_HEIGHT < sprite.yLoc + ROCK_SIZE):
+                        return True
+                    elif sprite.xLoc < x + CHAR_WIDTH < sprite.xLoc + ROCK_SIZE and (sprite.yLoc < y < sprite.yLoc + ROCK_SIZE or sprite.yLoc < y + CHAR_HEIGHT < sprite.yLoc + ROCK_SIZE):
+                        return True
             elif sprite.type == 'npc':
-                if sprite.xLoc < x < sprite.xLoc + CHAR_WIDTH and sprite.yLoc < y < sprite.yLoc + CHAR_HEIGHT:
-                    return True
+                if type == 'rock' or type == 'wall':
+                    if sprite.xLoc < x < sprite.xLoc + CHAR_WIDTH and (
+                            sprite.yLoc < y < sprite.yLoc + CHAR_HEIGHT or sprite.yLoc < y + ROCK_SIZE < sprite.yLoc + CHAR_HIGHT):
+                        return True
+                    elif sprite.xLoc < x + ROCK_SIZE < sprite.xLoc + CHAR_WIDTH and (
+                            sprite.yLoc < y < sprite.yLoc + CHAR_HEIGHT or sprite.yLoc < y + ROCK_SIZE < sprite.yLoc + CHAR_HEIGHT):
+                        return True
+                else:
+                    if sprite.xLoc < x < sprite.xLoc + CHAR_WIDTH and (
+                            sprite.yLoc < y < sprite.yLoc + CHAR_HEIGHT or sprite.yLoc < y + CHAR_HEIGHT < sprite.yLoc + CHAR_HEIGHT):
+                        return True
+                    elif sprite.xLoc < x + CHAR_WIDTH < sprite.xLoc + CHAR_WIDTH and (
+                            sprite.yLoc < y < sprite.yLoc + CHAR_HEIGHT or sprite.yLoc < y + CHAR_HEIGHT < sprite.yLoc + CHAR_HEIGHT):
+                        return True
         return False
 
     def generate_obstacles(self):
@@ -127,12 +147,12 @@ class Playground():
             rockX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE)
             rockY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE)
             nearDoor = self.check_near_door(rockX, rockY)
-            overlapping = self.check_overlapping(rockX, rockY)
+            overlapping = self.check_overlapping(rockX, rockY, 'rock')
             while nearDoor or overlapping:
                 rockX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE)
                 rockY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE)
                 nearDoor = self.check_near_door(rockX, rockY)
-                overlapping = self.check_overlapping(rockX, rockY)
+                overlapping = self.check_overlapping(rockX, rockY, 'rock')
             rock = SpriteObject(rockX, rockY, ROCK_IMG, ROCK_SIZE, 'rock')
             self.spriteList.append(rock)
         numWall = random.randint(1, 6)
@@ -140,14 +160,15 @@ class Playground():
             randX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - WALL_SIZE * 3)
             randY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - WALL_SIZE * 3)
             nearDoor = self.check_near_door(randX, randY)
-            overlapping = self.check_overlapping(randX, randY)
+            overlapping = self.check_overlapping(randX, randY, 'wall')
             while nearDoor or overlapping:
                 randX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - WALL_SIZE * 3)
                 randY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - WALL_SIZE * 3)
                 nearDoor = self.check_near_door(randX, randY)
-                overlapping = self.check_overlapping(randX, randY)
+                overlapping = self.check_overlapping(randX, randY, 'wall')
             for j in range(0, 3):
-                wall = SpriteObject(randX + (WALL_SIZE * j)-2, randY, WALL_IMG, WALL_SIZE, 'wall')
+                if not overlapping(randX + (WALL_SIZE * j)-2, randY):
+                    wall = SpriteObject(randX + (WALL_SIZE * j)-2, randY, WALL_IMG, WALL_SIZE, 'wall')
                 self.spriteList.append(wall)
 
 
