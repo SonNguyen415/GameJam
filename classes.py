@@ -145,13 +145,13 @@ class Playground():
         sprites = []
         numRock = random.randint(1, 6)
         for i in range(1, numRock + 1):
-            rockX = random.randint(PLAYGROUND_X_OFFSET + 30, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE - 30)
-            rockY = random.randint(PLAYGROUND_Y_OFFSET + 30, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE - 30)
+            rockX = random.randint(PLAYGROUND_X_OFFSET + 50, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE - 50)
+            rockY = random.randint(PLAYGROUND_Y_OFFSET + 50, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE - 50)
             nearDoor = self.check_near_door(rockX, rockY)
             overlapping = self.check_overlapping(rockX, rockY, 'rock')
             while nearDoor or overlapping:
-                rockX = random.randint(PLAYGROUND_X_OFFSET + 30, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE - 30)
-                rockY = random.randint(PLAYGROUND_Y_OFFSET + 30, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE - 30)
+                rockX = random.randint(PLAYGROUND_X_OFFSET + 50, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE - 50)
+                rockY = random.randint(PLAYGROUND_Y_OFFSET + 50, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE - 50)
                 nearDoor = self.check_near_door(rockX, rockY)
                 overlapping = self.check_overlapping(rockX, rockY, 'rock')
             rock = SpriteObject(rockX, rockY, ROCK_IMG, ROCK_SIZE, 'rock')
@@ -159,13 +159,13 @@ class Playground():
             self.spriteList.append(rock)
         numWall = random.randint(1, 6)
         for i in range(1, numWall + 1):
-            randX = random.randint(PLAYGROUND_X_OFFSET + 30, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - WALL_SIZE * 3 - 30)
-            randY = random.randint(PLAYGROUND_Y_OFFSET + 30, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - WALL_SIZE * 3 - 30)
+            randX = random.randint(PLAYGROUND_X_OFFSET + 50, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - WALL_SIZE * 3 - 50)
+            randY = random.randint(PLAYGROUND_Y_OFFSET + 50, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - WALL_SIZE * 3 - 50)
             nearDoor = self.check_near_door(randX, randY)
             overlapping = self.check_overlapping(randX, randY, 'wall')
             while nearDoor or overlapping:
-                randX = random.randint(PLAYGROUND_X_OFFSET + 30, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - WALL_SIZE * 3 - 30)
-                randY = random.randint(PLAYGROUND_Y_OFFSET + 30, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - WALL_SIZE * 3 - 30)
+                randX = random.randint(PLAYGROUND_X_OFFSET + 50, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - WALL_SIZE * 3 - 50)
+                randY = random.randint(PLAYGROUND_Y_OFFSET + 50, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - WALL_SIZE * 3 - 50)
                 nearDoor = self.check_near_door(randX, randY)
                 overlapping = self.check_overlapping(randX, randY, 'wall')
             for j in range(0, 3):

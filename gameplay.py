@@ -91,13 +91,13 @@ def update_game(surface, playArea, playing, mouse):
         describeArtifact = True
     else:
         describeArtifact = False
+    
 
     for sprite in playArea.spriteList:
         sprite.draw(surface)
         if sprite.type == 'player' and key[pygame.K_e] and sprite.check_collision(playArea) :
             artDescription = activate_description(playArea, sprite)
             describeArtifact = True
-
         elif (sprite.type == 'player' or sprite.type == 'npc') and playing:
             sprite.update_rect()
             sprite.check_collision(playArea)

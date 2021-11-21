@@ -109,6 +109,7 @@ def pause_menu():
     resumeButton = button.Button(WINDOW_LENGTH/2-resumeWidth/2, WINDOW_HEIGHT/2 - 50, RES_BUTTON, 1)
     exitButton = button.Button(WINDOW_LENGTH/2-exitWidth/2, WINDOW_HEIGHT/2, EXIT_BUTTON, 1)
     if resumeButton.draw(screen):
+        time.sleep(0.1)
         return True
     elif exitButton.draw(screen):
         return "Main"
