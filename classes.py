@@ -100,11 +100,27 @@ class Playground():
     def generate_enemies(self):
         numEnemy = random.randint(1, 6)
         for i in range(1, numEnemy + 1):
-            npc = Enemy(random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - CHAR_WIDTH),
-                        random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - CHAR_HEIGHT), NPC_IMG,
-                        i)
+            npcX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - CHAR_WIDTH)
+            npcY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - CHAR_HEIGHT)
+            nearDoor = self.check_near_door(npcX, npcY)
+            overlapping = self.check_overlapping(npcX, npcY)
+            while nearDoor or overlapping:
+                npcX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - CHAR_WIDTH)
+                npcY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - CHAR_HEIGHT)
+                nearDoor = self.check_near_door(npcX, npcY)
+                overlapping = self.check_overlapping(npcX, npcY)
+            npc = Enemy(npcX, npcY, NPC_IMG, i)
             self.spriteList.append(npc)
 
+    def check_overlapping(self, x, y):
+        for sprite in self.spriteList:
+            if sprite.type == 'rock' or sprite.type == 'wall':
+                if sprite.xLoc < x < sprite.xLoc + ROCK_SIZE and sprite.yLoc < y < sprite.yLoc + ROCK_SIZE:
+                    return True
+            elif sprite.type == 'npc':
+                if sprite.xLoc < x < sprite.xLoc + CHAR_WIDTH and sprite.yLoc < y < sprite.yLoc + CHAR_HEIGHT:
+                    return True
+        return False
 
     def generate_obstacles(self):
         numRock = random.randint(1, 8)
@@ -112,10 +128,12 @@ class Playground():
             rockX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE)
             rockY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE)
             nearDoor = self.check_near_door(rockX, rockY)
-            while nearDoor:
+            overlapping = self.check_overlapping(rockX, rockY)
+            while nearDoor or overlapping:
                 rockX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE)
                 rockY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE)
                 nearDoor = self.check_near_door(rockX, rockY)
+                overlapping = self.check_overlapping(rockX, rockY)
             rock = SpriteObject(rockX, rockY, ROCK_IMG, ROCK_SIZE, 'rock')
             self.spriteList.append(rock)
         numWall = random.randint(1, 6)
@@ -123,10 +141,12 @@ class Playground():
             randX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - WALL_SIZE * 3)
             randY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - WALL_SIZE * 3)
             nearDoor = self.check_near_door(randX, randY)
-            while nearDoor:
+            overlapping = self.check_overlapping(randX, randY)
+            while nearDoor or overlapping:
                 randX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - WALL_SIZE * 3)
                 randY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - WALL_SIZE * 3)
                 nearDoor = self.check_near_door(randX, randY)
+                overlapping = self.check_overlapping(randX, randY)
             for j in range(0, 3):
                 wall = SpriteObject(randX + WALL_SIZE * j, randY, WALL_IMG, WALL_SIZE, 'wall')
                 self.spriteList.append(wall)
@@ -272,7 +292,7 @@ class Character(pygame.sprite.Sprite):
                     (self.type == 'npc' and eachSprite.type == 'npc' and self.id == eachSprite.id)):
                 pass
             else:
-                if (self.rect.colliderect(eachSprite.rect)):
+                if self.rect.colliderect(eachSprite.rect):
                     self.collision_enforcement(eachSprite)
                     if self.type == "player" and eachSprite.type == "door" and eachSprite.unlocked:
                         eachSprite.change_position()
