@@ -79,7 +79,7 @@ def update_game(surface, playArea, playing):
     for sprite in playArea.spriteList:
         if (sprite.type == 'player' or sprite.type == 'npc') and playing:
             if sprite.type == 'npc':
-                sprite.sense(player.xLoc, player.yLoc)
+                sprite.sense(player.xLoc, player.yLoc, playArea.spriteList)
             sprite.check_collision(playArea)
             if sprite.type == 'player':
                 sprite.handle_keys()
