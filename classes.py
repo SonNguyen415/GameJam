@@ -135,6 +135,7 @@ class Playground():
             playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
         self.generate_sprites()
 
+
 class SpriteObject(pygame.sprite.Sprite):
     def __init__(self, xLoc, yLoc, iconImg, imageSize, objType, rotation='C'):
         # Call the parent class (Sprite) constructor
