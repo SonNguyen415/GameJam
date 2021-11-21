@@ -5,7 +5,6 @@ from dungeon_generation import *
 import time
 import math
 import random
-import numpy as np
 
 pygame.font.init()
 
@@ -367,30 +366,31 @@ class Enemy(Character, object):
         # if distance is less than sight length
         if distance < SIGHT_LENGTH:
             for sprite in spriteList:
-                npcToPlayer = np.array([npcX, npcY, pxLoc, pyLoc])
+                npcToPlayer = [npcX, npcY, pxLoc, pyLoc]
                 if sprite.type == 'rock' or sprite.type == 'wall':
-                    hitBox = np.array([sprite.xLoc, sprite.yLoc, sprite.xLoc + ROCK_SIZE, sprite.yLoc + ROCK_SIZE])
-                    hitBox2 = np.array([sprite.xLoc, sprite.yLoc + ROCK_SIZE, sprite.xLoc + ROCK_SIZE, sprite.yLoc])
+                    hitBox = [sprite.xLoc, sprite.yLoc, sprite.xLoc + ROCK_SIZE, sprite.yLoc + ROCK_SIZE]
+                    hitBox2 = [sprite.xLoc, sprite.yLoc + ROCK_SIZE, sprite.xLoc + ROCK_SIZE, sprite.yLoc]
                 elif sprite.type == 'npc':
-                    hitBox = np.array([sprite.xLoc, sprite.yLoc, sprite.xLoc + CHAR_WIDTH, sprite.yLoc + CHAR_HEIGHT])
-                    hitBox2 = np.array([sprite.xLoc, sprite.yLoc + CHAR_HEIGHT, sprite.xLoc + CHAR_WIDTH, sprite.yLoc])
+                    hitBox = [sprite.xLoc, sprite.yLoc, sprite.xLoc + CHAR_WIDTH, sprite.yLoc + CHAR_HEIGHT]
+                    hitBox2 = [sprite.xLoc, sprite.yLoc + CHAR_HEIGHT, sprite.xLoc + CHAR_WIDTH, sprite.yLoc]
                 else:
-                    hitBox = np.array(0, 0, 0, 0)
-                    hitBox2 = np.array(0, 0, 0, 0)
+                    hitBox = [0, 0, 0, 0]
+                    hitBox2 = [0, 0, 0, 0]
                 intersects = self.line_intersection(npcToPlayer[0], npcToPlayer[1], npcToPlayer[2], npcToPlayer[3],
                                                     hitBox[0], hitBox[1], hitBox[2], hitBox[3])
                 intersects2 = self.line_intersection(npcToPlayer[0], npcToPlayer[1], npcToPlayer[2], npcToPlayer[3],
                                                      hitBox2[0], hitBox2[1], hitBox2[2], hitBox2[3])
-
-                if intersects or intersects2:
-                    canSee = False
-            if canSee:
+                if not intersects == None or not intersects2 == None:
+                    self.canSee = False
+            if self.canSee:
                 if angle > leftRange and angle < rightRange:
                     self.agro = True
+                else:
+                    self.canSee = True
+            else:
+                self.canSee = True
 
     def line_intersection(self, x1, y1, x2, y2, x3, y3, x4, y4):
-        """find the intersection of line segments A=(x1,y1)/(x2,y2) and
-        B=(x3,y3)/(x4,y4). Returns a point or None"""
         denom = ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4))
         if denom == 0: return None
         px = ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)) / denom
