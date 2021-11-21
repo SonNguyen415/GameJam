@@ -45,6 +45,7 @@ class Playground():
                 'yes'
                 east.draw(screen)
 
+
     def get_current_artifacts(self):
         idList = []
         ctr = 0
@@ -58,13 +59,16 @@ class Playground():
             myArtifact = artifactList.pop[id]
             self.currArtifactNames.append(myArtifact)
 
+
     def artifact_x(currID):
         xMod = (currID - 1) % 3
         return 100 + xMod * 50
 
+
     def artifact_y(currID):
         yMod = (currID - 1) / 3
         return 100 + yMod * 50
+
 
     def append_artifacts(self):
         for artifact, i in enumerate(self.currArtifactNames):
@@ -93,12 +97,12 @@ class Playground():
         yDistanceCenter = abs(y - Y_WEST)
         yDistanceSouth = abs(y - Y_SOUTH)
 
-        if(xDistanceWest > 30 or xDistanceCenter > 30  or xDistanceEast > 30
-            or yDistanceNorth  > 30 or yDistanceCenter > 30 or yDistanceSouth > 30):
+        if(xDistanceWest > 100 or xDistanceCenter > 100  or xDistanceEast > 100 
+            or yDistanceNorth  > 100 or yDistanceCenter > 100 or yDistanceSouth > 100):
             return False
         else:
             return True
-
+    
 
     def generate_enemies(self):
         numEnemy = random.randint(1, 6)
@@ -131,9 +135,10 @@ class Playground():
     def updateMap(self):
         while len(self.spriteList) > 1:
             self.spriteList.pop(1)
+        self.generate_sprites()
         if playerGrid[playerPosition[1]][playerPosition[0]] == 'B':
             playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
-        self.generate_sprites()
+
 
 
 class SpriteObject(pygame.sprite.Sprite):
@@ -242,11 +247,11 @@ class Character(pygame.sprite.Sprite):
     def collision_enforcement(self, eachSprite):
         if (-POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom <= 0):
             self.canMoveDown = False
-        if (-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom <= -POS_TOLERANCE / 2):
+        if (-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom <= POS_TOLERANCE / 2):
             self.canMoveUp = False
-        if (-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE):
+        if (-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE / 2):
             self.canMoveLeft = False
-        if (-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE):
+        if (-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE / 2):
             self.canMoveRight = False
 
     def check_collision(self, playArea):
