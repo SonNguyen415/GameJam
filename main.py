@@ -4,7 +4,7 @@ from menu import *
 import os
 import button
 from gameplay import *
-
+from dungeon_generation import *
 
 clock = pygame.time.Clock()
 
@@ -15,6 +15,9 @@ bmrExistTime = 0 # time boomerang has existed
 
 
 def set_up():
+    dg_reset()
+    refresh(screen)
+    display(screen)
     generate()
     generateStats()
 
@@ -36,6 +39,7 @@ def set_up():
 
     graphics.append(heartIcons)
     graphics.append([pauseButton, pauseMenu])
+
 
     return [playArea, graphics]
 

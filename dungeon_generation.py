@@ -143,6 +143,30 @@ ENEMIES = [[0],
 
 #-----------------------------#
 
+def dg_reset():
+    playerPosition[0] = 2
+    playerPosition[1] = 2
+
+    for i in range(5):
+        if i != 2:
+            grid[i] = ['B','B','B','B','B']
+            playerGrid[i] = ['B','B','B','B','B']
+        else:
+            grid[i] = ['B','B','NSWE','B','B']
+            playerGrid[i] = ['B','B','NSWE','B','B']
+
+    for i in range(5):
+        for j in range(5):
+            tile = '({}, {})'.format(i,j)
+
+            gridStats[tile] = []
+            if i == 2 and j == 2:
+                gridClearStats[tile] = 1
+                gridObjectStats[tile] = ["O",[]]
+            else:
+                gridClearStats[tile] = 0
+                gridObjectStats[tile] = []
+
 def check_left(y,x):
     if x != 0:
         if 'B' not in str(grid[y][x-1]):

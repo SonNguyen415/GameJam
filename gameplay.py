@@ -6,7 +6,7 @@ from menu import *
 from settings import *
 import time
 import random
-from dungeon_generation import *
+
 
 bmr = object
 bmrExist = False
@@ -164,5 +164,3 @@ def run_gameplay(surface, mouse, playArea, graphics):
     display(surface)
 
     return "Play"
-
-

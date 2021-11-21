@@ -61,7 +61,7 @@ exitWidth = EXIT_BUTTON.get_width()
 
 
 def main_menu(currScreen):
-    
+
     screen.blit(BACKGROUND, (0,0))
 
     if startButton.draw(screen):
