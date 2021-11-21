@@ -267,8 +267,8 @@ class Character(pygame.sprite.Sprite):
                 if (self.rect.colliderect(eachSprite.rect)):
                     self.collision_enforcement(eachSprite)
                     if self.type == "player" and eachSprite.type == "door" and eachSprite.unlocked:
-                        eachSprite.change_position()
                         playArea.updateMap()
+                        eachSprite.change_position()
                         if self.yLoc > WINDOW_HEIGHT * (7 / 10):
                             self.xLoc = WINDOW_LENGTH / 2
                             self.yLoc = 120
