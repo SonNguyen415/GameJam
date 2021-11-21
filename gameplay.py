@@ -125,7 +125,6 @@ def run_gameplay(surface, mouse, playArea, graphics):
     update_game(surface, playArea, playing)
 
     if (len(spriteList) > 0 and spriteList[0].type != 'player') or len(spriteList) <= 0:
-        print("Yes")
         return "Defeat"
     elif len(artifactList) == 0:
         return "Victory"
