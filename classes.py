@@ -274,13 +274,13 @@ class Character(pygame.sprite.Sprite):
         self.rect.update(self.xLoc, self.yLoc, CHAR_WIDTH, CHAR_HEIGHT)
 
     def collision_enforcement(self, eachSprite):
-        if (-POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom < POS_TOLERANCE):
+        if (-POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom < POS_TOLERANCE/2):
             self.canMoveDown = False
-        if (-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom < POS_TOLERANCE):
+        if (-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom < POS_TOLERANCE/2):
             self.canMoveUp = False
-        if (-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE):
+        if (-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE/2):
             self.canMoveLeft = False
-        if (-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE):
+        if (-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE/2):
             self.canMoveRight = False
 
     def check_collision(self, playArea):
@@ -314,6 +314,11 @@ class Character(pygame.sprite.Sprite):
                         return
                     if (eachSprite.type == "player" and self.type == "npc"):
                         self.slappable = True
+<<<<<<< Updated upstream
+=======
+                    if(self.type == 'player'):
+                            print(self.canMoveUp)
+>>>>>>> Stashed changes
 
 class Player(Character, object):
     def __init__(self, xLoc, yLoc, charImg, objID):
