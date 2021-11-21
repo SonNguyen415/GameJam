@@ -136,11 +136,14 @@ class Playground():
         self.initialize_doors()
         self.generate_enemies()
         self.generate_obstacles()
+        tile = '({}, {})'.format(playerPosition[0],playerPosition[1])
+        if gridStats[tile][1] == 1:
+            #There is an artifact in this room
 
     def updateMap(self):
         while len(self.spriteList) > 1:
             self.spriteList.pop(1)
-        
+
         if playerGrid[playerPosition[1]][playerPosition[0]] == 'B':
             playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
         self.generate_sprites()
