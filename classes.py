@@ -131,7 +131,6 @@ class Playground():
     def updateMap(self):
         while len(self.spriteList) > 1:
             self.spriteList.pop(1)
-        change_position()
         if playerGrid[playerPosition[1]][playerPosition[0]] == 'B':
             playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
         self.generate_sprites()
