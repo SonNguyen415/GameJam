@@ -99,12 +99,12 @@ class Playground():
         yDistanceCenter = abs(y - Y_WEST)
         yDistanceSouth = abs(y - Y_SOUTH)
 
-        if(xDistanceWest > 10 or xDistanceCenter > 10  or xDistanceEast > 10 
+        if(xDistanceWest > 10 or xDistanceCenter > 10  or xDistanceEast > 10
             or yDistanceNorth  > 10 or yDistanceCenter > 10 or yDistanceSouth > 10):
             return False
         else:
             return True
-    
+
 
     def generate_enemies(self):
         numEnemy = random.randint(1,6)
@@ -139,10 +139,10 @@ class Playground():
     def updateMap(self):
         while len(self.spriteList) > 1:
             self.spriteList.pop(1)
-        self.generate_sprites()
+        change_position()
         if playerGrid[playerPosition[1]][playerPosition[0]] == 'B':
             playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
-
+        self.generate_sprites()
 
 
 
@@ -282,7 +282,7 @@ class Character(pygame.sprite.Sprite):
         self.canMoveDown = True
         self.canMoveUp = True
         for eachSprite in playArea.spriteList:
-            if((eachSprite.type == self.type and self.type == 'player') or 
+            if((eachSprite.type == self.type and self.type == 'player') or
             (self.type == 'npc' and eachSprite.type == 'npc' and self.id == eachSprite.id)):
                 pass
             else:
