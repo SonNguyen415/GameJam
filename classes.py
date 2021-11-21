@@ -58,7 +58,7 @@ class Playground():
 
 
     def append_artifacts(self):
-        objList = [[], []]
+        objList = []
         for i, artifact in enumerate(self.currArtifactNames):
             xLoc = (WINDOW_LENGTH/2 - 50) + 100*i
             yLoc = 300
