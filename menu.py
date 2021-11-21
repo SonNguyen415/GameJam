@@ -111,6 +111,6 @@ def pause_menu():
     if resumeButton.draw(screen):
         return True
     elif exitButton.draw(screen):
-        pygame.quit()
+        return "Main"
     else:
         return False
