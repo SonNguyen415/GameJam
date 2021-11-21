@@ -36,7 +36,7 @@ def bmr_gameplay(surface, mouse, spriteList):
     elif (bmrExist):
         bmrTime += 1
         bmr.move_boomerang(surface, mouse[0], mouse[1], player, spriteList)
-        if bmr.check_finish(bmrTime, surface, player):
+        if bmr.check_finish(bmrTime, player):
             bmrExist = False
             ctr = pygame.time.get_ticks()
 
@@ -73,7 +73,7 @@ def activate_description(playArea, player):
             index = i
     artDescription = playArea.currArtifacts[1][index]
     if artDescription not in completedArtifacts:
-        completedArtifacts.append(artDescription) 
+        completedArtifacts.append(artDescription)
     return artDescription
 
 
@@ -126,7 +126,7 @@ def check_living(spriteList):
 
 def run_gameplay(surface, mouse, playArea, graphics):
     global playing
-    
+
     spriteList = playArea.spriteList
 
     playArea.draw(surface)
@@ -137,7 +137,7 @@ def run_gameplay(surface, mouse, playArea, graphics):
     check_door(spriteList)
     check_living(spriteList)
 
-    
+
     for artifact in playArea.currArtifacts[0]:
         artifact.draw(surface)
 
@@ -147,17 +147,17 @@ def run_gameplay(surface, mouse, playArea, graphics):
         return "Defeat"
     elif len(completedArtifacts) > 5:
         return "Victory"
-    
+
     for i in range(0, spriteList[0].health):
         graphics[0][i].draw(surface)
 
     pygame.draw.rect(surface, COLOR_STAMINA, pygame.Rect(15, 45, 60, 15), width=2)
     pygame.draw.rect(surface, COLOR_STAMINA, pygame.Rect(15, 45, 60 * playArea.spriteList[0].get_stamina_ratio(), 15))
-    
+
     if not playing:
         graphics[1][1].draw(surface)
         playing = pause_menu()
-   
+
     display(surface)
-   
+
     return "Play"
