@@ -130,6 +130,8 @@ def run_gameplay(surface, mouse, playArea, graphics):
         return "Victory"
 
 
+    for artifact in playArea.currArtifacts[0]:
+        artifact.draw()
     
 
     bmr_gameplay(surface, mouse, playArea.spriteList)

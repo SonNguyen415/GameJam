@@ -49,24 +49,25 @@ class Playground():
         ctr = 0
         prevID = random.randint(0, len(artifactList) - 1)
         while ctr < self.numArtifacts:
+            ctr += 1
             currID = random.randint(0, len(artifactList) - 1)
             if currID != prevID:
                 idList.append(currID)
                 prevID = currID
         for id in idList:
-            myArtifact = artifactList.pop[id]
+            myArtifact = artifactList.pop(id)
             self.currArtifactNames.append(myArtifact)
 
-    def artifact_x(currID):
+    def artifact_x(self, currID):
         xMod = (currID - 1) % 3
         return 100 + xMod * 50
 
-    def artifact_y(currID):
+    def artifact_y(self, currID):
         yMod = (currID - 1) / 3
         return 100 + yMod * 50
 
     def append_artifacts(self):
-        for artifact, i in enumerate(self.currArtifactNames):
+        for i, artifact in enumerate(self.currArtifactNames):
             xLoc = self.artifact_x(i)
             yLoc = self.artifact_y(i)
             artifactImg = 'Artifacts/' + artifact + '.png'
@@ -78,9 +79,8 @@ class Playground():
             self.spriteList.append(artifactObj)
 
     def generate_artifacts(self):
-        if self.numArtifacts > 0:
-            self.get_current_artifacts()
-            self.append_artifacts()
+        self.get_current_artifacts()
+        self.append_artifacts()
 
     def check_near_door(self, x, y):
         xDistanceWest = abs(x - X_WEST)
@@ -175,12 +175,14 @@ class Playground():
     def generate_sprites(self):
         self.initialize_doors()
         tile = '({}, {})'.format(playerPosition[0],playerPosition[1])
-        self.numArtifacts = gridStats[tile][1][0]
+        self.numArtifacts = 2
         self.generate_enemies()
         if self.numArtifacts == 0:
             self.generate_obstacles()
         else:
             self.generate_artifacts()
+            
+
 
     def updateMap(self):
         while len(self.spriteList) > 1:
