@@ -23,9 +23,6 @@ class Playground():
         surface.blit(self.image, (0, 0))
 
     def initialize_doors(self):
-        print(playerPosition[1])
-        print(playerPosition[0])
-        print(str(playerGrid[playerPosition[1]][playerPosition[0]]))
         for i in playerGrid[playerPosition[1]][playerPosition[0]]:
             if i == 'N':
                 north = SpriteObject(470, 40, 'Objects/Door.png', 50, 'door', 'N')
@@ -114,20 +111,32 @@ class Playground():
                         i)
             self.spriteList.append(npc)
 
+
     def generate_obstacles(self):
         numRock = random.randint(1, 8)
         for i in range(1, numRock + 1):
-            rock = SpriteObject(random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE),
-                                random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE),
-                                ROCK_IMG, ROCK_SIZE, 'rock')
+            rockX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE)
+            rockY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE)
+            nearDoor = self.check_near_door(rockX, rockY)
+            while nearDoor:
+                rockX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE)
+                rockY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE)
+                nearDoor = self.check_near_door(rockX, rockY)
+            rock = SpriteObject(rockX, rockY, ROCK_IMG, ROCK_SIZE, 'rock')
             self.spriteList.append(rock)
         numWall = random.randint(1, 6)
         for i in range(1, numWall + 1):
             randX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - WALL_SIZE * 3)
             randY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - WALL_SIZE * 3)
+            nearDoor = self.check_near_door(randX, randY)
+            while nearDoor:
+                randX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - WALL_SIZE * 3)
+                randY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - WALL_SIZE * 3)
+                nearDoor = self.check_near_door(randX, randY)
             for j in range(0, 3):
                 wall = SpriteObject(randX + WALL_SIZE * j, randY, WALL_IMG, WALL_SIZE, 'wall')
                 self.spriteList.append(wall)
+
 
     def generate_sprites(self):
         self.initialize_doors()
