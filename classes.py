@@ -127,7 +127,7 @@ class Playground():
             elif sprite.type == 'npc':
                 if type == 'rock' or type == 'wall':
                     if sprite.xLoc < x < sprite.xLoc + CHAR_WIDTH and (
-                            sprite.yLoc < y < sprite.yLoc + CHAR_HEIGHT or sprite.yLoc < y + ROCK_SIZE < sprite.yLoc + CHAR_HIGHT):
+                            sprite.yLoc < y < sprite.yLoc + CHAR_HEIGHT or sprite.yLoc < y + ROCK_SIZE < sprite.yLoc + CHAR_HEIGHT):
                         return True
                     elif sprite.xLoc < x + ROCK_SIZE < sprite.xLoc + CHAR_WIDTH and (
                             sprite.yLoc < y < sprite.yLoc + CHAR_HEIGHT or sprite.yLoc < y + ROCK_SIZE < sprite.yLoc + CHAR_HEIGHT):
@@ -335,11 +335,6 @@ class Character(pygame.sprite.Sprite):
                         return
                     if (eachSprite.type == "player" and self.type == "npc"):
                         self.slappable = True
-<<<<<<< Updated upstream
-=======
-                    if(self.type == 'player'):
-                            print(self.canMoveUp)
->>>>>>> Stashed changes
 
 class Player(Character, object):
     def __init__(self, xLoc, yLoc, charImg, objID):
