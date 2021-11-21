@@ -315,8 +315,7 @@ class Character(pygame.sprite.Sprite):
                         return
                     if (eachSprite.type == "player" and self.type == "npc"):
                         self.slappable = True
-                    if(self.type == 'player'):
-                            print(self.canMoveUp)
+                
 
 class Player(Character, object):
     def __init__(self, xLoc, yLoc, charImg, objID):
