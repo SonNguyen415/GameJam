@@ -137,8 +137,8 @@ class Playground():
         self.generate_enemies()
         self.generate_obstacles()
         tile = '({}, {})'.format(playerPosition[0],playerPosition[1])
-        if gridStats[tile][1] == 1:
-            #There is an artifact in this room
+        print(gridStats[tile][1])
+        #There are two artifacts in this room
 
     def updateMap(self):
         while len(self.spriteList) > 1:

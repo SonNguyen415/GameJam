@@ -321,7 +321,7 @@ def generateStats():
                 possibleRooms.append([i,j])
 
 
-    maxArtifacts = 7
+    maxArtifacts = 3
     artifactRooms = []
 
     for i in range(maxArtifacts):
@@ -332,7 +332,7 @@ def generateStats():
         for j in range(len(grid[i])):
             tile = '({}, {})'.format(i,j)
             if [i,j] in artifactRooms:
-                gridStats[tile].append([1])
+                gridStats[tile].append([2])
             else:
                 if grid[i][j] == 'B' or grid[i][j] == 'NSWE':
                     gridStats[tile].append(['Null'])
