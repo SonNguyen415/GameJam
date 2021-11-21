@@ -18,6 +18,7 @@ class Playground():
         self.currArtifactNames = []
         self.currArtifacts = [[], []]
         self.numArtifacts = 0
+        self.roomList = []
 
     def draw(self, surface):
         surface.blit(self.image, (0, 0))
@@ -46,36 +47,30 @@ class Playground():
 
     def get_current_artifacts(self):
         idList = []
+        prevID = random.randint(0, len(artifactList) - 2)
         ctr = 0
-        prevID = random.randint(0, len(artifactList) - 1)
         while ctr < self.numArtifacts:
-            ctr += 1
-            currID = random.randint(0, len(artifactList) - 1)
+            currID = random.randint(0, len(artifactList) - 2)
             if currID != prevID:
                 idList.append(currID)
                 prevID = currID
+                ctr += 1
         for id in idList:
             myArtifact = artifactList.pop(id)
             self.currArtifactNames.append(myArtifact)
 
-    def artifact_x(self, currID):
-        xMod = (currID - 1) % 3
-        return 100 + xMod * 50
-
-    def artifact_y(self, currID):
-        yMod = (currID - 1) / 3
-        return 100 + yMod * 50
+    
 
     def append_artifacts(self):
         for i, artifact in enumerate(self.currArtifactNames):
-            xLoc = self.artifact_x(i)
-            yLoc = self.artifact_y(i)
+            xLoc = (WINDOW_LENGTH/2 - 50) + 100*i
+            yLoc = 300
             artifactImg = 'Artifacts/' + artifact + '.png'
-            descrImg = 'Artifact Descriptions/' + artifact + '.png'
-            artifactObj = SpriteObject(xLoc, yLoc, artifactImg, 50, 'artifact')
-            artifactDescr = SpriteObject(200, 200, descrImg, 300, 'description')
-            self.currArtifacts.append(artifactObj)
-            self.artifactDescr.appen(artifactDescr)
+            descrImg = 'Artifact Images/' + artifact + '.png'
+            artifactObj = SpriteObject(xLoc, yLoc, artifactImg, 35, 'artifact')
+            artifactDescr = SpriteObject(250, 80, descrImg, 500, 'description')
+            self.currArtifacts[0].append(artifactObj)
+            self.currArtifacts[1].append(artifactDescr)
             self.spriteList.append(artifactObj)
 
     def generate_artifacts(self):
@@ -176,7 +171,7 @@ class Playground():
         self.initialize_doors()
         tile = '({}, {})'.format(playerPosition[0],playerPosition[1])
         self.numArtifacts = 2
-        self.generate_enemies()
+        # self.generate_enemies()
         if self.numArtifacts == 0:
             self.generate_obstacles()
         else:
@@ -187,10 +182,18 @@ class Playground():
     def updateMap(self):
         while len(self.spriteList) > 1:
             self.spriteList.pop(1)
+        
 
         if playerGrid[playerPosition[1]][playerPosition[0]] == 'B':
             playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
+        self.currArtifacts = [[],[]]
+        self.currArtifactNames = []
         self.generate_sprites()
+
+
+        # Save room data 
+        # self.roomData.append([playerPosition[1][0], self.spriteList, self.currArtifactNames, self.currArtifacts, self.numArtifacts])
+        
 
 
 class SpriteObject(pygame.sprite.Sprite):
@@ -238,6 +241,8 @@ class Character(pygame.sprite.Sprite):
         super().__init__()
 
         self.id = objID
+
+        self.currArtifact = 0
 
         self.xLoc = xLoc
         self.yLoc = yLoc
@@ -318,6 +323,9 @@ class Character(pygame.sprite.Sprite):
             else:
                 if self.rect.colliderect(eachSprite.rect):
                     self.collision_enforcement(eachSprite)
+                    if self.type == 'player' and eachSprite.type == 'artifact':
+                        self.currArtifact = eachSprite
+                        return True
                     if self.type == "player" and eachSprite.type == "door" and eachSprite.unlocked:
                         eachSprite.change_position()
                         playArea.updateMap()
@@ -334,9 +342,11 @@ class Character(pygame.sprite.Sprite):
                             self.yLoc = WINDOW_HEIGHT / 2
                             self.xLoc = PLAYGROUND_X_OFFSET
                         time.sleep(0.1)
-                        return
+                        return None
                     if (eachSprite.type == "player" and self.type == "npc"):
                         self.slappable = True
+        return None
+
 
 class Player(Character, object):
     def __init__(self, xLoc, yLoc, charImg, objID):

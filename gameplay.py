@@ -18,16 +18,7 @@ t = 0
 p = False
 playing = True
 
-currentArtifacts = [[], []]
-
-
-def show_curr_artifact(player):
-    for artifact, i in enumerate(currentArtifacts[0]):
-        if artifact.rect.colliderect(player.rect):
-            player.generate_text()
-            if key[pygame.K_e]:
-                currentArtifacts[1][i].draw()
-                time.sleep(10)
+completedArtifacts = []
 
 
 def bmr_gameplay(surface, mouse, spriteList):
@@ -74,20 +65,38 @@ def npc_movement(player, npc):
                 npc.coolDown = False
 
 
+def activate_description(playArea, player):
+    global completedArtifacts
+    index = 0
+    for i, artifact in enumerate(playArea.currArtifacts[0]):
+        if player.currArtifact == artifact:
+            index = i
+    artDescription = playArea.currArtifacts[1][index]
+    if artDescription not in completedArtifacts:
+        completedArtifacts.append(artDescription) 
+    return artDescription
+
+
 def update_game(surface, playArea, playing):
     player = playArea.spriteList[0]
+    key = pygame.key.get_pressed()
+    describeArtifact = False
     for sprite in playArea.spriteList:
-        if (sprite.type == 'player' or sprite.type == 'npc') and playing:
+        sprite.draw(surface)
+        if sprite.type == 'player' and sprite.check_collision(playArea) and key[pygame.K_e]:
+            artDescription = activate_description(playArea, sprite)
+            describeArtifact = True
+        elif (sprite.type == 'player' or sprite.type == 'npc') and playing:
+            sprite.check_collision(playArea)
             if sprite.type == 'npc':
                 sprite.sense(player.xLoc, player.yLoc, playArea.spriteList)
-            sprite.check_collision(playArea)
             if sprite.type == 'player':
                 sprite.handle_keys()
             else:
                 npc_movement(player, sprite)
             sprite.update_rect()
-        sprite.draw(surface)
-
+    if describeArtifact == True:
+        artDescription.draw(surface)
 
 def check_door(spriteList):
     for i in range(0, len(spriteList)):
@@ -109,6 +118,11 @@ def check_living(spriteList):
 
 
 
+
+
+
+
+
 def run_gameplay(surface, mouse, playArea, graphics):
     global playing
     
@@ -122,16 +136,18 @@ def run_gameplay(surface, mouse, playArea, graphics):
     check_door(spriteList)
     check_living(spriteList)
 
+    
+    for artifact in playArea.currArtifacts[0]:
+        artifact.draw(surface)
+
     update_game(surface, playArea, playing)
 
     if (len(spriteList) > 0 and spriteList[0].type != 'player') or len(spriteList) <= 0:
         return "Defeat"
-    elif len(artifactList) == 0:
+    elif len(completedArtifacts) > 5:
         return "Victory"
 
 
-    for artifact in playArea.currArtifacts[0]:
-        artifact.draw()
     
 
     bmr_gameplay(surface, mouse, playArea.spriteList)

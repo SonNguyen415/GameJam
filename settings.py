@@ -116,7 +116,7 @@ DOWN = 2
 LEFT = 3
 
 
-artifactList = ['BearSword', 'Croc', 'DreamCatcher', 'Drum', 'Mask', 'NavajoPot', 'Sword']
+artifactList = ['BearSword', 'Croc', 'DreamCatcher', 'Drum', 'Mask', 'NavajoPot', 'Necklace']
 MAX_ARTY_PER_ROOM = 1
 ARTY_PROB = 0.2
 
