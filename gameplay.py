@@ -77,7 +77,7 @@ def activate_description(playArea, player):
     return artDescription
 
 
-def update_game(surface, playArea, playing):
+def update_game(surface, playArea, playing, mouse):
     player = playArea.spriteList[0]
     key = pygame.key.get_pressed()
     describeArtifact = False
@@ -92,6 +92,7 @@ def update_game(surface, playArea, playing):
                 sprite.sense(player.xLoc, player.yLoc, playArea.spriteList)
             if sprite.type == 'player':
                 sprite.handle_keys()
+                bmr_gameplay(surface, mouse, playArea.spriteList)
             else:
                 npc_movement(player, sprite)
             sprite.update_rect()
@@ -140,20 +141,13 @@ def run_gameplay(surface, mouse, playArea, graphics):
     for artifact in playArea.currArtifacts[0]:
         artifact.draw(surface)
 
-    update_game(surface, playArea, playing)
+    update_game(surface, playArea, playing, mouse)
 
     if (len(spriteList) > 0 and spriteList[0].type != 'player') or len(spriteList) <= 0:
         return "Defeat"
     elif len(completedArtifacts) > 5:
         return "Victory"
-
-
     
-
-    bmr_gameplay(surface, mouse, playArea.spriteList)
-
-    
-
     for i in range(0, spriteList[0].health):
         graphics[0][i].draw(surface)
 
@@ -164,7 +158,6 @@ def run_gameplay(surface, mouse, playArea, graphics):
         graphics[1][1].draw(surface)
         playing = pause_menu()
    
-
     display(surface)
    
     return "Play"
