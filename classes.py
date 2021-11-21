@@ -153,7 +153,6 @@ class Playground():
                 rockX = random.randint(PLAYGROUND_X_OFFSET + 30, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE - 30)
                 rockY = random.randint(PLAYGROUND_Y_OFFSET + 30, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE - 30)
                 nearDoor = self.check_near_door(rockX, rockY)
-                print(nearDoor)
                 overlapping = self.check_overlapping(rockX, rockY, 'rock')
             rock = SpriteObject(rockX, rockY, ROCK_IMG, ROCK_SIZE, 'rock')
             sprites.append(rock)
