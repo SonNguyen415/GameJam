@@ -321,10 +321,10 @@ def generateStats():
                 possibleRooms.append([i,j])
 
 
-    maxArtifacts = 4
+    maxArtifacts = 7
     artifactRooms = []
 
-    for i in range(4):
+    for i in range(maxArtifacts):
         artifactRooms.append(possibleRooms[rnd.randint(0, len(possibleRooms)-1)])
 
 
