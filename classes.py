@@ -44,7 +44,6 @@ class Playground():
                 east.rotate(270)
                 east.draw(screen)
 
-
     def get_current_artifacts(self):
         idList = []
         ctr = 0
@@ -58,16 +57,13 @@ class Playground():
             myArtifact = artifactList.pop[id]
             self.currArtifactNames.append(myArtifact)
 
-
     def artifact_x(currID):
         xMod = (currID - 1) % 3
         return 100 + xMod * 50
 
-
     def artifact_y(currID):
         yMod = (currID - 1) / 3
         return 100 + yMod * 50
-
 
     def append_artifacts(self):
         for artifact, i in enumerate(self.currArtifactNames):
@@ -87,7 +83,6 @@ class Playground():
             self.get_current_artifacts()
             self.append_artifacts()
 
-
     def check_near_door(self, x, y):
         xDistanceWest = abs(x - X_WEST)
         xDistanceCenter = abs(x - X_NORTH)
@@ -96,12 +91,11 @@ class Playground():
         yDistanceCenter = abs(y - Y_WEST)
         yDistanceSouth = abs(y - Y_SOUTH)
 
-        if(xDistanceWest > 100 or xDistanceCenter > 100  or xDistanceEast > 100 
-            or yDistanceNorth  > 100 or yDistanceCenter > 100 or yDistanceSouth > 100):
+        if (xDistanceWest > 30 or xDistanceCenter > 30 or xDistanceEast > 30
+                or yDistanceNorth > 30 or yDistanceCenter > 30 or yDistanceSouth > 30):
             return False
         else:
             return True
-    
 
     def generate_enemies(self):
         numEnemy = random.randint(1, 6)
@@ -150,7 +144,6 @@ class Playground():
         if playerGrid[playerPosition[1]][playerPosition[0]] == 'B':
             playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
         self.generate_sprites()
-
 
 
 class SpriteObject(pygame.sprite.Sprite):
@@ -261,9 +254,9 @@ class Character(pygame.sprite.Sprite):
             self.canMoveDown = False
         if (-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom < POS_TOLERANCE / 2):
             self.canMoveUp = False
-        if (-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE / 2):
+        if (-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE):
             self.canMoveLeft = False
-        if (-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE / 2):
+        if (-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE):
             self.canMoveRight = False
 
     def check_collision(self, playArea):
@@ -426,7 +419,8 @@ class Enemy(Character, object):
 
     def line_intersection(self, x1, y1, x2, y2, x3, y3, x4, y4):
         denom = ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4))
-        if denom == 0: return None
+        if denom == 0:
+            return None
         px = ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)) / denom
         py = ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4)) / denom
         if (px - x1) * (px - x2) < 0 and (py - y1) * (py - y2) < 0 \
@@ -441,33 +435,68 @@ class Enemy(Character, object):
         distX = x - self.xLoc
         distY = y - self.yLoc
         dist = math.sqrt((distX * distX) + (distY * distY))
-
-        if distX < 0 and self.canMoveLeft:
-            self.xLoc += (distX / dist) * self.movementSpeed
-            self.increment_sprite()
-
-        if distX > 0 and self.canMoveRight:
-            self.xLoc += (distX / dist) * self.movementSpeed
-            self.increment_sprite()
-
-        if distY < 0 and self.canMoveUp:
-            self.yLoc += (distY / dist) * self.movementSpeed
-            self.increment_sprite()
-
-        if distY > 0 and self.canMoveDown:
-            self.yLoc += (distY / dist) * self.movementSpeed
-            self.increment_sprite()
-
-        if abs(distX) > abs(distY):
+        self.increment_sprite()
+        if self.canMoveLeft and self.canMoveRight and self.canMoveUp and self.canMoveDown:
             if distX < 0:
-                self.orientation = LEFT
-            else:
-                self.orientation = RIGHT
-        else:
-            if (distY < 0):
+                self.xLoc += (distX / dist) * self.movementSpeed
+            if distX > 0:
+                self.xLoc += (distX / dist) * self.movementSpeed
+            if distY < 0:
+                self.yLoc += (distY / dist) * self.movementSpeed
+            if distY > 0:
+                self.yLoc += (distY / dist) * self.movementSpeed
+
+        if not self.canMoveLeft:
+            if abs(distY) < WALL_SIZE * 3:
+                self.yLoc -= self.movementSpeed
                 self.orientation = UP
-            else:
+            elif distY > 0:
+                self.yLoc += self.movementSpeed
                 self.orientation = DOWN
+            else:
+                self.yLoc -= self.movementSpeed
+                self.orientation = UP
+        if not self.canMoveRight:
+            if abs(distY) < WALL_SIZE * 3:
+                self.yLoc += self.movementSpeed
+                self.orientation = DOWN
+            elif distY > 0:
+                self.yLoc += self.movementSpeed
+                self.orientation = DOWN
+            else:
+                self.yLoc -= self.movementSpeed
+                self.orientation = UP
+        if not self.canMoveUp:
+            if abs(distX) < WALL_SIZE * 3:
+                self.xLoc += self.movementSpeed
+                self.orientation = RIGHT
+            if distX > 0:
+                self.xLoc += self.movementSpeed
+                self.orientation = RIGHT
+            else:
+                self.xLoc -= self.movementSpeed
+                self.orientation = LEFT
+        if not self.canMoveDown:
+            if abs(distX) < WALL_SIZE * 3:
+                self.xLoc -= self.movementSpeed
+                self.orientation = LEFT
+            if distX > 0:
+                self.xLoc += self.movementSpeed
+                self.orientation = RIGHT
+            else:
+                self.xLoc -= self.movementSpeed
+                self.orientation = LEFT
+        else:
+            if abs(distX) > abs(distY):
+                if distX < 0:
+                    self.orientation = LEFT
+                else:
+                    self.orientation = RIGHT
+            else:
+                if (distY < 0):
+                    self.orientation = UP
+                else:
+                    self.orientation = DOWN
 
     def whacked(self):
         self.wounded(BMR_DMG)
