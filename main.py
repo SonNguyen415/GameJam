@@ -35,6 +35,9 @@ pauseButton = button.Button(950, 0, P_BUTTON, 2)
 graphics.append(heartIcons)
 graphics.append([pauseButton, pauseMenu])
 
+gameStuff = [playArea, graphics]
+
+
 
 bmrExist = False
 currentScreen = "Main"
@@ -58,14 +61,16 @@ while running:
     # Game states
     if currentScreen == "Main":
         currentScreen = main_menu(currentScreen)
+        if currentScreen == "Play":
+            set_up()
     elif currentScreen == "Credits":
         currentScreen = credit_menu(currentScreen)
     elif currentScreen == "Play":
-        currentScreen = run_gameplay(screen, mouse, playArea, graphics)
+        currentScreen = run_gameplay(screen, mouse, gameStuff[0], gameStuff[1])
     elif currentScreen == "Victory":
-        victory_screen()
+        currentScreen = victory_screen()
     elif currentScreen == "Defeat":
-        defeat_screen()
+        currentScreen = defeat_screen()
 
     pygame.display.update()
 
