@@ -338,7 +338,7 @@ class Character(pygame.sprite.Sprite):
                             self.yLoc = 120
                         elif self.yLoc < WINDOW_HEIGHT / 5:
                             self.xLoc = WINDOW_LENGTH / 2
-                            self.yLoc = PLAYGROUND_HEIGHT
+                            self.yLoc = PLAYGROUND_HEIGHT + PLAYGROUND_Y_OFFSET/2
                         elif self.xLoc < WINDOW_LENGTH / 5:
                             self.yLoc = WINDOW_HEIGHT / 2
                             self.xLoc = PLAYGROUND_LENGTH + 100
