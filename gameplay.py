@@ -113,11 +113,6 @@ def run_gameplay(surface, mouse, playArea, graphics):
     global playing
     
     spriteList = playArea.spriteList
-    if (len(spriteList) > 0 and spriteList[0].type != 'player') or len(spriteList) <= 0:
-        return "Defeat"
-    elif len(artifactList) == 0:
-        return "Victory"
-
 
     playArea.draw(surface)
 
@@ -128,7 +123,16 @@ def run_gameplay(surface, mouse, playArea, graphics):
     check_living(spriteList)
 
     update_game(surface, playArea, playing)
-    playArea.get_current_artifacts()
+
+    if (len(spriteList) > 0 and spriteList[0].type != 'player') or len(spriteList) <= 0:
+        print("Yes")
+        return "Defeat"
+    elif len(artifactList) == 0:
+        return "Victory"
+
+
+    
+    # playArea.get_current_artifacts()
 
     bmr_gameplay(surface, mouse, playArea.spriteList)
 
