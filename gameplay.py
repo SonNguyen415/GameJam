@@ -161,7 +161,7 @@ def run_gameplay(surface, mouse, playArea, graphics):
 
     if (len(spriteList) > 0 and spriteList[0].type != 'player') or len(spriteList) <= 0:
         return "Defeat"
-    elif len(completedArtifacts) > 5:
+    elif len(completedArtifacts) >= 2:
         return "Victory"
 
     for i in range(0, spriteList[0].health):

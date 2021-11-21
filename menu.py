@@ -22,7 +22,7 @@ EXIT_IMG = pygame.image.load("Button Icons/Quit Button.png").convert_alpha()
 CREDIT_IMG = pygame.image.load("Button Icons/Credit Button.png").convert_alpha()
 BACK_IMG = pygame.image.load("Button Icons/Back Button.png").convert_alpha()
 BACKGROUND = pygame.image.load("Backgrounds/Background.png")
-INSTRUCTION = pygame.image.load("Backgrounds/Instructions.png")
+INSTRUCTION = pygame.image.load("Backgrounds/Instructions2.png")
 BG_CREDITS = pygame.image.load("Backgrounds/Background Credits.png")
 
 
