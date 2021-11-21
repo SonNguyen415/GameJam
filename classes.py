@@ -98,6 +98,10 @@ class Playground():
         self.append_artifacts()
 
 
+    def check_door(self, x, y):
+        return
+
+
     def generate_enemies(self):
         numEnemy = random.randint(1,6)
         for i in range(1, numEnemy+1):
