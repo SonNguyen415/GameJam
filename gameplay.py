@@ -131,6 +131,7 @@ def run_gameplay(surface, mouse, playArea, graphics):
 
     playArea.draw(surface)
 
+
     if graphics[1][0].draw(surface):
         playing = False
 
@@ -156,6 +157,9 @@ def run_gameplay(surface, mouse, playArea, graphics):
     if not playing:
         graphics[1][1].draw(surface)
         playing = pause_menu()
+        if playing == "Main":
+            time.sleep(0.1)
+            return "Main"
 
     display(surface)
 

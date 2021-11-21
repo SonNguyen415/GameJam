@@ -1,13 +1,13 @@
 import pygame
 import time
 import button
-from settings import PLAYGROUND_LENGTH, WINDOW_HEIGHT, WINDOW_LENGTH
+from settings import WINDOW_HEIGHT, WINDOW_LENGTH
 
 
 #initialize pygame
 pygame.init()
 
-# Generate Window
+# Generate Windows
 screen = pygame.display.set_mode((WINDOW_LENGTH, WINDOW_HEIGHT))
 
 # Title and Icon
@@ -56,7 +56,12 @@ exitWidth = EXIT_BUTTON.get_width()
 
 #----------------------------------------------#
 
+
+
+
+
 def main_menu(currScreen):
+    
     screen.blit(BACKGROUND, (0,0))
 
     if startButton.draw(screen):
@@ -97,7 +102,8 @@ def defeat_screen():
     screen.blit(DEFEAT, (0, 0))
     pygame.display.update()
     time.sleep(3)
-    pygame.quit()
+    return "Main"
+
 
 def pause_menu():
     resumeButton = button.Button(WINDOW_LENGTH/2-resumeWidth/2, WINDOW_HEIGHT/2 - 50, RES_BUTTON, 1)
@@ -105,6 +111,6 @@ def pause_menu():
     if resumeButton.draw(screen):
         return True
     elif exitButton.draw(screen):
-        pygame.quit()
+        return "Main"
     else:
         return False

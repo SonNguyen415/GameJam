@@ -72,10 +72,12 @@ class Playground():
             self.spriteList.append(artifactObj)
         return objList
 
+
     def generate_artifacts(self):
         self.get_current_artifacts()
         artList = self.append_artifacts()
         return artList
+
 
     def check_near_door(self, x, y):
         xDistanceWest = abs(x - X_WEST)
@@ -90,6 +92,7 @@ class Playground():
             return False
         else:
             return True
+
 
     def generate_enemies(self):
         numEnemy = random.randint(0, 6)
@@ -136,6 +139,7 @@ class Playground():
                             sprite.yLoc < y < sprite.yLoc + CHAR_HEIGHT or sprite.yLoc < y + CHAR_HEIGHT < sprite.yLoc + CHAR_HEIGHT):
                         return True
         return False
+
 
     def generate_obstacles(self):
         sprites = []
@@ -255,6 +259,9 @@ class SpriteObject(pygame.sprite.Sprite):
             playerPosition[0] -= 1
         elif self.rot == 'E':
             playerPosition[0] += 1
+
+
+
 
 class Character(pygame.sprite.Sprite):
     def __init__(self, xLoc, yLoc, charImg, objID):

@@ -11,31 +11,38 @@ clock = pygame.time.Clock()
 
 bmrExistTime = 0 # time boomerang has existed
 
-generate()
-generateStats()
-
-playArea = Playground()
-player = Player(PLAYER_START_X, PLAYER_START_Y, PLAYER_IMG, 0)
-playArea.spriteList.append(player)
-playArea.initialize_doors()
-
-graphics = []
-heartIcons = []
 
 
-pauseMenu = SpriteObject(PLAYGROUND_LENGTH/2, 150, 'Backgrounds/Pause Menu.png', 300, 'Graphics')
 
-for i in range(0, 10):
-    heartIcons.append(SpriteObject(20*i+2, 10, 'Objects/heart.png', 25, 'display'))
+def set_up():
+    generate()
+    generateStats()
 
-P_BUTTON = pygame.image.load("Button Icons/Pause.png").convert_alpha()
-pauseButton = button.Button(950, 0, P_BUTTON, 2)
+    playArea = Playground()
+    player = Player(PLAYER_START_X, PLAYER_START_Y, PLAYER_IMG, 0)
+    playArea.spriteList.append(player)
+    playArea.initialize_doors()
+
+    graphics = []
+    heartIcons = []
+
+    pauseMenu = SpriteObject(PLAYGROUND_LENGTH/2, 150, 'Backgrounds/Pause Menu.png', 300, 'Graphics')
+
+    for i in range(0, 10):
+        heartIcons.append(SpriteObject(20*i+2, 10, 'Objects/heart.png', 25, 'display'))
+
+    P_BUTTON = pygame.image.load("Button Icons/Pause.png").convert_alpha()
+    pauseButton = button.Button(950, 0, P_BUTTON, 2)
+
+    graphics.append(heartIcons)
+    graphics.append([pauseButton, pauseMenu])
+
+    return [playArea, graphics]
 
 
-graphics.append(heartIcons)
-graphics.append([pauseButton, pauseMenu])
 
 
+gameStuff = []
 bmrExist = False
 currentScreen = "Main"
 
@@ -58,14 +65,16 @@ while running:
     # Game states
     if currentScreen == "Main":
         currentScreen = main_menu(currentScreen)
+        if currentScreen == "Play":
+            gameStuff = set_up()
     elif currentScreen == "Credits":
         currentScreen = credit_menu(currentScreen)
     elif currentScreen == "Play":
-        currentScreen = run_gameplay(screen, mouse, playArea, graphics)
+        currentScreen = run_gameplay(screen, mouse, gameStuff[0], gameStuff[1])
     elif currentScreen == "Victory":
-        victory_screen()
+        currentScreen = victory_screen()
     elif currentScreen == "Defeat":
-        defeat_screen()
+        currentScreen = defeat_screen()
 
     pygame.display.update()
 
