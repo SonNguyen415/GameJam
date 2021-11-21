@@ -436,67 +436,25 @@ class Enemy(Character, object):
         distY = y - self.yLoc
         dist = math.sqrt((distX * distX) + (distY * distY))
         self.increment_sprite()
-        if self.canMoveLeft and self.canMoveRight and self.canMoveUp and self.canMoveDown:
-            if distX < 0:
-                self.xLoc += (distX / dist) * self.movementSpeed
-            if distX > 0:
-                self.xLoc += (distX / dist) * self.movementSpeed
-            if distY < 0:
-                self.yLoc += (distY / dist) * self.movementSpeed
-            if distY > 0:
-                self.yLoc += (distY / dist) * self.movementSpeed
+        if distX < 0 and self.canMoveLeft:
+            self.xLoc += (distX / dist) * self.movementSpeed
+        if distX > 0 and self.canMoveRight:
+            self.xLoc += (distX / dist) * self.movementSpeed
+        if distY < 0 and self.canMoveUp:
+            self.yLoc += (distY / dist) * self.movementSpeed
+        if distY > 0 and self.canMoveDown:
+            self.yLoc += (distY / dist) * self.movementSpeed
 
-        if not self.canMoveLeft:
-            if abs(distY) < WALL_SIZE * 3:
-                self.yLoc -= self.movementSpeed
-                self.orientation = UP
-            elif distY > 0:
-                self.yLoc += self.movementSpeed
-                self.orientation = DOWN
-            else:
-                self.yLoc -= self.movementSpeed
-                self.orientation = UP
-        if not self.canMoveRight:
-            if abs(distY) < WALL_SIZE * 3:
-                self.yLoc += self.movementSpeed
-                self.orientation = DOWN
-            elif distY > 0:
-                self.yLoc += self.movementSpeed
-                self.orientation = DOWN
-            else:
-                self.yLoc -= self.movementSpeed
-                self.orientation = UP
-        if not self.canMoveUp:
-            if abs(distX) < WALL_SIZE * 3:
-                self.xLoc += self.movementSpeed
-                self.orientation = RIGHT
-            if distX > 0:
-                self.xLoc += self.movementSpeed
-                self.orientation = RIGHT
-            else:
-                self.xLoc -= self.movementSpeed
+        if abs(distX) > abs(distY):
+            if distX < 0:
                 self.orientation = LEFT
-        if not self.canMoveDown:
-            if abs(distX) < WALL_SIZE * 3:
-                self.xLoc -= self.movementSpeed
-                self.orientation = LEFT
-            if distX > 0:
-                self.xLoc += self.movementSpeed
-                self.orientation = RIGHT
             else:
-                self.xLoc -= self.movementSpeed
-                self.orientation = LEFT
+                self.orientation = RIGHT
         else:
-            if abs(distX) > abs(distY):
-                if distX < 0:
-                    self.orientation = LEFT
-                else:
-                    self.orientation = RIGHT
+            if distY < 0:
+                self.orientation = UP
             else:
-                if (distY < 0):
-                    self.orientation = UP
-                else:
-                    self.orientation = DOWN
+                self.orientation = DOWN
 
     def whacked(self):
         self.wounded(BMR_DMG)
