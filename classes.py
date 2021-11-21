@@ -28,22 +28,19 @@ class Playground():
             if i == 'N':
                 north = SpriteObject(X_NORTH, Y_NORTH, 'Objects/Door.png', 50, 'door', 'N')
                 self.spriteList.append(north)
-                north.draw(screen)
             elif i == 'S':
                 south = SpriteObject(X_SOUTH, Y_SOUTH, 'Objects/Door.png', 50, 'door', 'S')
                 self.spriteList.append(south)
                 south.rotate(180)
-                south.draw(screen)
             elif i == 'W':
                 west = SpriteObject(X_WEST, Y_WEST, 'Objects/Door.png', 50, 'door', 'W')
                 self.spriteList.append(west)
                 west.rotate(90)
-                west.draw(screen)
             elif i == 'E':
                 east = SpriteObject(X_EAST, Y_EAST, 'Objects/Door.png', 50, 'door', 'E')
                 self.spriteList.append(east)
                 east.rotate(270)
-                east.draw(screen)
+
 
     def get_current_artifacts(self):
         idList = []

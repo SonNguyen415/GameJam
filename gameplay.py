@@ -131,6 +131,7 @@ def run_gameplay(surface, mouse, playArea, graphics):
 
     playArea.draw(surface)
 
+
     if graphics[1][0].draw(surface):
         playing = False
 

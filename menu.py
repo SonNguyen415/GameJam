@@ -1,15 +1,13 @@
 import pygame
 import time
 import button
-from classes import *
-from dungeon_generation import *
-from settings import PLAYGROUND_LENGTH, WINDOW_HEIGHT, WINDOW_LENGTH
+from settings import WINDOW_HEIGHT, WINDOW_LENGTH
 
 
 #initialize pygame
 pygame.init()
 
-# Generate Window
+# Generate Windows
 screen = pygame.display.set_mode((WINDOW_LENGTH, WINDOW_HEIGHT))
 
 # Title and Icon
@@ -59,31 +57,6 @@ exitWidth = EXIT_BUTTON.get_width()
 #----------------------------------------------#
 
 
-
-def set_up():
-    generate()
-    generateStats()
-
-    playArea = Playground()
-    player = Player(PLAYER_START_X, PLAYER_START_Y, PLAYER_IMG, 0)
-    playArea.spriteList.append(player)
-    playArea.initialize_doors()
-
-    graphics = []
-    heartIcons = []
-
-    pauseMenu = SpriteObject(PLAYGROUND_LENGTH/2, 150, 'Backgrounds/Pause Menu.png', 300, 'Graphics')
-
-    for i in range(0, 10):
-        heartIcons.append(SpriteObject(20*i+2, 10, 'Objects/heart.png', 25, 'display'))
-
-    P_BUTTON = pygame.image.load("Button Icons/Pause.png").convert_alpha()
-    pauseButton = button.Button(950, 0, P_BUTTON, 2)
-
-    graphics.append(heartIcons)
-    graphics.append([pauseButton, pauseMenu])
-
-    return [playArea, pauseMenu]
 
 
 
