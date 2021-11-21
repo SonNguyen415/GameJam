@@ -147,12 +147,7 @@ def run_gameplay(surface, mouse, playArea, graphics):
         return "Defeat"
     elif len(completedArtifacts) > 5:
         return "Victory"
-
-
     
-
-    
-
     for i in range(0, spriteList[0].health):
         graphics[0][i].draw(surface)
 
@@ -163,7 +158,6 @@ def run_gameplay(surface, mouse, playArea, graphics):
         graphics[1][1].draw(surface)
         playing = pause_menu()
    
-
     display(surface)
    
     return "Play"
