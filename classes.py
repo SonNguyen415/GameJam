@@ -25,21 +25,21 @@ class Playground():
     def initialize_doors(self):
         for i in playerGrid[playerPosition[1]][playerPosition[0]]:
             if i == 'N':
-                north = SpriteObject(470, 40, 'Objects/Door.png', 50, 'door', 'N')
+                north = SpriteObject(X_NORTH, Y_NORTH, 'Objects/Door.png', 50, 'door', 'N')
                 self.spriteList.append(north)
                 north.draw(screen)
             elif i == 'S':
-                south = SpriteObject(470, 502, 'Objects/Door.png', 50, 'door', 'S')
+                south = SpriteObject(X_SOUTH, Y_SOUTH, 'Objects/Door.png', 50, 'door', 'S')
                 self.spriteList.append(south)
                 south.rotate(180)
                 south.draw(screen)
             elif i == 'W':
-                west = SpriteObject(104, 264, 'Objects/Door.png', 50, 'door', 'W')
+                west = SpriteObject(X_WEST, Y_WEST, 'Objects/Door.png', 50, 'door', 'W')
                 self.spriteList.append(west)
                 west.rotate(90)
                 west.draw(screen)
             elif i == 'E':
-                east = SpriteObject(838, 264, 'Objects/Door.png', 50, 'door', 'E')
+                east = SpriteObject(X_EAST, Y_EAST, 'Objects/Door.png', 50, 'door', 'E')
                 self.spriteList.append(east)
                 east.rotate(270)
                 east.draw(screen)
@@ -154,11 +154,13 @@ class Playground():
 
     def generate_sprites(self):
         self.initialize_doors()
-        self.generate_enemies()
-        self.generate_obstacles()
         tile = '({}, {})'.format(playerPosition[0],playerPosition[1])
-        print(gridStats[tile][1])
-        #There are two artifacts in this room
+        self.numArtifacts = gridStats[tile][1][0]
+        self.generate_enemies()
+        if self.numArtifacts == 0:
+            self.generate_obstacles()
+        else:
+            self.generate_artifacts()
 
     def updateMap(self):
         while len(self.spriteList) > 1:
@@ -273,13 +275,13 @@ class Character(pygame.sprite.Sprite):
         self.rect.update(self.xLoc, self.yLoc, CHAR_WIDTH, CHAR_HEIGHT)
 
     def collision_enforcement(self, eachSprite):
-        if (-POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom < POS_TOLERANCE):
+        if (-POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom < POS_TOLERANCE/2):
             self.canMoveDown = False
-        if (-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom < POS_TOLERANCE):
+        if (-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom < POS_TOLERANCE/2):
             self.canMoveUp = False
-        if (-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE):
+        if (-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE/2):
             self.canMoveLeft = False
-        if (-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE):
+        if (-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE/2):
             self.canMoveRight = False
 
     def check_collision(self, playArea):
@@ -288,8 +290,8 @@ class Character(pygame.sprite.Sprite):
         self.canMoveDown = True
         self.canMoveUp = True
         for eachSprite in playArea.spriteList:
-            if ((eachSprite.type == self.type and self.type == 'player') or
-                    (self.type == 'npc' and eachSprite.type == 'npc' and self.id == eachSprite.id)):
+            if ((eachSprite.type == 'player' and self.type == 'player') or
+                (self.type == 'npc' and eachSprite.type == 'npc' and self.id == eachSprite.id)):
                 pass
             else:
                 if self.rect.colliderect(eachSprite.rect):
@@ -313,7 +315,8 @@ class Character(pygame.sprite.Sprite):
                         return
                     if (eachSprite.type == "player" and self.type == "npc"):
                         self.slappable = True
-
+                    if(self.type == 'player'):
+                            print(self.canMoveUp)
 
 class Player(Character, object):
     def __init__(self, xLoc, yLoc, charImg, objID):
