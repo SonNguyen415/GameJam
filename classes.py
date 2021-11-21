@@ -370,6 +370,7 @@ class Character(pygame.sprite.Sprite):
                         self.currArtifact = eachSprite
                         return True
                     if self.type == "player" and eachSprite.type == "door" and eachSprite.unlocked:
+
                         eachSprite.change_position()
                         playArea.updateMap()
                         self.teleport()
