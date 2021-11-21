@@ -22,6 +22,7 @@ EXIT_IMG = pygame.image.load("Button Icons/Quit Button.png").convert_alpha()
 CREDIT_IMG = pygame.image.load("Button Icons/Credit Button.png").convert_alpha()
 BACK_IMG = pygame.image.load("Button Icons/Back Button.png").convert_alpha()
 BACKGROUND = pygame.image.load("Backgrounds/Background.png")
+INSTRUCTION = pygame.image.load("Backgrounds/Instructions.png")
 BG_CREDITS = pygame.image.load("Backgrounds/Background Credits.png")
 
 
@@ -66,7 +67,7 @@ def main_menu(currScreen):
 
     if startButton.draw(screen):
         time.sleep(0.1)
-        return "Play"
+        return "Instructions"
     if quitButton.draw(screen):
         pygame.quit()
     if creditButton.draw(screen):
@@ -115,3 +116,13 @@ def pause_menu():
         return "Main"
     else:
         return False
+
+
+def instructions_menu(mouse):
+    time.sleep(0.01)
+    screen.blit(INSTRUCTION, (0,0))
+    if pygame.mouse.get_pressed()[0]:
+        print("Yes")
+        time.sleep(0.1)
+        return "Play"
+    return "Instructions"

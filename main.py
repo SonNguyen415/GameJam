@@ -58,6 +58,8 @@ running = True
 
 
 while running:
+
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -70,10 +72,12 @@ while running:
     # Game states
     if currentScreen == "Main":
         currentScreen = main_menu(currentScreen)
-        if currentScreen == "Play":
-            gameStuff = set_up()
     elif currentScreen == "Credits":
         currentScreen = credit_menu(currentScreen)
+    elif currentScreen == "Instructions":
+        currentScreen = instructions_menu(mouse)
+        if currentScreen == "Play":
+            gameStuff = set_up()
     elif currentScreen == "Play":
         currentScreen = run_gameplay(screen, mouse, gameStuff[0], gameStuff[1])
     elif currentScreen == "Victory":
