@@ -23,6 +23,9 @@ class Playground():
         surface.blit(self.image, (0, 0))
 
     def initialize_doors(self):
+        print(playerPosition[1])
+        print(playerPosition[0])
+        print(str(playerGrid[playerPosition[1]][playerPosition[0]]))
         for i in playerGrid[playerPosition[1]][playerPosition[0]]:
             if i == 'N':
                 north = SpriteObject(470, 40, 'Objects/Door.png', 50, 'door', 'N')
@@ -42,7 +45,6 @@ class Playground():
                 east = SpriteObject(838, 264, 'Objects/Door.png', 50, 'door', 'E')
                 self.spriteList.append(east)
                 east.rotate(270)
-                'yes'
                 east.draw(screen)
 
 
@@ -135,9 +137,10 @@ class Playground():
     def updateMap(self):
         while len(self.spriteList) > 1:
             self.spriteList.pop(1)
-        self.generate_sprites()
+        
         if playerGrid[playerPosition[1]][playerPosition[0]] == 'B':
             playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
+        self.generate_sprites()
 
 
 
@@ -247,7 +250,7 @@ class Character(pygame.sprite.Sprite):
     def collision_enforcement(self, eachSprite):
         if (-POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom <= 0):
             self.canMoveDown = False
-        if (-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom <= POS_TOLERANCE / 2):
+        if (-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom < POS_TOLERANCE / 2):
             self.canMoveUp = False
         if (-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE / 2):
             self.canMoveLeft = False
@@ -267,8 +270,8 @@ class Character(pygame.sprite.Sprite):
                 if (self.rect.colliderect(eachSprite.rect)):
                     self.collision_enforcement(eachSprite)
                     if self.type == "player" and eachSprite.type == "door" and eachSprite.unlocked:
-                        playArea.updateMap()
                         eachSprite.change_position()
+                        playArea.updateMap()
                         if self.yLoc > WINDOW_HEIGHT * (7 / 10):
                             self.xLoc = WINDOW_LENGTH / 2
                             self.yLoc = 120
