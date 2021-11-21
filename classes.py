@@ -85,14 +85,14 @@ class Playground():
         yDistanceCenter = abs(y - Y_WEST)
         yDistanceSouth = abs(y - Y_SOUTH)
 
-        if (xDistanceWest > 30 or xDistanceCenter > 30 or xDistanceEast > 30
-                or yDistanceNorth > 30 or yDistanceCenter > 30 or yDistanceSouth > 30):
+        if (xDistanceWest > 60 or xDistanceCenter > 60 or xDistanceEast > 60
+                or yDistanceNorth > 60 or yDistanceCenter > 60 or yDistanceSouth > 60):
             return False
         else:
             return True
 
     def generate_enemies(self):
-        numEnemy = random.randint(1, 6)
+        numEnemy = random.randint(0, 6)
         for i in range(1, numEnemy + 1):
             npcX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - CHAR_WIDTH)
             npcY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - CHAR_HEIGHT)
@@ -105,6 +105,7 @@ class Playground():
                 overlapping = self.check_overlapping(npcX, npcY, 'npc')
             npc = Enemy(npcX, npcY, NPC_IMG, i)
             self.spriteList.append(npc)
+
 
     def check_overlapping(self, x, y, type):
         for sprite in self.spriteList:
@@ -120,7 +121,7 @@ class Playground():
                     elif sprite.xLoc < x + CHAR_WIDTH < sprite.xLoc + ROCK_SIZE and (sprite.yLoc < y < sprite.yLoc + ROCK_SIZE or sprite.yLoc < y + CHAR_HEIGHT < sprite.yLoc + ROCK_SIZE):
                         return True
             elif sprite.type == 'npc':
-                if type == 'rock' or type == 'wall':
+                if type == 'rock' or type == 'wall' or type == 'artifact':
                     if sprite.xLoc < x < sprite.xLoc + CHAR_WIDTH and (
                             sprite.yLoc < y < sprite.yLoc + CHAR_HEIGHT or sprite.yLoc < y + ROCK_SIZE < sprite.yLoc + CHAR_HEIGHT):
                         return True
@@ -137,7 +138,7 @@ class Playground():
         return False
 
     def generate_obstacles(self):
-        numRock = random.randint(1, 8)
+        numRock = random.randint(1, 6)
         for i in range(1, numRock + 1):
             rockX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE)
             rockY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE)
@@ -170,7 +171,7 @@ class Playground():
     def generate_sprites(self):
         self.initialize_doors()
         tile = '({}, {})'.format(playerPosition[0],playerPosition[1])
-        self.numArtifacts = gridStats[tile][1][1]
+        self.numArtifacts = 0
         self.generate_enemies()
         if self.numArtifacts == 0:
             self.generate_obstacles()
@@ -207,8 +208,11 @@ class SpriteObject(pygame.sprite.Sprite):
 
         self.unlocked = False
         self.rot = rotation
+        
 
         self.image = pygame.image.load(iconImg)
+        if self.type == 'description':
+            self.image.convert_alpha()
 
         self.image = pygame.transform.scale(self.image, (imageSize, imageSize))
         self.rect = self.image.get_rect(topleft=(self.xLoc, self.yLoc))
@@ -423,7 +427,7 @@ class Enemy(Character, object):
         Character.__init__(self, xLoc, yLoc, charImg, objID)
 
         self.type = "npc"
-        self.__movementSpeed = WALK_SPEED + 1
+        self.movementSpeed = WALK_SPEED + AI_SPEED_MOD
         self.agro = False
         self.fiveSec = True
         self.coolDown = False
@@ -526,25 +530,25 @@ class Enemy(Character, object):
         if k == 1 and self.yLoc + CHAR_HEIGHT <= PLAYGROUND_HEIGHT - PLAYGROUND_Y_OFFSET and self.canMoveDown:
             # Move down
             self.orientation = DOWN
-            self.yLoc += self.__movementSpeed
+            self.yLoc += self.movementSpeed
             self.increment_sprite()
 
         elif k == 2 and PLAYGROUND_Y_OFFSET <= self.yLoc and self.canMoveUp:
             # Move up
             self.orientation = UP
-            self.yLoc -= self.__movementSpeed
+            self.yLoc -= self.movementSpeed
             self.increment_sprite()
 
         elif k == 3 and self.xLoc + CHAR_WIDTH <= PLAYGROUND_LENGTH + PLAYGROUND_X_OFFSET and self.canMoveRight:
             # Move right
             self.orientation = RIGHT
-            self.xLoc += self.__movementSpeed
+            self.xLoc += self.movementSpeed
             self.increment_sprite()
 
         elif k == 4 and PLAYGROUND_X_OFFSET <= self.xLoc and self.canMoveLeft:
             # Move left
             self.orientation = LEFT
-            self.xLoc -= self.__movementSpeed
+            self.xLoc -= self.movementSpeed
             self.increment_sprite()
 
 
