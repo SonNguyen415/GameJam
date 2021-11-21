@@ -137,7 +137,6 @@ def run_gameplay(surface, mouse, playArea, graphics):
     check_door(spriteList)
     check_living(spriteList)
 
-
     for artifact in playArea.currArtifacts[0]:
         artifact.draw(surface)
 
@@ -161,3 +160,5 @@ def run_gameplay(surface, mouse, playArea, graphics):
     display(surface)
 
     return "Play"
+
+

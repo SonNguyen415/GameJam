@@ -315,6 +315,9 @@ class Character(pygame.sprite.Sprite):
         if (-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE/2):
             self.canMoveRight = False
 
+
+    
+
     def check_collision(self, playArea):
         self.canMoveLeft = True
         self.canMoveRight = True
@@ -335,9 +338,9 @@ class Character(pygame.sprite.Sprite):
                         playArea.updateMap()
                         if self.yLoc > WINDOW_HEIGHT * (7 / 10):
                             self.xLoc = WINDOW_LENGTH / 2
-                            self.yLoc = 120
+                            self.yLoc = 130
                         elif self.yLoc < WINDOW_HEIGHT / 5:
-                            self.xLoc = WINDOW_LENGTH / 2
+                            self.xLoc = WINDOW_LENGTH / 2 
                             self.yLoc = PLAYGROUND_HEIGHT + PLAYGROUND_Y_OFFSET/2
                         elif self.xLoc < WINDOW_LENGTH / 5:
                             self.yLoc = WINDOW_HEIGHT / 2

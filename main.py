@@ -5,8 +5,6 @@ import os
 import button
 from gameplay import *
 
-PLAYER_START_X = 500
-PLAYER_START_Y = 300
 
 clock = pygame.time.Clock()
 

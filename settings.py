@@ -1,7 +1,6 @@
 import pygame
 
 
-
 # white color
 COLOR_WHITE = (255,255,255)
 # light shade of the button
@@ -13,6 +12,9 @@ COLOR_STAMINA = (0, 203, 255)
 
 WAIT_TIME = 1
 
+
+PLAYER_START_X = 500
+PLAYER_START_Y = 300
 
 WINDOW_LENGTH = 1000
 WINDOW_HEIGHT = 600
