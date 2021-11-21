@@ -343,18 +343,17 @@ class Character(pygame.sprite.Sprite):
 
     def teleport(self):
         if self.yLoc > WINDOW_HEIGHT * (7 / 10):
-            print("Yes")
-            self.xLoc = WINDOW_LENGTH / 2
-            self.yLoc = Y_NORTH + CHAR_HEIGHT + 10
+            self.xLoc = X_NORTH
+            self.yLoc = Y_NORTH + CHAR_HEIGHT + 15
         elif self.yLoc < WINDOW_HEIGHT / 5:
-            self.xLoc = WINDOW_LENGTH / 2
-            self.yLoc = Y_SOUTH - (CHAR_HEIGHT+10)
+            self.xLoc = X_SOUTH
+            self.yLoc = Y_SOUTH - (CHAR_HEIGHT+15)
         elif self.xLoc < WINDOW_LENGTH / 5:
-            self.yLoc = WINDOW_HEIGHT / 2
-            self.xLoc = PLAYGROUND_LENGTH + 100
+            self.yLoc = Y_EAST
+            self.xLoc = X_EAST - (CHAR_WIDTH + 15)
         elif self.xLoc > WINDOW_LENGTH * (4 / 5):
-            self.yLoc = WINDOW_HEIGHT / 2
-            self.xLoc = PLAYGROUND_X_OFFSET
+            self.yLoc = Y_WEST
+            self.xLoc = X_WEST + 60
 
 
     def check_collision(self, playArea):
