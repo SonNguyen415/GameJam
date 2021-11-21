@@ -87,8 +87,9 @@ class Playground():
 
     def generate_artifacts(self):
         # self.numArtifacts = insert artifact number based on room
-        self.get_current_artifacts()
-        self.append_artifacts()
+        if self.numArtifacts > 0:
+            self.get_current_artifacts()
+            self.append_artifacts()
 
 
     def check_near_door(self, x, y):
@@ -99,8 +100,8 @@ class Playground():
         yDistanceCenter = abs(y - Y_WEST)
         yDistanceSouth = abs(y - Y_SOUTH)
 
-        if(xDistanceWest > 10 or xDistanceCenter > 10  or xDistanceEast > 10 
-            or yDistanceNorth  > 10 or yDistanceCenter > 10 or yDistanceSouth > 10):
+        if(xDistanceWest > 30 or xDistanceCenter > 30  or xDistanceEast > 30 
+            or yDistanceNorth  > 30 or yDistanceCenter > 30 or yDistanceSouth > 30):
             return False
         else:
             return True
