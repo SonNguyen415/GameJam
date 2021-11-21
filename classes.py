@@ -149,6 +149,7 @@ class Playground():
                 rockX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE)
                 rockY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE)
                 nearDoor = self.check_near_door(rockX, rockY)
+                print(nearDoor)
                 overlapping = self.check_overlapping(rockX, rockY, 'rock')
             rock = SpriteObject(rockX, rockY, ROCK_IMG, ROCK_SIZE, 'rock')
             self.spriteList.append(rock)
@@ -320,6 +321,20 @@ class Character(pygame.sprite.Sprite):
             self.canMoveRight = False
 
 
+    def teleport(self):
+        if self.yLoc > WINDOW_HEIGHT * (7 / 10):
+            print("Yes")
+            self.xLoc = WINDOW_LENGTH / 2
+            self.yLoc = Y_NORTH + CHAR_HEIGHT + 10
+        elif self.yLoc < WINDOW_HEIGHT / 5:
+            self.xLoc = WINDOW_LENGTH / 2
+            self.yLoc = Y_SOUTH - (CHAR_HEIGHT+10)
+        elif self.xLoc < WINDOW_LENGTH / 5:
+            self.yLoc = WINDOW_HEIGHT / 2
+            self.xLoc = PLAYGROUND_LENGTH + 100
+        elif self.xLoc > WINDOW_LENGTH * (4 / 5):
+            self.yLoc = WINDOW_HEIGHT / 2
+            self.xLoc = PLAYGROUND_X_OFFSET
 
 
     def check_collision(self, playArea):
@@ -340,18 +355,7 @@ class Character(pygame.sprite.Sprite):
                     if self.type == "player" and eachSprite.type == "door" and eachSprite.unlocked:
                         eachSprite.change_position()
                         playArea.updateMap()
-                        if self.yLoc > WINDOW_HEIGHT * (7 / 10):
-                            self.xLoc = WINDOW_LENGTH / 2
-                            self.yLoc = 130
-                        elif self.yLoc < WINDOW_HEIGHT / 5:
-                            self.xLoc = WINDOW_LENGTH / 2
-                            self.yLoc = PLAYGROUND_HEIGHT + PLAYGROUND_Y_OFFSET/2
-                        elif self.xLoc < WINDOW_LENGTH / 5:
-                            self.yLoc = WINDOW_HEIGHT / 2
-                            self.xLoc = PLAYGROUND_LENGTH + 100
-                        elif self.xLoc > WINDOW_LENGTH * (4 / 5):
-                            self.yLoc = WINDOW_HEIGHT / 2
-                            self.xLoc = PLAYGROUND_X_OFFSET
+                        self.teleport()
                         time.sleep(0.1)
                         return None
                     if (eachSprite.type == "player" and self.type == "npc"):

@@ -101,7 +101,7 @@ def victory_screen():
 def defeat_screen():
     screen.blit(DEFEAT, (0, 0))
     pygame.display.update()
-    time.sleep(3)
+    time.sleep(2)
     return "Main"
 
 
