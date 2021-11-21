@@ -52,13 +52,10 @@ while running:
         if event.type == pygame.QUIT:
             pygame.quit()
             running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                pygame.quit()
 
     mouse = pygame.mouse.get_pos()
 
-   
+
 
     # Game states
     if currentScreen == "Main":

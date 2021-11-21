@@ -54,15 +54,12 @@ resumeWidth = RES_BUTTON.get_width()
 exitWidth = EXIT_BUTTON.get_width()
 
 
-sound = pygame.mixer.Sound('sound.mp3')
-
 #----------------------------------------------#
 
 def main_menu(currScreen):
     screen.blit(BACKGROUND, (0,0))
 
     if startButton.draw(screen):
-        sound.play()
         time.sleep(0.1)
         return "Play"
     if quitButton.draw(screen):
@@ -111,4 +108,3 @@ def pause_menu():
         pygame.quit()
     else:
         return False
-
