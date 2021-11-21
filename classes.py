@@ -127,7 +127,7 @@ class Playground():
             elif sprite.type == 'npc':
                 if type == 'rock' or type == 'wall':
                     if sprite.xLoc < x < sprite.xLoc + CHAR_WIDTH and (
-                            sprite.yLoc < y < sprite.yLoc + CHAR_HEIGHT or sprite.yLoc < y + ROCK_SIZE < sprite.yLoc + CHAR_HIGHT):
+                            sprite.yLoc < y < sprite.yLoc + CHAR_HEIGHT or sprite.yLoc < y + ROCK_SIZE < sprite.yLoc + CHAR_HEIGHT):
                         return True
                     elif sprite.xLoc < x + ROCK_SIZE < sprite.xLoc + CHAR_WIDTH and (
                             sprite.yLoc < y < sprite.yLoc + CHAR_HEIGHT or sprite.yLoc < y + ROCK_SIZE < sprite.yLoc + CHAR_HEIGHT):
@@ -167,7 +167,7 @@ class Playground():
                 nearDoor = self.check_near_door(randX, randY)
                 overlapping = self.check_overlapping(randX, randY, 'wall')
             for j in range(0, 3):
-                if not overlapping(randX + (WALL_SIZE * j)-2, randY):
+                if not self.check_overlapping(randX + (WALL_SIZE * j)-2, randY, 'wall'):
                     wall = SpriteObject(randX + (WALL_SIZE * j)-2, randY, WALL_IMG, WALL_SIZE, 'wall')
                 self.spriteList.append(wall)
 
