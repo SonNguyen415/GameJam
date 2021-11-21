@@ -139,6 +139,7 @@ class Playground():
         tile = '({}, {})'.format(playerPosition[0],playerPosition[1])
         if gridStats[tile][1] == 1:
             #There is an artifact in this room
+            return
 
     def updateMap(self):
         while len(self.spriteList) > 1:
