@@ -204,17 +204,11 @@ class Playground():
     def updateMap(self):
         while len(self.spriteList) > 1:
             self.spriteList.pop(1)
-
-
         if playerGrid[playerPosition[1]][playerPosition[0]] == 'B':
             playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
         self.currArtifacts = [[],[]]
         self.currArtifactNames = []
         self.generate_sprites()
-
-
-        # Save room data
-        # self.roomData.append([playerPosition[1][0], self.spriteList, self.currArtifactNames, self.currArtifacts, self.numArtifacts])
 
 
 
