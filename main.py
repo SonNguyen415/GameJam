@@ -13,8 +13,9 @@ bmrExistTime = 0 # time boomerang has existed
 
 
 
-
 def set_up():
+    global artifactList
+    artifactList = ['BearSword', 'Croc', 'DreamCatcher', 'Drum', 'Mask', 'NavajoPot', 'Necklace']
     dg_reset()
     refresh(screen)
     display(screen)
