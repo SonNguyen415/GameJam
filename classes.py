@@ -136,11 +136,14 @@ class Playground():
         self.initialize_doors()
         self.generate_enemies()
         self.generate_obstacles()
+        tile = '({}, {})'.format(playerPosition[0],playerPosition[1])
+        print(gridStats[tile][1])
+        #There are two artifacts in this room
 
     def updateMap(self):
         while len(self.spriteList) > 1:
             self.spriteList.pop(1)
-        
+
         if playerGrid[playerPosition[1]][playerPosition[0]] == 'B':
             playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
         self.generate_sprites()
@@ -250,9 +253,9 @@ class Character(pygame.sprite.Sprite):
         self.rect.update(self.xLoc, self.yLoc, CHAR_WIDTH, CHAR_HEIGHT)
 
     def collision_enforcement(self, eachSprite):
-        if (-POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom <= 0):
+        if (-POS_TOLERANCE < eachSprite.rect.top - self.rect.bottom < POS_TOLERANCE):
             self.canMoveDown = False
-        if (-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom < POS_TOLERANCE / 2):
+        if (-POS_TOLERANCE < self.rect.top - eachSprite.rect.bottom < POS_TOLERANCE):
             self.canMoveUp = False
         if (-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE):
             self.canMoveLeft = False
