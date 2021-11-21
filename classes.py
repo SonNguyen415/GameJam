@@ -28,22 +28,18 @@ class Playground():
             if i == 'N':
                 north = SpriteObject(X_NORTH, Y_NORTH, 'Objects/Door.png', 50, 'door', 'N')
                 self.spriteList.append(north)
-                north.draw(screen)
             elif i == 'S':
                 south = SpriteObject(X_SOUTH, Y_SOUTH, 'Objects/Door.png', 50, 'door', 'S')
                 self.spriteList.append(south)
                 south.rotate(180)
-                south.draw(screen)
             elif i == 'W':
                 west = SpriteObject(X_WEST, Y_WEST, 'Objects/Door.png', 50, 'door', 'W')
                 self.spriteList.append(west)
                 west.rotate(90)
-                west.draw(screen)
             elif i == 'E':
                 east = SpriteObject(X_EAST, Y_EAST, 'Objects/Door.png', 50, 'door', 'E')
                 self.spriteList.append(east)
                 east.rotate(270)
-                east.draw(screen)
 
     def get_current_artifacts(self):
         idList = []
@@ -62,6 +58,7 @@ class Playground():
 
 
     def append_artifacts(self):
+        objList = [[], []]
         for i, artifact in enumerate(self.currArtifactNames):
             xLoc = (WINDOW_LENGTH/2 - 50) + 100*i
             yLoc = 300
@@ -71,11 +68,14 @@ class Playground():
             artifactDescr = SpriteObject(250, 80, descrImg, 500, 'description')
             self.currArtifacts[0].append(artifactObj)
             self.currArtifacts[1].append(artifactDescr)
+            objList.append([artifactObj, artifactDescr])
             self.spriteList.append(artifactObj)
+        return objList
 
     def generate_artifacts(self):
         self.get_current_artifacts()
-        self.append_artifacts()
+        artList = self.append_artifacts()
+        return artList
 
     def check_near_door(self, x, y):
         xDistanceWest = abs(x - X_WEST)
@@ -138,34 +138,38 @@ class Playground():
         return False
 
     def generate_obstacles(self):
+        sprites = []
         numRock = random.randint(1, 6)
         for i in range(1, numRock + 1):
-            rockX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE)
-            rockY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE)
+            rockX = random.randint(PLAYGROUND_X_OFFSET + 30, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE - 30)
+            rockY = random.randint(PLAYGROUND_Y_OFFSET + 30, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE - 30)
             nearDoor = self.check_near_door(rockX, rockY)
             overlapping = self.check_overlapping(rockX, rockY, 'rock')
             while nearDoor or overlapping:
-                rockX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE)
-                rockY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE)
+                rockX = random.randint(PLAYGROUND_X_OFFSET + 30, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - ROCK_SIZE - 30)
+                rockY = random.randint(PLAYGROUND_Y_OFFSET + 30, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - ROCK_SIZE - 30)
                 nearDoor = self.check_near_door(rockX, rockY)
                 overlapping = self.check_overlapping(rockX, rockY, 'rock')
             rock = SpriteObject(rockX, rockY, ROCK_IMG, ROCK_SIZE, 'rock')
+            sprites.append(rock)
             self.spriteList.append(rock)
         numWall = random.randint(1, 6)
         for i in range(1, numWall + 1):
-            randX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - WALL_SIZE * 3)
-            randY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - WALL_SIZE * 3)
+            randX = random.randint(PLAYGROUND_X_OFFSET + 30, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - WALL_SIZE * 3 - 30)
+            randY = random.randint(PLAYGROUND_Y_OFFSET + 30, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - WALL_SIZE * 3 - 30)
             nearDoor = self.check_near_door(randX, randY)
             overlapping = self.check_overlapping(randX, randY, 'wall')
             while nearDoor or overlapping:
-                randX = random.randint(PLAYGROUND_X_OFFSET, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - WALL_SIZE * 3)
-                randY = random.randint(PLAYGROUND_Y_OFFSET, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - WALL_SIZE * 3)
+                randX = random.randint(PLAYGROUND_X_OFFSET + 30, WINDOW_LENGTH - PLAYGROUND_X_OFFSET - WALL_SIZE * 3 - 30)
+                randY = random.randint(PLAYGROUND_Y_OFFSET + 30, WINDOW_HEIGHT - PLAYGROUND_Y_OFFSET - WALL_SIZE * 3 - 30)
                 nearDoor = self.check_near_door(randX, randY)
                 overlapping = self.check_overlapping(randX, randY, 'wall')
             for j in range(0, 3):
                 if not self.check_overlapping(randX + (WALL_SIZE * j)-2, randY, 'wall'):
                     wall = SpriteObject(randX + (WALL_SIZE * j)-2, randY, WALL_IMG, WALL_SIZE, 'wall')
+                sprites.append(wall)
                 self.spriteList.append(wall)
+        return sprites
 
 
     def generate_sprites(self):
@@ -174,10 +178,23 @@ class Playground():
         self.numArtifacts = gridStats[tile][1][0]
         if gridClearStats[tile] == 0:
             self.generate_enemies()
-        if self.numArtifacts == 0:
-            self.generate_obstacles()
+            if self.numArtifacts == 0:
+                sprites = self.generate_obstacles()
+                gridObjectStats[tile] = ["O", sprites]
+            else:
+                sprites = self.generate_artifacts()
+                gridObjectStats[tile] = ["A", sprites]
         else:
-            self.generate_artifacts()
+            objStats = gridObjectStats[tile]
+            print(objStats)
+            if objStats[0] == "O":
+                for object in objStats[1]:
+                    self.spriteList.append(object)
+            else:
+                for item in objStats[1]:
+                    self.currArtifacts[0].append(item[0])
+                    self.currArtifacts[1].append(item[1])
+                    self.spriteList.append(item[0])
 
 
 
