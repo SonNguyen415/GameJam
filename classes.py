@@ -171,9 +171,9 @@ class Playground():
     def generate_sprites(self):
         self.initialize_doors()
         tile = '({}, {})'.format(playerPosition[0],playerPosition[1])
-        print(gridStats)
         self.numArtifacts = gridStats[tile][1][0]
-        self.generate_enemies()
+        if gridClearStats[tile] == 0:
+            self.generate_enemies()
         if self.numArtifacts == 0:
             self.generate_obstacles()
         else:
@@ -228,6 +228,8 @@ class SpriteObject(pygame.sprite.Sprite):
         surface.blit(self.image, (self.xLoc, self.yLoc))
 
     def change_position(self):
+        tile = '({}, {})'.format(playerPosition[0],playerPosition[1])
+        gridClearStats[tile] = 1
         if self.rot == 'N':
             playerPosition[1] -= 1
         elif self.rot == 'S':
@@ -236,8 +238,6 @@ class SpriteObject(pygame.sprite.Sprite):
             playerPosition[0] -= 1
         elif self.rot == 'E':
             playerPosition[0] += 1
-
-        print(gridStats)
 
 class Character(pygame.sprite.Sprite):
     def __init__(self, xLoc, yLoc, charImg, objID):
@@ -316,7 +316,7 @@ class Character(pygame.sprite.Sprite):
             self.canMoveRight = False
 
 
-    
+
 
     def check_collision(self, playArea):
         self.canMoveLeft = True
@@ -340,7 +340,7 @@ class Character(pygame.sprite.Sprite):
                             self.xLoc = WINDOW_LENGTH / 2
                             self.yLoc = 130
                         elif self.yLoc < WINDOW_HEIGHT / 5:
-                            self.xLoc = WINDOW_LENGTH / 2 
+                            self.xLoc = WINDOW_LENGTH / 2
                             self.yLoc = PLAYGROUND_HEIGHT + PLAYGROUND_Y_OFFSET/2
                         elif self.xLoc < WINDOW_LENGTH / 5:
                             self.yLoc = WINDOW_HEIGHT / 2
