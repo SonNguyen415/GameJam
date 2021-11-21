@@ -122,7 +122,6 @@ def instructions_menu(mouse):
     time.sleep(0.01)
     screen.blit(INSTRUCTION, (0,0))
     if pygame.mouse.get_pressed()[0]:
-        print("Yes")
         time.sleep(0.1)
         return "Play"
     return "Instructions"
