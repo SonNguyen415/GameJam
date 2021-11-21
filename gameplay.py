@@ -82,22 +82,22 @@ def activate_description(playArea, player):
 def update_game(surface, playArea, playing, mouse):
     global descrTimer
     global artDescription
-    
+
     player = playArea.spriteList[0]
-    
+
     key = pygame.key.get_pressed()
 
     if 0 < descrTimer < FPS*5:
         describeArtifact = True
-    else: 
+    else:
         describeArtifact = False
 
     for sprite in playArea.spriteList:
         sprite.draw(surface)
-        if sprite.type == 'player' and sprite.check_collision(playArea) and key[pygame.K_e]:
+        if sprite.type == 'player' and key[pygame.K_e] and sprite.check_collision(playArea) :
             artDescription = activate_description(playArea, sprite)
             describeArtifact = True
-            
+
         elif (sprite.type == 'player' or sprite.type == 'npc') and playing:
             sprite.update_rect()
             sprite.check_collision(playArea)
@@ -108,11 +108,11 @@ def update_game(surface, playArea, playing, mouse):
                 bmr_gameplay(surface, mouse, playArea.spriteList)
             else:
                 npc_movement(player, sprite)
-            
+
     if describeArtifact == True:
         artDescription.draw(surface)
         descrTimer += 1
-        
+
 
 
 def check_door(spriteList):
