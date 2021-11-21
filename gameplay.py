@@ -131,7 +131,6 @@ def run_gameplay(surface, mouse, playArea, graphics):
 
 
     
-    # playArea.get_current_artifacts()
 
     bmr_gameplay(surface, mouse, playArea.spriteList)
 
