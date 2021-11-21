@@ -132,7 +132,7 @@ class Playground():
         self.generate_enemies()
         self.generate_obstacles()
 
-    def updateMap(self, door):
+    def updateMap(self):
         while len(self.spriteList) > 1:
             self.spriteList.pop(1)
         self.generate_sprites()
@@ -266,7 +266,7 @@ class Character(pygame.sprite.Sprite):
                 if (self.rect.colliderect(eachSprite.rect)):
                     self.collision_enforcement(eachSprite)
                     if self.type == "player" and eachSprite.type == "door" and eachSprite.unlocked:
-                        eachSprite.initialize_door()
+                        eachSprite.change_position()
                         playArea.updateMap()
                         if self.yLoc > WINDOW_HEIGHT * (7 / 10):
                             self.xLoc = WINDOW_LENGTH / 2
