@@ -171,6 +171,7 @@ class Playground():
     def generate_sprites(self):
         self.initialize_doors()
         tile = '({}, {})'.format(playerPosition[0],playerPosition[1])
+        print(gridStats)
         self.numArtifacts = gridStats[tile][1][0]
         self.generate_enemies()
         if self.numArtifacts == 0:
@@ -236,8 +237,7 @@ class SpriteObject(pygame.sprite.Sprite):
         elif self.rot == 'E':
             playerPosition[0] += 1
 
-        # Temporarily, the Artifact generation code will be placed here
-
+        print(gridStats)
 
 class Character(pygame.sprite.Sprite):
     def __init__(self, xLoc, yLoc, charImg, objID):

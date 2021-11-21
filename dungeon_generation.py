@@ -334,10 +334,7 @@ def generateStats():
             if [i,j] in artifactRooms:
                 gridStats[tile].append([2])
             else:
-                if grid[i][j] == 'B' or grid[i][j] == 'NSWE':
-                    gridStats[tile].append(['Null'])
-                else:
-                    gridStats[tile].append([0])
+                gridStats[tile].append([0])
 
 
 
