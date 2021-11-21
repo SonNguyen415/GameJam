@@ -59,7 +59,7 @@ class Playground():
             myArtifact = artifactList.pop(id)
             self.currArtifactNames.append(myArtifact)
 
-    
+
 
     def append_artifacts(self):
         for i, artifact in enumerate(self.currArtifactNames):
@@ -171,19 +171,19 @@ class Playground():
     def generate_sprites(self):
         self.initialize_doors()
         tile = '({}, {})'.format(playerPosition[0],playerPosition[1])
-        self.numArtifacts = 0
+        self.numArtifacts = gridStats[tile][1][0]
         self.generate_enemies()
         if self.numArtifacts == 0:
             self.generate_obstacles()
         else:
             self.generate_artifacts()
-            
+
 
 
     def updateMap(self):
         while len(self.spriteList) > 1:
             self.spriteList.pop(1)
-        
+
 
         if playerGrid[playerPosition[1]][playerPosition[0]] == 'B':
             playerGrid[playerPosition[1]][playerPosition[0]] = grid[playerPosition[1]][playerPosition[0]]
@@ -192,9 +192,9 @@ class Playground():
         self.generate_sprites()
 
 
-        # Save room data 
+        # Save room data
         # self.roomData.append([playerPosition[1][0], self.spriteList, self.currArtifactNames, self.currArtifacts, self.numArtifacts])
-        
+
 
 
 class SpriteObject(pygame.sprite.Sprite):
@@ -208,7 +208,7 @@ class SpriteObject(pygame.sprite.Sprite):
 
         self.unlocked = False
         self.rot = rotation
-        
+
 
         self.image = pygame.image.load(iconImg)
         if self.type == 'description':
