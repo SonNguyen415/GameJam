@@ -191,7 +191,6 @@ class Playground():
                 gridObjectStats[tile] = ["A", sprites]
         else:
             objStats = gridObjectStats[tile]
-            print(objStats)
             if objStats[0] == "O":
                 for object in objStats[1]:
                     self.spriteList.append(object)
