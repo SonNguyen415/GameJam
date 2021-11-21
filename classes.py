@@ -170,8 +170,8 @@ class Playground():
     def generate_sprites(self):
         self.initialize_doors()
         tile = '({}, {})'.format(playerPosition[0],playerPosition[1])
-        self.numArtifacts = 2
-        # self.generate_enemies()
+        self.numArtifacts = gridStats[tile][1]
+        self.generate_enemies()
         if self.numArtifacts == 0:
             self.generate_obstacles()
         else:
