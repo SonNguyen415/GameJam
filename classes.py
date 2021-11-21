@@ -250,7 +250,7 @@ class Character(pygame.sprite.Sprite):
             self.canMoveUp = False
         if (-POS_TOLERANCE < self.rect.left - eachSprite.rect.right < POS_TOLERANCE / 2):
             self.canMoveLeft = False
-        if (-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE):
+        if (-POS_TOLERANCE < eachSprite.rect.left - self.rect.right < POS_TOLERANCE / 2):
             self.canMoveRight = False
 
     def check_collision(self, playArea):
