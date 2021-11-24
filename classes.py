@@ -181,7 +181,7 @@ class Playground():
         tile = '({}, {})'.format(playerPosition[0],playerPosition[1])
         self.numArtifacts = gridStats[tile][1][0]
         if gridClearStats[tile] == 0:
-            # self.generate_enemies()
+            self.generate_enemies()
             if self.numArtifacts == 0:
                 sprites = self.generate_obstacles()
                 gridObjectStats[tile] = ["O", sprites]
